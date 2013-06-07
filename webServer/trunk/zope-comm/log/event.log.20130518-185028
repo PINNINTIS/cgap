@@ -1,0 +1,70 @@
+------
+2013-05-01T16:09:51 INFO ZServer HTTP server started at Wed May  1 16:09:51 2013
+	Hostname: 0.0.0.0
+	Port: 8080
+------
+2013-05-01T16:09:52 INFO Zope Ready to handle requests
+------
+2013-05-06T20:00:58 ERROR ZServer Bad HTTP request: 'Secure * Secure-HTTP/1.4'
+------
+2013-05-06T20:00:58 ERROR ZServer Bad HTTP request: 'some invalid request'
+------
+2013-05-13T20:02:56 ERROR ZServer Bad HTTP request: 'some invalid request'
+------
+2013-05-13T20:02:56 ERROR ZServer Bad HTTP request: 'Secure * Secure-HTTP/1.4'
+------
+2013-05-15T09:57:51 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/Control_Panel/Products/ZopeTutorial/Help/topic_01/manage_addProperty
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.PropertyManager, line 283, in manage_addProperty
+  Module OFS.PropertyManager, line 189, in _setProperty
+BadRequest: Invalid or duplicate property id
+------
+2013-05-15T15:17:07 WARNING ZODB Could not import class 'ZCGIFolder' from module 'Products.ZCGI.ZCGI'
+------
+2013-05-15T15:17:56 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/index_html/manage_main
+   - Physical Path: /CGAP/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-15T15:17:56 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-18T18:48:34 INFO Signals Caught signal SIGTERM
+------
+2013-05-18T18:48:34 INFO Z2 Shutting down fast
+------
+2013-05-18T18:48:34 INFO ZServer closing HTTP to new connections

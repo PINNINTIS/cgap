@@ -1,0 +1,1136 @@
+------
+2013-05-18T18:50:34 INFO ZServer HTTP server started at Sat May 18 18:50:34 2013
+	Hostname: 0.0.0.0
+	Port: 8080
+------
+2013-05-18T18:50:41 INFO Zope Ready to handle requests
+------
+2013-05-20T12:31:21 WARNING ZODB Could not import class 'ZCGIFolder' from module 'Products.ZCGI.ZCGI'
+------
+2013-05-20T12:31:45 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Catalog>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog/manage_main
+   - Physical Path: /CGAP/Catalog
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T12:31:45 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T12:36:08 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/index_html/manage_main
+   - Physical Path: /CGAP/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T12:36:08 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T14:14:13 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Cancer_Types/Cancer_Types
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Cancer_Types/Cancer_Types>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Cancer_Types/Cancer_Types/manage_main
+   - Physical Path: /CGAP/Cancer_Types/Cancer_Types
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T14:14:13 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T14:54:45 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/index_html/manage_main
+   - Physical Path: /CGAP/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T14:54:45 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-20T20:02:06 ERROR ZServer Bad HTTP request: 'Secure * Secure-HTTP/1.4'
+------
+2013-05-20T20:02:06 ERROR ZServer Bad HTTP request: 'some invalid request'
+------
+2013-05-21T08:18:16 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Chromosomes/Genome/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Chromosomes/Genome/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Chromosomes/Genome/index_html/manage_main
+   - Physical Path: /CGAP/Chromosomes/Genome/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLDocument, line 121, in __call__
+   - <DTMLDocument at /CGAP/Chromosomes/Genome/GEQueryForm>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Chromosomes/Genome/GEQueryForm/manage_main
+   - Physical Path: /CGAP/Chromosomes/Genome/GEQueryForm
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header used for /CGAP/Chromosomes/Genome>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head used for /CGAP/Chromosomes/Genome>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T08:18:16 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T08:50:42 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/manage_addProduct/OFSP/manage_addFolder
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.Folder, line 49, in manage_addFolder
+  Module OFS.ObjectManager, line 301, in _setObject
+  Module OFS.ObjectManager, line 74, in checkValidId
+BadRequest: ('Empty or invalid id specified', '')
+------
+2013-05-21T10:23:12 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Catalog>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog/manage_main
+   - Physical Path: /CGAP/Catalog
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T10:23:12 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T10:26:51 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLMethod, line 145, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T10:26:51 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T10:29:11 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLMethod, line 145, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T10:29:11 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:51:36 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/CGCI/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html/manage_main
+   - Physical Path: /CGAP/CGCI/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLDocument, line 121, in __call__
+   - <DTMLDocument at /CGAP/CGCI/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/CGCI/manage_main
+   - Physical Path: /CGAP/CGCI/CGCI
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:51:36 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:52:07 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/CGCI/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html/manage_main
+   - Physical Path: /CGAP/CGCI/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLDocument, line 121, in __call__
+   - <DTMLDocument at /CGAP/CGCI/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/CGCI/manage_main
+   - Physical Path: /CGAP/CGCI/CGCI
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:52:07 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:53:14 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/CGCI/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html/manage_main
+   - Physical Path: /CGAP/CGCI/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLDocument, line 121, in __call__
+   - <DTMLDocument at /CGAP/CGCI/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/CGCI/manage_main
+   - Physical Path: /CGAP/CGCI/CGCI
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:53:14 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:54:29 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/ExonInfo
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/ExonInfo>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/ExonInfo/manage_main
+   - Physical Path: /CGAP/ExonInfo
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T11:54:29 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T12:21:07 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/ExonInfo
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/ExonInfo>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/ExonInfo/manage_main
+   - Physical Path: /CGAP/ExonInfo
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T12:21:07 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-21T12:26:36 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLMethod, line 145, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 221, in __call__
+  Module Products.ExternalMethod.ExternalMethod, line 141, in getFunction
+  Module App.Extensions, line 148, in getObject
+   - __traceback_info__: ('/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py', 'CommonUtilities')
+  Module /usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py, line 4, in ?
+ImportError: No module named Blocks
+------
+2013-05-21T12:26:36 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 221, in __call__
+    f=self.getFunction()
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 141, in getFunction
+    f=getObject(self._module, self._function, reload)
+  File "/usr/local/zope-2.9.11/lib/python/App/Extensions.py", line 148, in getObject
+    exec execsrc in m
+  File "/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py", line 4, in ?
+    from Blocks import *
+ImportError: No module named Blocks
+------
+2013-05-21T12:33:03 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLMethod, line 145, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 221, in __call__
+  Module Products.ExternalMethod.ExternalMethod, line 141, in getFunction
+  Module App.Extensions, line 148, in getObject
+   - __traceback_info__: ('/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py', 'CommonUtilities')
+  Module /usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py, line 4, in ?
+ImportError: No module named Blocks
+------
+2013-05-21T12:33:03 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 221, in __call__
+    f=self.getFunction()
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 141, in getFunction
+    f=getObject(self._module, self._function, reload)
+  File "/usr/local/zope-2.9.11/lib/python/App/Extensions.py", line 148, in getObject
+    exec execsrc in m
+  File "/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py", line 4, in ?
+    from Blocks import *
+ImportError: No module named Blocks
+------
+2013-05-21T12:35:52 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Catalog>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog/manage_main
+   - Physical Path: /CGAP/Catalog
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 221, in __call__
+  Module Products.ExternalMethod.ExternalMethod, line 141, in getFunction
+  Module App.Extensions, line 148, in getObject
+   - __traceback_info__: ('/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py', 'CommonUtilities')
+  Module /usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py, line 4, in ?
+ImportError: No module named Blocks
+------
+2013-05-21T12:35:52 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 221, in __call__
+    f=self.getFunction()
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 141, in getFunction
+    f=getObject(self._module, self._function, reload)
+  File "/usr/local/zope-2.9.11/lib/python/App/Extensions.py", line 148, in getObject
+    exec execsrc in m
+  File "/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py", line 4, in ?
+    from Blocks import *
+ImportError: No module named Blocks
+------
+2013-05-22T08:23:53 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Catalog>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog/manage_main
+   - Physical Path: /CGAP/Catalog
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-22T08:23:53 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-22T08:24:22 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/ExonInfo
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/ExonInfo>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/ExonInfo/manage_main
+   - Physical Path: /CGAP/ExonInfo
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-22T08:24:22 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-22T08:24:54 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Genes/CommonGeneQuery
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 83, in mapply
+  Module ZPublisher.Publish, line 46, in missing_name
+  Module ZPublisher.HTTPResponse, line 670, in badRequestError
+BadRequest:   <h2>Site Error</h2>
+  <p>An error was encountered while publishing this resource.
+  </p>
+  <p><strong>Invalid request</strong></p>
+
+  The parameter, <em>gene_host</em>, was omitted from the request.<p>Make sure to specify all required parameters, and try the request again.</p>
+  <hr noshade="noshade"/>
+
+  <p>Troubleshooting Suggestions</p>
+
+  <ul>
+  <li>The URL may be incorrect.</li>
+  <li>The parameters passed to this resource may be incorrect.</li>
+  <li>A resource that this resource relies on may be
+      encountering an error.</li>
+  </ul>
+
+  <p>For more detailed information about the error, please
+  refer to the error log.
+  </p>
+
+  <p>If the error persists please contact the site maintainer.
+  Thank you for your patience.
+  </p>
+------
+2013-05-22T08:24:54 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-22T08:25:33 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/CGCI
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/CGCI/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/CGCI/manage_main
+   - Physical Path: /CGAP/CGCI/CGCI
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 206, in __call__
+RuntimeError: external method could not be called because it is None
+------
+2013-05-22T08:25:33 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 206, in __call__
+    raise RuntimeError,\
+RuntimeError: external method could not be called because it is None
+------
+2013-05-23T10:49:41 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/Catalog>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/Catalog/manage_main
+   - Physical Path: /CGAP/Catalog
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 221, in __call__
+  Module Products.ExternalMethod.ExternalMethod, line 141, in getFunction
+  Module App.Extensions, line 148, in getObject
+   - __traceback_info__: ('/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py', 'CommonUtilities')
+  Module /usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py, line 4, in ?
+ImportError: No module named Blocks
+------
+2013-05-23T10:49:41 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 221, in __call__
+    f=self.getFunction()
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 141, in getFunction
+    f=getObject(self._module, self._function, reload)
+  File "/usr/local/zope-2.9.11/lib/python/App/Extensions.py", line 148, in getObject
+    exec execsrc in m
+  File "/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py", line 4, in ?
+    from Blocks import *
+ImportError: No module named Blocks
+------
+2013-05-23T10:53:40 ERROR Zope.SiteErrorLog http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html
+Traceback (innermost last):
+  Module ZPublisher.Publish, line 115, in publish
+  Module ZPublisher.mapply, line 88, in mapply
+  Module ZPublisher.Publish, line 41, in call_object
+  Module OFS.DTMLDocument, line 128, in __call__
+   - <DTMLDocument at /CGAP/CGCI/index_html>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/index_html/manage_main
+   - Physical Path: /CGAP/CGCI/index_html
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLDocument, line 121, in __call__
+   - <DTMLDocument at /CGAP/CGCI/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/CGCI/CGCI/manage_main
+   - Physical Path: /CGAP/CGCI/CGCI
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/standard_html_header used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/standard_html_header/manage_main
+   - Physical Path: /CGAP/standard_html_header
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module OFS.DTMLMethod, line 138, in __call__
+   - <DTMLMethod at /CGAP/HTML_Head used for /CGAP/CGCI>
+   - URL: http://ncias-d979-v.nci.nih.gov:8080/CGAP/HTML_Head/manage_main
+   - Physical Path: /CGAP/HTML_Head
+  Module DocumentTemplate.DT_String, line 476, in __call__
+  Module DocumentTemplate.DT_Util, line 196, in eval
+   - __traceback_info__: PARENTS
+  Module <string>, line 1, in <expression>
+  Module Products.ExternalMethod.ExternalMethod, line 221, in __call__
+  Module Products.ExternalMethod.ExternalMethod, line 141, in getFunction
+  Module App.Extensions, line 148, in getObject
+   - __traceback_info__: ('/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py', 'CommonUtilities')
+  Module /usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py, line 4, in ?
+ImportError: No module named Blocks
+------
+2013-05-23T10:53:40 ERROR root Exception while rendering an error message
+Traceback (most recent call last):
+  File "/usr/local/zope-2.9.11/lib/python/OFS/SimpleItem.py", line 221, in raise_standardErrorMessage
+    v = s(client, REQUEST, **kwargs)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 145, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/OFS/DTMLMethod.py", line 138, in __call__
+    r=apply(HTML.__call__, (self, client, REQUEST), kw)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_String.py", line 476, in __call__
+    try: result = render_blocks(self._v_blocks, md)
+  File "/usr/local/zope-2.9.11/lib/python/DocumentTemplate/DT_Util.py", line 196, in eval
+    return eval(code, d)
+  File "<string>", line 1, in <expression>
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 221, in __call__
+    f=self.getFunction()
+  File "/usr/local/zope-2.9.11/lib/python/Products/ExternalMethod/ExternalMethod.py", line 141, in getFunction
+    f=getObject(self._module, self._function, reload)
+  File "/usr/local/zope-2.9.11/lib/python/App/Extensions.py", line 148, in getObject
+    exec execsrc in m
+  File "/usr/local/zope-2.9.11/zope-comm/Extensions/CommonUtilities.py", line 4, in ?
+    from Blocks import *
+ImportError: No module named Blocks
+------
+2013-05-23T11:37:40 INFO Signals Caught signal SIGTERM
+------
+2013-05-23T11:37:40 INFO Z2 Shutting down fast
+------
+2013-05-23T11:37:40 INFO ZServer closing HTTP to new connections
