@@ -1,0 +1,30 @@
+EGFR		SAGE_Brain_glioblastoma_CL_H54+EGFRvIII	68
+		SAGE_Brain_glioblastoma_CL_H54+LacZ	67
+beta-catenin	SAGE_Kidney_embryonic_CL_293+beta-catenin	71
+		SAGE_Kidney_embryonic_CL_293-control	56
+Hypoxia		SAGE_Brain_glioblastoma_hypoxia_CL_H247	42
+		SAGE_Brain_glioblastoma_control_CL_H247	41
+senescence 	SAGE_Prostate_normal_epithelium_CS_senescent	203
+		SAGE_Prostate_normal_epithelium_CS_confluent	169
+tamoxifen	SAGE_Breast_carcinoma_CL_ZR75_1_tamoxifen	177
+		SAGE_Breast_carcinoma_CL_ZR75_1_untreated	178
+estrogen	SAGE_Breast_carcinoma_CL_ZR75_1_estrogen	176
+		SAGE_Breast_carcinoma_CL_ZR75_1_untreated	178
+estrogen	SAGE_Breast_carcinoma_CL_MCF7estradiol_10H	79
+		SAGE_Breast_carcinoma_CL_MCF7control_0h	77
+colon_e1		SAGE_Colon_adenocarcinoma_B_Tu102	13
+colon_e2		SAGE_Colon_adenocarcinoma_B_Tu98	14
+colon_c1		SAGE_Colon_normal_B_NC1	11
+colon_c2		SAGE_Colon_normal_B_NC2	12
+Prostate	SAGE_Prostate_adenocarcinoma_MD_PR317	73
+		SAGE_Prostate_normal_MD_PR317	72
+Breast		SAGE_Breast_carcinoma_AP_DCIS-2	46
+		SAGE_Breast_normal_AP_Br_N	47
+Brain regions	SAGE_Brain_normal_cortex_B_BB542	8
+		SAGE_Brain_normal_cerebellum_B_BB542	55
+Brain regions	SAGE_Brain_normal_cortex_B_BB542	8
+		SAGE_Brain_normal_thalamus_B_1	53
+Breast		SAGE_Breast_metastatic_carcinoma_B_95-260	84
+		SAGE_Breast_carcinoma_B_95-259	83
+Breast		SAGE_Breast_metastatic_carcinoma_B_95-348	85
+		SAGE_Breast_carcinoma_B_95-347	82

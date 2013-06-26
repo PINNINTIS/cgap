@@ -1,0 +1,135 @@
+SQL> select SAGE_LIBRARY_ID, sum(FREQUENCY) from sagefreq where PROTOCOL = 'B'
+  2  group by SAGE_LIBRARY_ID order by SAGE_LIBRARY_ID;
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+            362          21520                                                  
+            416          65091                                                  
+            418          73410                                                  
+            419          68024                                                  
+            420          69006                                                  
+            421          41773                                                  
+            423          21840                                                  
+            424          57049                                                  
+            425          80563                                                  
+            426          80904                                                  
+            427          81869                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+            428          80479                                                  
+            429          77759                                                  
+            430         305546                                                  
+            431          50701                                                  
+            484          34399                                                  
+            964          36325                                                  
+           1003         401432                                                  
+           1163          66326                                                  
+           1164          74281                                                  
+           1165          67002                                                  
+           1166          68033                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+           1167          55883                                                  
+           1168          59781                                                  
+           1169          63813                                                  
+           1331         205353                                                  
+           1332         224488                                                  
+           1333         272465                                                  
+           1334         212170                                                  
+           1384         209232                                                  
+           1386         221101                                                  
+           1388         218214                                                  
+           1391         276203                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+           1503          16808                                                  
+           1570          54577                                                  
+           1571         102483                                                  
+           1572         102355                                                  
+           1573         101085                                                  
+           1574          99332                                                  
+           1575          51900                                                  
+           1576          54230                                                  
+           1604         201668                                                  
+           1648          29873                                                  
+           1649          26381                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+           1650          28166                                                  
+
+45 rows selected.
+
+SQL> SQL> select SAGE_LIBRARY_ID, sum(FREQUENCY) from sagefreq where PROTOCOL = 'B'
+SP2-0734: unknown command beginning "SQL> selec..." - rest of line ignored.
+SQL>   2  group by SAGE_LIBRARY_ID order by SAGE_LIBRARY_ID;
+SQL> 
+SQL> select SAGE_LIBRARY_ID, sum(FREQUENCY) from sagefreq where PROTOCOL = 'C'
+  2  group by SAGE_LIBRARY_ID order by SAGE_LIBRARY_ID;
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+            643          21520                                                  
+            644          65091                                                  
+            645          73410                                                  
+            646          68024                                                  
+            647          69006                                                  
+            648          41773                                                  
+            649          21840                                                  
+            650          57049                                                  
+            651          80563                                                  
+            652          80903                                                  
+            653          81869                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+            654          80479                                                  
+            655          77759                                                  
+            656         305546                                                  
+            657          50701                                                  
+            659          34399                                                  
+            673          67002                                                  
+            674          74281                                                  
+            675          66326                                                  
+            676          63813                                                  
+            683          59781                                                  
+            703          68033                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+            723          55883                                                  
+            843         401432                                                  
+            963          36325                                                  
+           1311         224488                                                  
+           1312         205353                                                  
+           1313         272465                                                  
+           1314         212170                                                  
+           1383         209232                                                  
+           1385         221101                                                  
+           1387         218214                                                  
+           1390         276203                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+           1483          16808                                                  
+           1563          54577                                                  
+           1564         102483                                                  
+           1565         102355                                                  
+           1566         101085                                                  
+           1567          99332                                                  
+           1568          51900                                                  
+           1569          54230                                                  
+           1603         201668                                                  
+           1643          29873                                                  
+           1644          26381                                                  
+
+SAGE_LIBRARY_ID SUM(FREQUENCY)                                                  
+--------------- --------------                                                  
+           1645          28166                                                  
+
+45 rows selected.
+
+SQL> spool off

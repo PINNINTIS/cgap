@@ -1,0 +1,46 @@
+      select f.tag, f.sage_library_id, f.frequency " .
+      "from $CGAP_SCHEMA.sagefreq f, $CGAP_SCHEMA.hs_cluster c, " .
+      "$CGAP_SCHEMA.sagebest_cluster b " .
+      "where c.cluster_number = b.cluster_number " .
+      "and c.gene is not null " .
+      "and c.gene != 'na' " .
+      "and f.tag = b.tag " .
+      "and f.PROTOCOL in ('A', 'B') " .
+      "and b.PROTOCOL = 'A' " .
+      "and not exists (select r.tag from $CGAP_SCHEMA.sagerepeats r " .
+      "where r.tag = b.tag and r.PROTOCOL = 'A' ) " .
+      "order by f.tag";
+
+      select f.tag, f.sage_library_id, f.frequency 
+      from sagefreq f, hs_cluster c, 
+      sagebest_cluster b 
+      where c.cluster_number = b.cluster_number 
+      and c.gene is not null 
+      and c.gene != 'na' 
+      and f.tag = b.tag 
+      and f.PROTOCOL in ('A', 'B') 
+      and b.PROTOCOL = 'A' 
+      and not exists (select r.tag from sagerepeats r 
+      where r.tag = b.tag and r.PROTOCOL = 'A' ) 
+      order by f.tag;
+
+
+      select f.tag, f.sage_library_id, f.frequency  
+      from sagefreq f, hs_cluster c,                            
+      sagebest_cluster b  
+      sagebest_tag2clu d  
+      where c.cluster_number = b.cluster_number  
+      and b.cluster_number = d.cluster_number  
+      and c.cluster_number = d.cluster_number  
+      and c.gene is not null  
+      and c.gene != 'na'  
+      and f.tag = b.tag  
+      and f.tag = d.tag  
+      and b.tag = d.tag  
+      and f.PROTOCOL in ('A', 'B')  
+      and b.PROTOCOL = 'A'  
+      and d.PROTOCOL = 'A'  
+      and not exists (select r.tag from sagerepeats r  
+      where r.tag = b.tag and r.PROTOCOL = 'A' )  
+      order by f.tag; 
+

@@ -1,0 +1,48 @@
+#!/usr/local/bin/perl
+
+use Antibody;
+use Bayesian;
+use Bayesian_no_C_lib;
+use Blocks;
+use Cache;
+use  CGAPConfig;
+use CGAPConfig;
+## use CGAPGene;
+use CGAPLib;
+use CGI;
+use cor;
+use DBI;
+use DB_SCHEMAConfig;
+use DigitalFISH;
+## use Draw_SVG;
+use Exporter ();
+use FileHandle;
+use FisherExact;
+use GD;
+use GenomeExpression;
+use GetPvalueForT;
+## use GLServer;
+use GOBrowser;
+use GOBrowser_2;
+use GXS;
+use lib "/app/oracle/product/10gClient/lib"; 
+use lib "/usr/local/cgap/lib/perl/";
+use LICRGene;
+use MicroArray;
+use Paging;
+use POSIX qw(tmpnam);
+use RNAi;
+use Scan;
+use ServerSupport;
+use Socket;
+use SPQuery;
+use strict;
+use SVG;
+use Sys::Hostname;
+use TESTSVG;
+## use Time::HiRes qw(usleep ualarm gettimeofday tv_interval);
+use URI::Escape;
+use URI::Escape; 
+use URI::URL; 
+
+print "It is OK.";

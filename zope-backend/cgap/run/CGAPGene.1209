@@ -1,0 +1,4162 @@
+#!/usr/local/bin/perl
+
+######################################################################
+# CGAPGene.pm
+#
+######################################################################
+
+use strict;
+use FileHandle;
+use CGAPConfig;
+use Paging;
+use ServerSupport;
+use DBI;
+
+require LWP::UserAgent;
+
+if (-d "/app/oracle/product/8.1.7") {
+  $ENV{'ORACLE_HOME'} = "/app/oracle/product/8.1.7";
+} else {
+  $ENV{'ORACLE_HOME'} = "/app/oracle/product/8.1.6";
+}
+
+######################################################################
+
+my $CLONE_PAGE     = 1000000;
+
+my $BASE;
+
+my %BUILDS;
+GetBuildIDs(\%BUILDS);
+
+my $query;
+my $where_flag;
+
+my $DEBUG_FLAG;
+
+my ($MAX_MOTIF_SCORE, $MIN_MOTIF_SCORE);
+
+my %motif_info_dup;
+
+######################################################################
+sub DividerBar {
+  my ($title) = @_;
+  return "<table width=95% cellpadding=2>" .
+      "<tr bgcolor=\"#666699\"><td align=center>" .
+      "<font color=\"white\"><b>$title</b></font>" .
+      "</td></tr></table>\n";
+}
+
+######################################################################
+sub InitMotifInfo {
+
+  my ($db) = @_;
+
+  my ($sql, $stm);
+
+  ## Get min and max scores for protein motif
+
+  $sql = "select max(score), min(score) from $CGAP_SCHEMA2" . "motif_info";
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  }
+   if(!$stm->execute()) {
+     SetStatus(S_RESPONSE_FAIL);
+     print STDERR "$sql\n";
+     print STDERR "$DBI::errstr\n";
+     print STDERR "execute call failed\n";
+     return "";
+  }
+  $stm->bind_columns(\$MAX_MOTIF_SCORE, \$MIN_MOTIF_SCORE);
+ 
+  while($stm->fetch) { }
+
+  ## Get dup motif info
+
+  my ($ACCESSION_1, $ACCESSION_2);
+  $sql = "select ACCESSION_1, ACCESSION_2 from $CGAP_SCHEMA2" . "MOTIF_INFO_DUP";
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  }
+   if(!$stm->execute()) {
+     SetStatus(S_RESPONSE_FAIL);
+     print STDERR "$sql\n";
+     print STDERR "$DBI::errstr\n";
+     print STDERR "execute call failed\n";
+     return "";
+  }
+  $stm->bind_columns(\$ACCESSION_1, \$ACCESSION_2);
+
+  while($stm->fetch) {
+    $motif_info_dup{$ACCESSION_1}{$ACCESSION_2} = 1;
+  }
+
+}
+
+###!!!!!!!!!!!! BEGIN EXTRA STUFF FOR MOTIF
+
+######################################################################
+sub LookForAccWithMotifInfo {
+  my ($db, $org, $cid, $acc_array) = @_;
+
+  my ($sql, $stm, $acc);
+
+  my $ug_sequence =
+    ($org eq "Hs") ? "hs_ug_sequence" : "mm_ug_sequence";
+  $sql = "select distinct m.accession from " .
+      "$CGAP_SCHEMA2" . "motif_info m, " .
+      "$CGAP_SCHEMA2" . "$ug_sequence s " .
+      "where s.accession = m.accession " .
+      "and s.cluster_number = $cid " ;
+
+  $stm = $db->prepare($sql);
+
+  if(not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  }
+  else {
+
+    if(!$stm->execute()) {
+       SetStatus(S_RESPONSE_FAIL);
+       print STDERR "$sql\n";
+       print STDERR "$DBI::errstr\n";
+       print STDERR "execute call failed\n";
+       return "";
+    }
+
+    $stm->bind_columns(\$acc);
+    while($stm->fetch) {
+      push @{ $acc_array }, $acc
+    }
+  }
+
+}
+
+######################################################################
+sub GetPfamInfoForAcc {
+  my ($db, $accession) = @_;
+
+  my ($sql, $stm);
+  my ($PF_ID, $FAMILY_NAME, $SCORE, $E_VALUE);
+  my ($pfam_id);
+  my (@output);
+
+  $sql = "select PF_ID, FAMILY_NAME, SCORE, E_VALUE " .
+      " from $CGAP_SCHEMA2" . "motif_info " .
+      " where ACCESSION = '$accession' ";
+
+  $stm = $db->prepare($sql);
+
+  ## &debug_print( "sql: $sql \n");
+
+  if(not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  } else {
+    if(!$stm->execute()) {
+      SetStatus(S_RESPONSE_FAIL);
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      return "";
+    }
+    $stm->bind_columns(\$PF_ID, \$FAMILY_NAME, \$SCORE, \$E_VALUE);
+
+    while($stm->fetch) {
+      &debug_print( " PF_ID: $PF_ID \n" );
+      $pfam_id = $PF_ID;
+      $pfam_id =~ s/^PF/pfam/;
+      push @output,
+        "<tr>" .
+           "<TD><a href=javascript:spawn(\"" .
+             "http://www.ncbi.nlm.nih.gov/Structure/cdd/cddsrv.cgi?" .
+             "uid=$pfam_id\")>$PF_ID</a></TD>" .
+           "<TD>$FAMILY_NAME</TD>" .
+           "<TD>$SCORE</TD>" .
+           "<TD>$E_VALUE</TD>" .
+        "</tr>"; 
+    }
+
+    if (@output  > 0 ) {
+      unshift @output,"<p>
+      <b>Pfam Motif Info For Accession $accession</b><br><br>
+      <TABLE WIDTH=\"510\" BORDER=\"1\" CELLSPACING=\"1\" CELLPADDING=\"4\">
+        <TR BGCOLOR=\"#666699\">
+          <TD WIDTH=\"140\"><font color=\"white\">
+            <B>Pfam ID</B></font>
+          </TD>
+          <TD WIDTH=\"140\"><font color=\"white\">
+            <B>Model</B></font>
+          </TD>
+          <TD WIDTH=\"90\"><font color=\"white\">
+            <B>Score</B></font>
+          </TD>
+          <TD WIDTH=\"70\"><font color=\"white\">
+            <B>E-value</B></font>
+          </TD>
+        </TR>";
+
+      push @output, "</table>";
+      return (1, join("\n", @output));
+ 
+    } else {
+      return (0, "<BR><B>There is no protein motif information " .
+          "for $accession in the database.</B>");
+    }
+
+  }
+
+}
+
+######################################################################
+sub GetMotifInfo {
+  my ($db, $acc, $e_value, $score, $p_value, $acc2pval, $pval2acc,
+      $nm_accs, $bc_accs) = @_;
+
+  my ($ACC, $PF, $SCORE);
+  my (%in_probe, %in_non_probe, %max_non_probe_score, %non_probes);
+  my ($sql, $stm);
+  my %dups;
+
+  $sql = 
+    "select distinct m3.accession, m3.pf_id, m3.score " .
+    "from " .
+    "$CGAP_SCHEMA2" . "motif_info m1, " .
+    "$CGAP_SCHEMA2" . "motif_info m2, " .
+    "$CGAP_SCHEMA2" . "motif_info m3 " .
+    "where " .
+    "m1.accession = '$acc' " .
+    "and m1.pf_id = m2.pf_id " .
+    "and m2.accession = m3.accession " .
+    ($e_value ne "" ?
+      ("and to_number(m1.e_value) < $e_value " .
+       "and to_number(m2.e_value) < $e_value " .
+       "and to_number(m3.e_value) < $e_value ")
+      : ""      
+    ) .
+    ($score ne "" ?
+      ("and m1.score > $score " .
+       "and m2.score > $score " .
+       "and m3.score > $score")
+      : ""
+    );
+
+  if( defined $motif_info_dup{$acc} ) { 
+
+      for my $accession ( keys %{ $motif_info_dup{$acc} } ) { 
+        $dups{$accession} = 1;
+      }
+  }
+
+
+  $stm = $db->prepare($sql);
+
+  if(not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  } else {
+    if(!$stm->execute()) {
+      SetStatus(S_RESPONSE_FAIL);
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      return "";
+    }
+    $stm->bind_columns(\$ACC, \$PF, \$SCORE);
+    while($stm->fetch) {
+      if ($acc eq $ACC) {
+        $in_probe{$PF} = 1;
+      } else {
+        my $dup_flag = 0;
+        for my $acce ( keys %max_non_probe_score ) {
+          if( defined $motif_info_dup{$ACC}{$acce} ) {
+            $dup_flag = 1;
+            last;
+          }
+        }
+
+        if( defined $dups{$acc} ) {
+            $dup_flag = 1;
+        }
+        
+        if( $dup_flag == 0 ) {
+           $in_non_probe{$PF} = 1;
+           if ($SCORE > $max_non_probe_score{$ACC}{$PF}) {
+               $max_non_probe_score{$ACC}{$PF} = $SCORE;
+           }
+        }
+      }
+    }
+  } 
+
+######################################################################
+# Let x: accession = the probe accession
+# motifs: accession -> Set Of motif
+# Let A = {a: accession | exists m: motif such that
+#   m isin motifs(x) and m is in motifs(a)}, defined
+#   for some e-value e and some score s
+# Let M = {m: motif | m isin motifs(a) for some a in A}
+#
+# foreach accession a in A
+#     prob = 1
+#   foreach motif m in M
+#     if    m isin motifs(a)  and m isin  motifs(x)
+#       prob = prob * (max_score(a,m)-MIN)/(MAX-MIN)
+#     elsif m isin motifs(a)  and m notin motifs(x)
+#       prob = prob * 0.01
+#     elsif m notin motifs(a) and m isin  motifs(x)
+#       prob = prob * 0.01
+#     elsif m notin motifs(a) and m notin motifs(x)
+#       prob = prob * (max_score(a,m)-MIN)/(MAX-MIN)
+#   append(prob_list, prob)
+#   prob_sum = prob_sum + prob
+# for p prob_list
+#   append(accession_prob, p / prob_sum)
+#
+######################################################################
+
+  my ($prob, $cum_prob);
+
+  for my $a (keys %max_non_probe_score) {
+    $prob = 1;
+    for my $p (keys %in_non_probe) {
+      if (defined $max_non_probe_score{$a}{$p}) {
+        if (defined $in_probe{$p}) {
+          $prob *= ($max_non_probe_score{$a}{$p} -
+              $MIN_MOTIF_SCORE)/($MAX_MOTIF_SCORE - $MIN_MOTIF_SCORE);
+        } else {
+          $prob *= 0.01;
+        }
+      } else {
+        if (defined $in_probe{$p}) {
+          $prob *= 0.01;
+        } else {
+          $prob *= ($max_non_probe_score{$a}{$p} -
+              $MIN_MOTIF_SCORE)/($MAX_MOTIF_SCORE - $MIN_MOTIF_SCORE);
+        }
+      }
+    }
+    $cum_prob += $prob;
+    $$acc2pval{$a} = $prob;
+  }
+  for my $a (keys %{ $acc2pval }) {
+    $$acc2pval{$a} = sprintf "%.2e", ($$acc2pval{$a} / $cum_prob);
+    if ($$acc2pval{$a} > $p_value) {
+      if ($a =~ /^NM_/) {
+        push @{ $nm_accs }, $a;
+      } elsif ($a =~ /^BC/) {
+        push @{ $nm_accs }, $a; ## get bc as well as nm
+        push @{ $bc_accs }, $a;
+      }
+      push @{ $$pval2acc{$$acc2pval{$a}} }, $a;
+    } else {
+      delete $$acc2pval{$a};
+    }
+  }
+
+}
+
+######################################################################
+sub SimilarityByMotif_1 {
+
+  my ($base, $page, $accession, $e_value, $score, $p_value, $org) = @_;
+
+  $BASE = $base;
+
+  $e_value or $e_value = 1;
+  $score or $score     = 0;
+  $p_value or $p_value = 0;
+
+  my (@NMresults, @BCresults, %acc2pval, %pval2acc,
+      %acc2cid, %cid2desc, %cid2sym, %cid2acc);
+
+  my $param = join "\t", $accession, $e_value, $score, $p_value;
+
+  if ($p_value =~ /^e/ ) {
+    $p_value = "1" . $p_value;
+  }
+
+  if ($e_value =~ /^e/ ) {
+    $e_value = "1" . $e_value;
+  }
+
+  $accession =~ s/ +//g;
+  $accession = uc($accession);
+
+  &debug_print( "$accession, $e_value, $score, $p_value" );
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    print STDERR "$DBI::errstr\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  InitMotifInfo($db);
+
+  my ($status, $pf_info_output) = GetPfamInfoForAcc($db, $accession);
+  if (not $status) {
+    $db->disconnect();
+    return $pf_info_output;
+  }
+
+  GetMotifInfo($db, $accession, $e_value, $score, $p_value,
+      \%acc2pval, \%pval2acc, \@NMresults, \@BCresults);
+
+  if( @NMresults >  0 or @BCresults > 0 )  {
+    GetInfoForSimilarGenes($db, \@NMresults, \@BCresults,
+        \%acc2cid, \%cid2desc, \%cid2sym, \%cid2acc, $page, $org)
+  } else {
+    return $pf_info_output .
+        "<br><br>There are no accessions similar to $accession " .
+        "for e-value = $e_value, score = $score, p_value = $p_value<br>\n";
+  }
+
+  $db->disconnect();
+
+  return BuildPageForSimilarGenes($page, "Hs",
+      $accession, $e_value, $score, $p_value,
+      $pf_info_output, \%acc2pval, \%pval2acc, 
+      \%acc2cid, \%cid2desc, \%cid2sym, \%cid2acc);
+
+}
+
+######################################################################
+sub BuildPageForSimilarGenes {
+  my ($page, $org, $accession, $e_value, $score, $p_value, 
+      $pf_info_output, $acc2pval, $pval2acc, $acc2cid, $cid2desc, 
+      $cid2sym, $cid2acc) = @_;
+
+  my ($pval, $acc, $cid, @rows);
+
+  my $table_header = "<table border=1 cellspacing=1 cellpadding=4>" .
+    "<tr bgcolor=\"#666699\">".
+    "<td nowrap width=\"15%\"><font color=\"white\"><b>Symbol</b></font></td>".
+    "<td nowrap width=\"45%\"><font color=\"white\"><b>Name</b></font></td>" .
+    "<td nowrap width=\"15%\"><font color=\"white\"><b>Accession</b></font></td>" .
+    "<td nowrap width=\"10%\"><font color=\"white\"><b>P-value</b></font></td>" .
+    "<td nowrap><font color=\"white\"><b>CGAP Gene Info</b></font></td>" .
+    "</tr>";
+
+  if ($page > 0) {
+    push @rows, $pf_info_output;
+    push @rows, "<br><br>";
+    push @rows,
+        "<p><b>Accessions with motif content similar to $accession</b>" .
+        "&nbsp;&nbsp;&nbsp;&nbsp;" .
+        "<a href=\"$BASE/Structure/GetSimMotifs?" .
+            "ORG=$org&ACCESSION=$accession&EVALUE=$e_value&SCORE=$score&" .
+            "PVALUE=$p_value&PAGE=0\"><b>[Full Text]</b></a><br><br>";
+    push @rows, $table_header;
+    for $pval (sort r_numerically keys %{ $pval2acc }) {
+      for $acc (sort numerically @{ $$pval2acc{$pval} }) {
+        if( defined $$acc2cid{$acc} ) {
+          $cid = $$acc2cid{$acc};
+          if( defined $motif_info_dup{$acc} ) {
+            push @rows,
+              "<tr>" .
+              "<td>$$cid2sym{$cid}</td>" .
+              "<td>$$cid2desc{$cid}</td>" .
+              "<td>$$cid2acc{$acc}{$cid}</td>" .
+              "<td>$pval</td>" .
+              "<td><a href=$BASE/Genes/GeneInfo?ORG=$org&CID=$cid>" .
+                  "Gene Info</a></td>" .
+              "</tr>";
+          }
+          else {
+            push @rows,
+              "<tr>" .
+              "<td>$$cid2sym{$cid}</td>" .
+              "<td>$$cid2desc{$cid}</td>" .
+              "<td>$acc</td>" .
+              "<td>$pval</td>" .
+              "<td><a href=$BASE/Genes/GeneInfo?ORG=$org&CID=$cid>" .
+                  "Gene Info</a></td>" .
+              "</tr>";
+           }
+         }
+         else {
+           my $desc = "-";
+           my $sym = "-";
+           my $Gene_Info = "-";
+           push @rows,
+              "<tr>" .
+              "<td>$sym</td>" .
+              "<td>$desc</td>" .
+              "<td>$acc</td>" .
+              "<td>$pval</td>" .
+              "<td>$Gene_Info</td>" .
+              "</tr>";
+         }
+      }
+    }
+    push @rows, "</table>";
+  } else {
+    for $pval (sort r_numerically keys %{ $pval2acc }) {
+      for $acc (sort numerically @{ $$pval2acc{$pval} }) {
+        if( defined $$acc2cid{$acc} ) {
+          $cid = $$acc2cid{$acc};
+          if( defined $motif_info_dup{$acc} ) {
+            push @rows,
+              "$org.$cid\t" .
+              "$$cid2sym{$cid}\t" .
+              "$$cid2desc{$cid}\t" .
+              "$$cid2acc{$acc}{$cid}\t" .
+              "$pval";
+          }
+          else {
+            push @rows,
+              "$org.$cid\t" .
+              "$$cid2sym{$cid}\t" .
+              "$$cid2desc{$cid}\t" .
+              "$acc\t" .
+              "$pval";
+           }
+         }
+         else { 
+           my $desc = "-"; 
+           my $sym = "-";
+           if( defined $motif_info_dup{$acc} ) {
+             push @rows, 
+               "$org\t" . 
+               "$sym\t" . 
+               "$desc\t" . 
+               "$$cid2acc{$acc}{$cid}\t" .
+               "$pval"; 
+          }
+          else {
+            push @rows,
+               "$org\t" . 
+               "$sym\t" . 
+               "$desc\t" . 
+               "$acc\t" .
+               "$pval"; 
+           }  
+	
+         } 
+      }
+    }
+  }
+
+  return join "\n", @rows;
+}
+
+######################################################################
+sub GetInfoForSimilarGenes {
+  my ($db, $nm_accs, $bc_accs, $acc2cid, $cid2desc, 
+      $cid2sym, $cid2acc, $page, $org) = @_;
+
+  ## Some MGC accessions might not yet be in the UniGene Build,
+  ## so look in MGC tables for association to a gene (cluster)
+
+  my ($sql, $stm);
+  my ($cid, $acc, $sym, $desc);
+
+  my $ug_sequence =
+    ($org eq "Hs") ? "hs_ug_sequence" : "mm_ug_sequence";
+
+  $sql = "select " .
+      "c.cluster_number, " .
+      "s.accession, c.gene, " .
+      "c.description " .
+      "from " .
+      "$CGAP_SCHEMA2" . "hs_cluster c, " .
+      "$CGAP_SCHEMA2" . "$ug_sequence s " .
+      "where c.cluster_number = s.cluster_number " .
+      "and s.accession in ('" . join("', '", @{ $nm_accs }) . "')";
+  $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    print STDERR "sql: $sql\n";
+    print STDERR "$DBI::errstr\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } 
+  if ($stm->execute()) {
+    $stm->bind_columns(\$cid, \$acc, \$sym, \$desc);
+    while ($stm->fetch) {
+      if( defined $motif_info_dup{$acc} ) {
+        $$cid2acc{$acc}{$cid} = $acc;
+        for my $accession (keys %{ $motif_info_dup{$acc} } ) {
+          if( $page == 0 ) {
+              $$cid2acc{$acc}{$cid} = $$cid2acc{$acc}{$cid} . ";" . $accession; 
+          }  
+          else {
+              $$cid2acc{$acc}{$cid} = $$cid2acc{$acc}{$cid} . "<br>" . $accession; 
+          }  
+        }
+      }  
+      $$acc2cid{$acc} = $cid;
+      $desc or $desc = "-"; 
+      $sym or $sym = "-";
+      $$cid2desc{$cid} = $desc;
+      $$cid2sym{$cid} = $sym;
+    }
+  } else {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "execute call failed\n";
+    return "";
+  }
+
+  $sql = "select " .
+      "c.cluster_number, " .
+      "m.accession, " .
+      "c.gene, " .
+      "c.description from " .
+      "$CGAP_SCHEMA2" . "hs_cluster c, " .
+      "$CGAP_SCHEMA2" . "mgc_mrna m " .
+      "where c.cluster_number = m.cluster_number " .
+      "and m.cluster_number is not null " .
+      "and m.accession in ('" . join("', '", @{ $bc_accs }) . "')";
+  $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    print STDERR "sql: $sql\n";
+    print STDERR "$DBI::errstr\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } 
+  if ($stm->execute()) {
+    $stm->bind_columns(\$cid, \$acc, \$sym, \$desc);
+    while ($stm->fetch) {
+      if( defined $motif_info_dup{$acc} ) {
+        $$cid2acc{$acc}{$cid} = $acc; 
+        for my $accession (keys %{ $motif_info_dup{$acc} } ) {
+          if( $page == 0 ) { 
+              $$cid2acc{$acc}{$cid} = $$cid2acc{$acc}{$cid} . ";" . $accession;
+          }   
+          else {
+              $$cid2acc{$acc}{$cid} = $$cid2acc{$acc}{$cid} . "<br>" . $accession;
+          }  
+        }   
+      }   
+      $$acc2cid{$acc} = $cid; 
+      $desc or $desc = "-";
+      $sym or $sym = "-";
+      $$cid2desc{$cid} = $desc; 
+      $$cid2sym{$cid} = $sym; 
+    }
+  } else {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "execute call failed\n";
+    return "";
+  }
+
+}
+
+######################################################################
+sub TranslateGeneIDs {
+  my ($list_ref) = @_;
+  my $i;
+  for ($i = 0; $i < scalar(@{ $list_ref }); $i++) {
+    $$list_ref[$i] =~ s/(Hs|Mm).//;
+  }
+  return $list_ref;
+}
+
+######################################################################
+sub FormatOneGene {
+  my ($what, $org, $cids) = @_;
+  my ($cid, $symbol, $title, $loc, $gb)
+       = split(/\001/, $cids);
+
+##  my ($symbol, $title, $accession) = split(/\001/, $cid);
+
+
+  $symbol or $symbol = '-';
+  $title or $title = '-';
+
+  my $s;
+  if ($what eq 'HTML') {
+    $gb =~ s/ /<br>/g;
+    $s = "<tr valign=top>" .
+        "<td>" . $symbol . "</td>" .
+        "<td>" . $title . "</td>" .
+        "<td>" . $gb . "</td>" .
+        "<td><a href=GeneInfo?ORG=$org&CID=$cid>Gene Info</a></td>" .
+        "</tr>" ;
+
+  } else {                                      ## $what == TEXT
+    $loc or $loc = "-";
+    $s = "$symbol\t$title\t$gb\t$org.$cid\t$loc";
+  }
+  return $s;
+}
+
+######################################################################
+sub FormatGenes {
+  my ($page, $org, $cmd, $page_header, $items_ref) = @_;
+
+  if( $page == $CLONE_PAGE ) {
+    my $temp = "";
+    return GetClones_1( $org, $items_ref, 1, "" ); 
+  } 
+
+  if ($page < 1) {
+    my $i;
+    my @s;
+    for ($i = 0; $i < scalar(@{ $items_ref }); $i++) {
+      $s[$i] = FormatOneGene("TEXT", $org, $$items_ref[$i]) . "\n";
+    }
+    return (join "", @s);
+  }
+
+  my $table_header = "<table border=1 cellspacing=1 cellpadding=4>" .
+      "<tr bgcolor=\"#666699\">".
+      "<td width=\"10%\"><font color=\"white\"><b>Symbol</b></font></td>".
+      "<td width=\"45%\"><font color=\"white\"><b>Name</b></font></td>" .
+      "<td width=\"20%\"><font color=\"white\"><b>Sequence ID</b></font></td>" .
+      "<td><font color=\"white\"><b>CGAP Gene Info</b></font></td>" .
+      "</tr>";
+  my $formatter_ref = \&FormatOneGene;
+  my $form_name     = "pform";
+  my @hidden_names;
+  my @hidden_vals;
+  my ($action, $params) = split /\?/, $cmd;
+  my $i = 0;
+  for (split /\&/, $params) {
+    ($hidden_names[$i], $hidden_vals[$i]) = split "=";
+    $i++;
+  }
+
+  my ($cid);
+  for (@{ $items_ref }) {
+    ($cid) = split /\001/;
+    ($hidden_names[$i], $hidden_vals[$i]) = ("CIDS", $cid);
+    $i++;
+  }
+
+  return PageGeneList(
+      $BASE, $page, $org, $page_header, $table_header,
+      $action, $form_name, \@hidden_names, \@hidden_vals,
+      $formatter_ref, $items_ref);
+
+
+
+#### begin old stuff
+
+  my $by_form;
+
+  &debug_print( "in FormatGenes org: $org, cmd: $cmd \n" );
+ 
+  if (scalar(@{ $items_ref }) == 0) {
+    return "<h4>$page_header</h4><br><br>" .
+        "There are no genes matching the query<br><br>";
+  }
+
+  my $num_pages = int(scalar(@{ $items_ref }) / ITEMS_PER_PAGE);
+  if (int(scalar(@{ $items_ref }) % ITEMS_PER_PAGE)) {
+    $num_pages++;
+  }
+ 
+  my $form_name = "";
+  if ($cmd =~ /(javascript:)(.*)(document\.)([^\.]+)(\.submit\(\))$/i) {
+    $form_name = $4;
+    $by_form = 1;
+  } else {
+    $form_name = "pform1";
+    $by_form = 0;
+  }
+
+  my $s = "";
+
+  if (not $by_form) {
+
+    $s = "<form name=$form_name action=\"" .
+                     (split /\?/, $cmd)[0] . "\">";
+    my ($inp_name, $inp_val);
+    for my $input (split "&", ((split /\?/, $cmd)[1])) {
+
+      ($inp_name, $inp_val) = split "=", $input;
+      if ($inp_name !~ /^PAGE$/) {
+         $s = $s .
+            "<input type=hidden name=$inp_name value=\"$inp_val\">\n";
+      }  
+    }  
+  }
+ 
+  $s = $s . "<input type=hidden name=PAGE>\n";
+
+
+  $s = $s .
+        "<p><a href=\"javascript:" .
+        "document.$form_name.PAGE.value=$CLONE_PAGE;" .
+        "document.$form_name.submit()\"" .
+	    "><b>[Create Clone List]</b></a>" ;
+
+  $s = $s . "</form>\n";
+
+  $page_header = $page_header . $s;
+
+  if( $page == $CLONE_PAGE ) {
+    my $temp = "";
+    return GetClones_1( $org, $items_ref, 1, "" ); 
+  } 
+  elsif ($page < 1) {
+    my $i;
+    my @s;
+    for ($i = 0; $i < scalar(@{ $items_ref }); $i++) {
+      $s[$i] = FormatOneGene("TEXT", $org, $$items_ref[$i]) . "\n";
+    }
+    return (join "", @s);
+  } else {
+    my $table_header = "<table border=1 cellspacing=1 cellpadding=4>" .
+        "<tr bgcolor=\"#666699\">".
+        "<td width=\"10%\"><font color=\"white\"><b>Symbol</b></font></td>".
+        "<td width=\"45%\"><font color=\"white\"><b>Name</b></font></td>" .
+        "<td width=\"20%\"><font color=\"white\"><b>Sequence ID</b></font></td>" .
+        "<td><font color=\"white\"><b>CGAP Gene Info</b></font></td>" .
+        "</tr>";
+
+    return PageResults($page, $org, $cmd, $page_header,
+        $table_header, \&FormatOneGene, $items_ref);
+  }
+}
+
+######################################################################
+sub FormatGeneList_1 {
+  my ($base, $page, $org, $data) = @_;
+
+  $BASE = $base;
+
+  my ($cmd, $page_header, $items) = split "\001", $data;
+  my @items = split "\002", $items;
+  if ($page == $CLONE_PAGE) {
+    my (@temp);
+    OrderGenesByCluster(\@items, \@temp);
+    return FormatGenes($page, $org, $cmd, $page_header, \@temp);
+  }
+  else {
+    return FormatGenes($page, $org, $cmd, $page_header,
+      OrderGenesBySymbol($page, $org, \@items));
+  }	
+}
+
+######################################################################
+sub OrderGenesByCluster { 
+  my ($items, $sorted_items) = @_;
+  for (sort numerically @{ $items }) {
+    push @{ $sorted_items }, $_;
+  }
+}
+
+######################################################################
+sub numerically   { $a <=> $b; }
+sub r_numerically { $b <=> $a; }
+
+
+######################################################################
+sub GetClones_1 {
+
+  my ($org1, $items_ref, $items_in_memory, $filedata) = @_;
+  my %ug_access_to_clones;
+  
+  &debug_print( "$org1, $items_ref, $items_in_memory, $filedata \n");
+
+  my (@row, @rows);
+
+  if( $items_in_memory == 1 ) {
+
+     @rows = @{ $items_ref };
+
+  } else {      ## items were read from file; have to parse out cids
+
+    &debug_print ("filedata: $filedata \n");
+
+    my ($this_org, $this_cid);
+    $org1 = "";
+    my @tempArray = split "\n", $filedata;
+    my $k;
+    for ( $k = 0; $k < @tempArray; $k++ ) {
+      $tempArray[$k] =~  s/\r//;
+      if ($tempArray[$k] =~ /(hs|mm)\.(\d+)/i) {
+        ($this_org, $this_cid) = ($1, $2);
+        if ($org1 eq "") {
+          if ($this_org =~ /hs/i) {
+            $org1 = "Hs";
+          } else {
+            $org1 = "Mm";
+          }
+        } else {
+          if (lc($org1) ne lc($this_org)) {
+            return "Do not mix Hs and Mm in a single file<br><br>";
+          }
+        }
+        push @rows, $this_cid;
+      }
+    }
+  }
+
+  undef %ug_access_to_clones;
+
+  %ug_access_to_clones = %{ GetUGCloneList($org1, \@rows) }; 
+  
+  my $i; 
+  my @s;
+  push @s, "CLuster\tAccession\tImage\tLength\tEnd\tType\n";
+  push @s, "-------------------------------------------------------------\n";
+  push @s, "\n";
+  for ($i = 0; $i < scalar(@rows); $i++) {
+    my $temp = $org1 . "." . $rows[$i];
+    if( defined ($ug_access_to_clones{$rows[$i]}) ) {
+      for my $accession (keys %{ $ug_access_to_clones{$rows[$i]} }) {
+        push @s, "$temp\t$accession\t" .
+            "$ug_access_to_clones{$rows[$i]}{$accession}\n";
+      }
+    }
+    else {
+      push @s, $temp . "\n";
+    }
+  }
+
+  return (join "", @s);
+}
+ 
+######################################################################
+sub GetUGCloneList {
+
+  my ($org, $refer) = @_;
+  my %ug_access_to_clones;
+  my $i;
+  my ($sql, $stm);
+  my $list;
+
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+      print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+  }
+
+  
+  for($i = 0; $i < @{$refer}; $i += 1000) {
+ 
+    if(($i + 1000 - 1) < @{$refer}) {
+      $list = join(",", @{$refer}[$i..$i+1000-1]);
+    }
+    else {
+      $list = join(",", @{$refer}[$i..@{$refer}-1]);
+    }
+ 
+    my $table_name = 
+      ($org eq "Hs" ? "$CGAP_SCHEMA2" . "HS_UG_CLONES" : "$CGAP_SCHEMA2" . "MM_UG_CLONES");
+
+    $sql = "select CLUSTER_NUMBER, ACCESSION, IMAGE_ID, " .
+               "LENGTH, END, TYPE from " . $table_name . " where " .
+               " CLUSTER_NUMBER in (" .  $list . " )";
+  
+    &debug_print( "sql in UGClone: $sql");
+    &debug_print( "\n");
+
+    $stm = $db->prepare($sql);
+
+    if(not $stm) {
+      SetStatus(S_RESPONSE_FAIL);
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "prepare call failed\n";
+      return "";
+    }
+    else {
+      if(!$stm->execute()) {
+        SetStatus(S_RESPONSE_FAIL);
+        print STDERR "$sql\n";
+        print STDERR "$DBI::errstr\n";
+        print STDERR "execute call failed\n";
+        return "";
+      }
+
+      my ($cluster_number, $accession, $image_id, $length, $end, $type);
+      $stm->bind_columns(\$cluster_number, \$accession, \$image_id, 
+                         \$length, \$end, \$type);
+
+      while($stm->fetch) {
+        &debug_print ("$cluster_number, $accession, $image_id, $length, $end, $type \n");
+        $ug_access_to_clones{$cluster_number}{$accession} = 
+             join "\t", $image_id, $length, $end, $type;
+      }
+    }  
+  }
+
+  return \%ug_access_to_clones;
+}
+
+
+######################################################################
+sub OrderGenesBySymbol {
+
+  my ($page, $org, $refer) = @_;
+
+  my %hs_cid2sym;
+  my %mm_cid2sym;
+  my @ordered_genes;
+  my @tempArray;
+  my $sql_lines;
+  my %by_symbol;
+  my ($sql, $stm);
+  my $key;
+  my ($list, $cid, $gene);
+  my ($i, $k, $m);
+  my $temp;
+  my $j=0;
+
+  my $total = @{$refer};
+  &debug_print("org: $org \n");
+  &debug_print("total in: $total \n");
+
+  my ($cluster_number, $symbol, $title, $loc, $gb);
+
+  if( @{ $refer } ) {
+
+    my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+    if (not $db or $db->err()) {
+      print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+
+    &debug_print ("start ordering. \n");
+
+    if( $page == 0 ) {
+
+      for($i = 0; $i < @{$refer}; $i += 1000) {
+
+        if(($i + 1000 - 1) < @{$refer}) {
+          $list = join(",", @{$refer}[$i..$i+1000-1]);
+        }
+        else {
+          $list = join(",", @{$refer}[$i..@{$refer}-1]);
+        }
+
+        my $table_name = ($org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster" : "$CGAP_SCHEMA2" . "mm_cluster");
+
+        $sql = "select CLUSTER_NUMBER, GENE, DESCRIPTION, LOCUSLINK, " .
+               "SEQUENCES from " . $table_name . " where " .
+               " CLUSTER_NUMBER in (" .  $list . " )";
+
+        $stm = $db->prepare($sql);
+
+        if(not $stm) {
+          SetStatus(S_RESPONSE_FAIL);
+          print STDERR "$sql\n";
+          print STDERR "$DBI::errstr\n";
+          print STDERR "prepare call failed\n";
+          return undef;
+        }
+        else {
+
+          if(!$stm->execute()) {
+            SetStatus(S_RESPONSE_FAIL);
+            print STDERR "$sql\n";
+            print STDERR "$DBI::errstr\n";
+            print STDERR "execute call failed\n";
+            return undef;
+          }
+
+          $stm->bind_columns(\$cluster_number, \$symbol, \$title, \$loc, \$gb);
+
+          while($stm->fetch) {
+
+            $temp =  "$cluster_number\001$symbol\001$title\001$loc\001$gb";
+
+            if( $symbol ne "" ) {
+
+               push @{$by_symbol{$symbol}}, $temp;
+            }
+            else {
+              push @tempArray, $temp;
+            }
+          }
+        }
+      }
+
+      for $symbol (sort keys %by_symbol) {
+        foreach $temp ( @{$by_symbol{$symbol}} ) {
+          push @ordered_genes, $temp;
+        }
+      }
+
+      for ($i = 0; $i < @tempArray; $i++) {
+        push @ordered_genes, $tempArray[$i];
+      }
+    }
+    else {
+
+      $sql = "select cluster_number, gene from $CGAP_SCHEMA2" . 
+          ($org eq "Hs" ? "hs_cluster" : "mm_cluster") . " " .
+          "where gene is not null";
+      $stm = $db->prepare($sql);
+      if(not $stm) {
+        SetStatus(S_RESPONSE_FAIL);
+        print STDERR "$sql\n";
+        print STDERR "$DBI::errstr\n";
+        print STDERR "prepare call failed\n";
+        return undef;
+      }
+      if(!$stm->execute()) {
+        SetStatus(S_RESPONSE_FAIL);
+        print STDERR "$sql\n";
+        print STDERR "$DBI::errstr\n";
+        print STDERR "execute call failed\n";
+        return undef;
+      }
+      while (($cid, $gene) = $stm->fetchrow_array()) {
+        if ($org eq "Hs") {
+          $hs_cid2sym{$cid} = $gene;
+        } else {
+          $mm_cid2sym{$cid} = $gene;
+        } 
+      }
+
+      if( $org eq "Hs" ) {
+
+        while (@{ $refer }) {
+          $cid = shift @{ $refer };
+          if( defined ($gene = $hs_cid2sym{ $cid }) ) {
+            push @{$by_symbol{$gene}}, $cid;
+          }
+          else {
+            push @tempArray, $cid;
+          }
+        }
+      }
+      else {
+
+        while (@{ $refer }) {
+          $cid = shift @{ $refer };
+          if( defined ($gene = $mm_cid2sym{ $cid }) ) {
+            push @{$by_symbol{$gene}}, $cid;
+          }
+          else {
+            push @tempArray, $cid;
+          }
+        }
+      }
+
+      for $gene (sort keys %by_symbol) {
+        foreach $cid ( @{$by_symbol{$gene}} ) {
+          push @ordered_genes, $cid;
+        }
+      }
+
+      for($m=0; $m< @tempArray; $m++) {
+        push @ordered_genes, $tempArray[$m];
+      }
+
+      $i = ($page - 1) * ITEMS_PER_PAGE;
+
+      if(($i + 300-1) < @ordered_genes) {
+        $list = join(",", @ordered_genes[$i..$i+300-1]);
+      }
+      else {
+        $list = join(",", @ordered_genes[$i..@ordered_genes-1]);
+      }
+
+      my $table_name = ($org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster" : "$CGAP_SCHEMA2" . "mm_cluster");
+
+      $sql = "select CLUSTER_NUMBER, GENE, DESCRIPTION, LOCUSLINK, " .
+                " SEQUENCES from " . $table_name . " where " .
+                " CLUSTER_NUMBER in (" .  $list . " ) order by GENE";
+
+      &debug_print( "sql : $sql \n" );
+
+      $stm = $db->prepare($sql);
+
+      if(not $stm) {
+        SetStatus(S_RESPONSE_FAIL);
+        print STDERR "$sql\n";
+        print STDERR "$DBI::errstr\n";
+        print STDERR "prepare call failed\n";
+        return undef;
+      }
+      else {
+
+        if(!$stm->execute()) {
+          SetStatus(S_RESPONSE_FAIL);
+          print STDERR "$sql\n";
+          print STDERR "$DBI::errstr\n";
+          print STDERR "execute call failed\n";
+          return undef;
+        }
+
+        $stm->bind_columns(\$cluster_number, \$gene, \$title, \$loc, \$gb);
+
+        while($stm->fetch) {
+
+          $temp =  "$cluster_number\001$gene\001$title\001$loc\001$gb";
+
+          $ordered_genes[$i] = $temp;
+          $i++;
+        }
+      }
+
+    }
+
+    &debug_print ("finish ordering. \n");
+
+    $db->disconnect();
+
+  }
+
+  return \@ordered_genes;
+
+}
+
+######################################################################
+sub InitQuery {
+  my ($upto_wheres) = @_;
+  $query = $upto_wheres;
+  $where_flag = 0;
+}
+
+######################################################################
+sub Add {
+  my ($s) = @_;
+  if ($s) {
+    if (not $where_flag) {
+      $where_flag = 1;
+      $query = "$query where $s"
+    } else {
+      $query = "$query and $s";
+    }
+  }
+}
+
+
+## assume a table clus2lib (build_id, cluster_number, ug_lib_id)
+
+######################################################################
+sub BuildSQL {
+  my ($org1, $sym1, $title1, $go1, $pathway1, $cyt1, $tissue) = @_;
+
+  my $go2;
+
+  my $tissue_only = ($tissue and not
+      ($title1 or $go1 or $pathway1 or $cyt1));
+
+  ## tissue_only queries are much faster if we don't join with
+  ## ug_cluster
+
+  my $table_name = ($org1 eq "Hs" ? " $CGAP_SCHEMA2" . "hs_gene_tissue b " :
+                                    " $CGAP_SCHEMA2" . "mm_gene_tissue b ");
+
+  my $gene_cluster_table = ($org1 eq "Hs" ? " $CGAP_SCHEMA2" . "hs_cluster c " :
+                                            " $CGAP_SCHEMA2" . "mm_cluster c ");
+
+  my $gene_tissue_table = ($org1 eq "Hs" ? " $CGAP_SCHEMA2" . "hs_gene_tissue c " :
+                                           " $CGAP_SCHEMA2" . "mm_gene_tissue c ");
+
+  my $keyword_table = ($org1 eq "Hs" ? "hs_gene_keyword" : "mm_gene_keyword");
+
+  if ($tissue_only) {
+    InitQuery("select distinct b.cluster_number from $table_name,
+        $CGAP_SCHEMA2" . "tissue_selection s");
+  } elsif ($go1) {
+    if ($go1 =~ /[0-9]{7}/) {
+      $go2 = '';
+    } else {
+      $go2 = $go1;
+    }
+    InitQuery(
+        "select distinct c.cluster_number from $gene_cluster_table" .
+        ($tissue  ? ", $table_name, $CGAP_SCHEMA2" . "tissue_selection s " : "") .
+        ($title1  ? ", $CGAP_SCHEMA2" . "$keyword_table k" : "") .
+        ($go1     ? ", $CGAP_SCHEMA2" . "go_genes g" : "") .
+        ($go2     ? ", $CGAP_SCHEMA2" . "go_names n" : "") .
+        ($cyt1    ? ", $RFLP_SCHEMA.cyto t"         : "") 
+    );
+  } elsif($tissue) {
+    InitQuery(
+        "select distinct c.cluster_number from $gene_tissue_table, " .
+            "$CGAP_SCHEMA2" . "tissue_selection s " .
+        ($title1   ? ", $CGAP_SCHEMA2" . "$keyword_table k" : "") .
+        ($cyt1     ? ", $RFLP_SCHEMA.cyto t"         : "") 
+    );
+  }
+  else {
+    InitQuery(
+        "select distinct c.cluster_number from $gene_cluster_table " .
+        ($title1   ? ", $CGAP_SCHEMA2" . "$keyword_table k" : "") .
+        ($cyt1     ? ", $RFLP_SCHEMA.cyto t"         : "") 
+    );
+  }
+
+  my $build_id = $BUILDS{$org1};
+
+  if ($title1) {
+    Add("c.cluster_number = k.cluster_number");
+  }
+
+#  if ($tissue) {
+#    if (not $tissue_only) {
+#      Add("b.cluster_number = c.cluster_number");
+#    }
+#  }
+
+  if ($go1) {
+    Add("c.locuslink = g.locus_id");
+  }
+
+  if ($cyt1) {
+    Add("t.cluster_number = c.cluster_number");
+    Add("t.build_id = $build_id");
+  }
+
+  if ($title1) {
+    my $title2 = $title1;
+    $title2 =~ tr/A-Z/a-z/;
+    $title2 =~ s/\*/%/g;
+    $title2 =~ s/ +/ /g;
+    $title2 =~ s/^ //;
+    $title2 =~ s/ $//;
+    my @temp;
+    for my $i (split " ", $title2) {
+      push @temp, "k.keyword like '$i'";
+    }
+    Add("(" . join(" or ", @temp) . ")");
+  }
+
+  if ($tissue) {
+    if( $tissue_only ) {
+      Add("b.tissue_code = s.tissue_code");
+      Add("s.tissue_name='$tissue'");
+    }
+    elsif( !$go1 ) {
+      Add("c.tissue_code = s.tissue_code");
+      Add("s.tissue_name='$tissue'");
+    }
+    else {
+      Add("b.cluster_number = c.cluster_number");
+      Add("b.tissue_code = s.tissue_code");
+      Add("s.tissue_name='$tissue'");
+    }
+  }
+
+  if ($go2) {
+    my $lower_go = $go2;
+    $lower_go =~ tr/A-Z/a-z/;
+    $lower_go =~ s/\*/%/g;
+    $lower_go =~ s/'/`/g;
+    $lower_go =~ s/ +/ /g;
+    $lower_go =~ s/^ //;
+    $lower_go =~ s/ $//;
+    Add("lower(n.go_name) like '$lower_go'");
+    Add("n.go_id = g.go_id");
+  } elsif ($go1) {
+    Add("g.go_id = '$go1'");
+  }
+
+  if ($cyt1) {
+    my ($chr,$low,$high);
+    if ($org1 eq 'Hs') {
+      ($chr,$low,$high) = TransformHsCyt($cyt1);
+    } else {
+      ($chr,$low,$high) = TransformMmCyt($cyt1);
+    }
+    Add("t.chr = '$chr'");
+    Add("((t.low>=$low and t.low<=$high) or
+        (t.high>=$low and t.high<=$high))");
+  }
+
+  &debug_print(" sql in BuildSQL: $query \n" );
+
+  return $query;
+}
+
+######################################################################
+sub LibsOfTissue {
+  my ($db, $org, $tissue) = @_;
+  my $sql =
+    "select distinct a.unigene_id " . 
+    "from $CGAP_SCHEMA2" . "all_libraries a, $CGAP_SCHEMA2" . "library_keyword w " .
+    "where a.library_id = w.library_id and " .
+    "a.org = '$org' and " .
+    "a.unigene_id is not null and " .
+    "w.keyword in ('" .
+        join("', '", split(",", $tissue)) .
+    "')";
+  my (@row, @libset);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while (@row = $stm->fetchrow_array()) {
+        push @libset, $row[0];
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  return @libset;
+
+}
+
+######################################################################
+sub GetGene_1 {
+
+  my ($base, $page, $org1, $sym1, $title1, $go1, $pathway1, $cyt1,
+      $tissue1) = @_;
+
+  $BASE = $base;
+
+  my ($libset);
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  ##
+  ## Check for legal GO name
+  ##
+
+  if ($go1 ne "") {
+    my $go2 = $go1;
+    $go2 =~ tr/A-Z/a-z/;
+    $go2 =~ s/'/`/g;
+    $go2 =~ s/\*/%/g;
+    my $sql = "select distinct go_name from $CGAP_SCHEMA2" . "Go_Names " .
+            "where lower(go_name) like '$go2'";
+
+    my ($name, @names);
+    my $stm = $db->prepare($sql);
+    if (not $stm) {
+      print STDERR "prepare call failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    } else {
+      if ($stm->execute()) {
+        $stm->bind_columns(\$name);
+        while ($stm->fetch) {
+          push @names, $name
+        }
+        if (@names == 0) {
+          SetStatus(S_NO_DATA);
+          return "<B>No Gene Ontology Names match the term \"$go1\"<B>";
+        }
+      } else {
+        print STDERR "execute failed\n";
+        SetStatus(S_RESPONSE_FAIL);
+        return "";
+      }
+    }
+  }
+
+  ##
+  ## Tried to include the libs-of-tissue subquery in the main
+  ## query, and the result is something that runs like molasses,
+  ## so we'll pull it out and execute it separately
+  ##
+  #if ($tissue1) {
+  #  $libset = join(",", LibsOfTissue($db, $org1, $tissue1));
+  #}
+
+  my $sql = BuildSQL($org1, $sym1, $title1, $go1, $pathway1, $cyt1, 
+      $tissue1);
+
+  my (@row, @rows);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while (@row = $stm->fetchrow_array()) {
+        push @rows, $row[0];
+      }
+      if (@rows == 0) {
+        SetStatus(S_NO_DATA);
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+  $db->disconnect();
+
+  my $cmd = "GeneQuery?" .
+      "ORG=$org1&" .
+      "SYM=$sym1&" .
+      "TITLE=$title1&" .
+      "CUR=$go1&" .
+      "PATH=$pathway1&" .
+      "CYT=$cyt1&" .
+      "TISSUE=$tissue1";
+
+  my $hs_bld = $BUILDS{'Hs'};  $hs_bld =~ s/^1//;
+  my $mm_bld = $BUILDS{'Mm'};  $mm_bld =~ s/^2//;
+
+  my $page_header = "<table><tr valign=top>" .
+      "<td><b>GeneFinder Results For</b>:</td>" .
+      "<td>" .
+          "$org1; " .
+          ($title1   ? $title1   . "; " : "") .
+          ($go1      ? $go1      . "; " : "") .
+          ($cyt1     ? $cyt1     . "; " : "") .
+          ($pathway1 ? $pathway1 . "; " : "") .
+          ($tissue1  ? $tissue1  . "; " : "") .
+          "</td></tr>" .
+      "<tr><td><b>UniGene Build</b>:</td>" .
+      "<td>Hs.$hs_bld/Mm.$mm_bld</td></tr></table>";
+ 
+  if ($page == $CLONE_PAGE) {
+    return (FormatGenes($page, $org1, $cmd, $page_header, \@rows));
+  }
+  else {
+    return
+      (FormatGenes($page, $org1, $cmd, $page_header,
+       OrderGenesBySymbol($page, $org1, \@rows)));
+  }
+}
+
+######################################################################
+sub TransformHsCyt {
+  my ($cyt) = @_;
+
+  my ($chr, $low, $high);
+  my (@terms, $i, $c);
+
+  ## for mouse and human, trim leading, trailing, multiple spaces
+  $cyt =~ s/ +/ /g;
+  $cyt =~ s/^ +//;
+  $cyt =~ s/ +$//;
+  
+  ## for mouse and human, standardize ranges and alternatives
+  $cyt =~ s/ or / , /ig;
+  $cyt =~ s/ *- */-/g;
+  $cyt =~ s/ *, */,/g;
+
+  $cyt =~ s/\s//g;
+  $cyt = lc($cyt);
+  $cyt =~ tr/xy/XY/;
+
+  ## for human
+  ## watch out for alternatives
+  $c = $cyt;
+  for $cyt (split ",", $c) {
+    $chr = $low = $high = "";
+    $cyt =~ /^(X|Y|\d+)(.*)$/;       ## grab the chromosome
+    $chr = $1;
+    $cyt = $2;
+    @terms = split "-", $cyt;
+    for ($i = 0; $i < @terms; $i++) {
+      $terms[$i] =~ s/^p//;
+      $terms[$i] =~ s/^q/-/;
+##      $terms[$i] =~ s/(tel|ter)/200/;
+      $terms[$i] =~ s/(tel|ter)/201/;   ## distinguish "pter" from "p"
+      $terms[$i] =~ s/cen/0/;
+      if ($terms[$i] =~ /^-?$/) {
+        $terms[$i] = "$terms[$i]200";   ## bare 'q' or 'p'
+      }
+    }
+    if (@terms == 0) {
+      $low  = -200;                     ## bare chromosome
+      $high = 200;
+    } elsif (@terms == 1) {
+      if ($terms[0] == 200) {           ## bare 'p'
+        $low  = 0;
+        $high = 200;
+      } elsif ($terms[0] == -200) {     ## bare 'q'
+        $low  = -200;
+        $high = 0;
+      } elsif ($terms[0] == 201) {
+        $low  = 199.99;
+        $high = 200;
+      } elsif ($terms[0] == -201) {
+        $low  = -200;
+        $high = -199.99;
+      } else {                          ## numbered band
+        $low = $high = $terms[0];
+      }
+    } else {
+      if ($terms[1] =~ /^\.(\d+)$/) {
+	$terms[0] =~ /(-?)(\d+)(.*)$/;
+        $terms[1] = "$1" . "$2" . "$terms[1]";
+      }
+      if ($terms[0] < $terms[1]) {
+        $low  = $terms[0];
+        $high = $terms[1];
+      } else {
+        $low  = $terms[1];
+        $high = $terms[0];
+      }
+    }
+    $low  = -200 if $low  == -201;
+    $high =  200 if $high ==  201;
+    if ($low < 0) {
+      if ($low !~ /\./) {
+        $low = "$low.99";
+      } elsif ($low !~ /\.\d\d/) {
+        $low = $low . "9";
+      }
+    }
+    if ($high > 0) {
+      if ($high !~ /\./) {
+        $high = "$high.99";
+      } elsif ($high !~ /\.\d\d/) {
+        $high = $high . "9";
+      }
+    }
+
+    return ($chr, $low, $high);
+
+  }
+
+}
+
+######################################################################
+sub TransformMmCyt {
+  my ($cyt) = @_;
+
+  my ($chr, $low, $high);
+
+  ## for mouse and human, trim leading, trailing, multiple spaces
+  $cyt =~ s/ +/ /g;
+  $cyt =~ s/^ +//;
+  $cyt =~ s/ +$//;
+  
+  ## for mouse and human, standardize ranges and alternatives
+  $cyt =~ s/ or / , /ig;
+  $cyt =~ s/ *- */-/g;
+  $cyt =~ s/ *, */,/g;
+
+  $cyt =~ s/ ?cm//i;
+  $cyt =~ tr/xy/XY/;
+  ## for mouse
+  ## mouse data appears not to have alternatives
+  if (not $cyt =~ / [a-h]/i) {
+    ## radiation hybrid; no ranges
+##    $cyt =~ s/ cM$//;
+    split " ", $cyt;
+    $chr = $_[0];
+    $low = $high = $_[1];
+    if (not $low) {
+      $low = -200;
+      $high = 200;  
+    }
+  } else {
+    ## A-H style, maybe just a bare chromosome
+    split " ", $cyt;
+    $chr = $_[0];
+    if (@_ > 1) {     ## has band designator(s)
+      $_[1] =~ tr/[A-H]/[1-8]/;
+##      print "$_[1]\n";
+      my @x = split "-", $_[1];  ## look for a range
+      if (@x == 1) {     ## is not a range
+        if (length($_[1])==1) {
+	  $high = -$_[1] * 10;
+          $low = $high - 9;
+        } else {
+          $low = $high = "-$_[1]";
+        }
+      } else {           ## is a range
+        ## order in ranges is standardized
+        $low  = "-$x[1]";
+        $high = "-$x[0]";
+      }
+      $low  =~ s/^(\d\.)(\d)$/$1$2\9/;
+      if ($low !~ /\./) {
+        $low = "$low.99";
+      } elsif ($low =~ /\.(\d)$/) {
+	$low = $low . "9";
+      }
+    } else {          ## bare chromosome
+      $low  = -200;
+      $high = 200;
+    }
+  }
+
+  return ($chr, $low, $high);
+
+}
+
+######################################################################
+my %mgc_status_codes = (
+  'A' => "Full Length",
+  'B' => "Incomplete",
+  'C' => "No CDS",
+  'D' => "TBD",
+  'K' => "Dropped: 3",      ## "Chimeric",
+  'L' => "Dropped: 4",      ## "Frame Shifted",
+  'M' => "Dropped: 5",      ## "Contaminated",
+  'N' => "Dropped: 6",      ## "Incomplete Processing",
+  'S' => "Dropped: 100",    ## "Mixed wells",
+  'T' => "Dropped: 101",    ## "No growth",
+  'U' => "Dropped: 102",    ## "No insert",
+  'V' => "Dropped: 103",    ## "No 5' EST match",
+  'W' => "Dropped: 104",    ## "No cloning site/microdeletion"
+);
+
+######################################################################
+sub GetMGCClonesOfCluster {
+  my ($db, $org, $cid) = @_;
+  my $build_id = $BUILDS{$org};
+  my $sql =
+      "select distinct image_id, clone_status, " .
+      "accession, defline " .
+      "from $CGAP_SCHEMA2" . "mgc_mrna " .
+      "where build_id = $build_id " .
+      "and cluster_number = $cid " .
+      "and accession is not null " .
+      "order by clone_status, image_id, accession";
+
+  ## 0 image_id
+  ## 1 clone_status
+  ## 2 accession
+  ## 3 def line
+
+  my ($image_id, $clone_status, $accession, $defline, @lines);
+
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    return undef;
+  } else {
+    if ($stm->execute()) {
+      while (($image_id, $clone_status, $accession, $defline)
+          = $stm->fetchrow_array()) {
+        $defline or $defline = "&nbsp;";
+        push @lines, 
+            "<tr valign=top>" .
+            "<td><a href=javascript:spawn(\"" . "http://mgc.nci.nih.gov" .
+              "/Reagents/CloneInfo?ORG=$org&IMAGE=$image_id\")>" .
+              "$image_id</a></td>" .
+            "<td>$mgc_status_codes{$clone_status}</td>" .
+            "<td><a href=javascript:spawn(" .
+              "\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?" .
+              "db=Nucleotide&" .
+              "CMD=Search&term=$accession\")>$accession</a></td>" .
+              "<td>$defline</td></tr>";
+      }
+    }
+  }
+
+  if (@lines) {
+    return
+        "<table border=1 cellspacing=1 cellpadding=4>" .
+        "<tr>" .
+        "<th><font color=\"#666699\"><b>IMAGE Id</b></font></th>" .
+        "<th><font color=\"#666699\"><b>Status</b></font></th>" .
+        "<th><font color=\"#666699\"><b>Accession</b></font></th>\n" .
+        "<th><font color=\"#666699\"><b>GenBank Def Line</b></font></th></tr>\n" .
+        join("\n", @lines) .
+        "</table>";
+  } else { 
+    return "";
+  }
+
+}
+
+######################################################################
+sub BuildHomologLine {
+  my ($db, $org, $cid) = @_;
+
+  &debug_print( "org: $org, cid: $cid \n");
+  my $protsims = GetProtSims($db, $org, $cid);
+
+  my $orthologs;
+  my ($org1, $protgi, $protid, $pct, $aln);
+  my @protsims = split "\001", $protsims;
+  $protsims = "";
+  for my $protsim (@protsims) {
+    ($org1, $protgi, $protid, $pct, $aln) = split "\002", $protsim;
+    $org1 or $org1 = "-";
+    $protsims = $protsims . "<tr>" .
+        "<td>$org1</td>" .
+        "<td><a href=javascript:spawn(" .
+            "\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Protein&" .
+            "CMD=Search&term=$protgi\")>$protid</a></td>" .
+        "<td>$pct%</td>" .
+        "<td>$aln</td>" .
+        "</tr>";
+  }
+
+  if ($protsims) {
+    $protsims =
+        "<table border=1 cellspacing=1 cellpadding=4><tr>" .
+        "<td><font color=\"#666699\"><b>Organism</b></font></td>" .
+        "<td><font color=\"#666699\"><b>Protein ID</b></font></td>" .
+        "<td><font color=\"#666699\"><b>% Similarity</b></font></td>" .
+        "<td><font color=\"#666699\"><b>Aligned aa</b></font></td>" .
+        "</tr>" .
+        $protsims .
+        "</table>\n";
+  }
+
+  my ($sql_map);
+  my (%ortho_pct, %orthos);
+  my ($ortho_cid);
+  my $ortho_org = $org eq "Hs" ? "Mm" : "Hs";
+  my ($sym, $title, $libs, $loc, $cyt, $gb, $omim, $sv_clones);
+
+  my $table_name = ($ortho_org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster b " : "$CGAP_SCHEMA2" . "mm_cluster b ");
+
+  if ($org eq "Hs") {
+      $sql_map = "select a.MM_CLUSTER_NUMBER, a.SIMILARITY, " .
+                 " b.GENE, b.DESCRIPTION, b.SEQUENCES from " .
+                 " $CGAP_SCHEMA2" . "HS_TO_MM a, " . $table_name .
+                 " where a.HS_CLUSTER_NUMBER = $cid " .
+                 " and b.CLUSTER_NUMBER = a.MM_CLUSTER_NUMBER ";
+  } else {
+      $sql_map = "select a.HS_CLUSTER_NUMBER, a.SIMILARITY, " .
+                 " b.GENE, b.DESCRIPTION, b.SEQUENCES from " .
+                 " $CGAP_SCHEMA2" . "MM_TO_HS a, " . $table_name .
+                 " where a.MM_CLUSTER_NUMBER = $cid " .
+                 " and b.CLUSTER_NUMBER = a.HS_CLUSTER_NUMBER ";
+  }
+
+  &debug_print( "sql_map: $sql_map \n");
+
+  my $stm = $db->prepare($sql_map);
+
+  if(!$stm->execute()) {
+
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql_map\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    return "";
+  }
+
+  &debug_print ("Finish execute. \n");
+
+  $stm->bind_columns(\$ortho_cid, \$pct, \$sym, \$title, \$gb);
+
+  while($stm->fetch) {
+
+    &debug_print ("MAP EACH: $ortho_cid, $pct \n");
+    if ($pct =~ /^\d+\.\d+$/) {
+      $ortho_pct{$ortho_cid} = $pct;
+    }
+    $sym or $sym = "-";
+    $orthos{$ortho_cid} = join "\032", $sym, $title, $gb;
+  }
+
+  for my $ortho_cid (keys %orthos) {
+    ($sym, $title, $gb) = split(/\032/, $orthos{$ortho_cid});
+    $gb =~ s/ +/<br>/g;
+    $orthologs = $orthologs . "<tr valign=top>" .
+      "<td>$sym</td>" .
+      "<td>$title</td>" .
+      "<td>$gb</td>" .
+      "<td><a href=\"" . $BASE .
+          "/Genes/GeneInfo?ORG=$ortho_org&CID=$ortho_cid\">Gene Info</a></td>" .
+      "<td>" . ($ortho_pct{$ortho_cid} ? $ortho_pct{$ortho_cid} : "-") .
+      "</td></tr>\n";
+  }
+
+  if ($orthologs) {
+    $orthologs =
+      "<table border=1 cellspacing=1 cellpadding=4><tr>" .
+      "<td><font color=\"#666699\"><b>Symbol</b></font></td>".
+      "<td><font color=\"#666699\"><b>Name</b></font></td>" .
+      "<td><font color=\"#666699\"><b>Sequence</b></font></td>" .
+      "<td><font color=\"#666699\"><b>CGAP Gene Info</b></font></td>" .
+      "<td><font color=\"#666699\"><b>% Similarity</b></font></td></tr>\n" .
+      $orthologs .
+      "</table>\n";
+  }
+
+  return ($protsims, $orthologs);
+}
+
+######################################################################
+sub TissuesOfCluster {
+  my ($db, $org, $cid) = @_;
+
+  my ($tissue, @rows, $x, $prefix, $suffix);
+
+  my $sql = "select distinct s.tissue_name " .
+      "from $CGAP_SCHEMA2" . "tissue_selection s, $CGAP_SCHEMA2" . "" .
+      ($org eq "Hs" ? "hs_gene_tissue" : "mm_gene_tissue") . " c " .
+      "where s.tissue_code = c.tissue_code and " .
+      "c.cluster_number = $cid " .
+      "order by s.tissue_name";
+
+  my $stm = $db->prepare($sql);
+
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while (($tissue) = $stm->fetchrow_array()) {
+        push @rows, $tissue;
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  return join ", ", @rows;
+}
+
+######################################################################
+sub BuildPathwayLine {
+  my ($db, $org, $loc) = @_;
+
+  my ($pathway_line, $bcid, @bcids);
+  my ($pathway_name, $pathway_display);
+
+  my $sql = "select distinct bc_id " .
+            "from $CGAP_SCHEMA2" . "BioGenes "  .
+            "where organism = '$org' " .
+            "and locus_id = $loc";
+
+  my $stm = $db->prepare($sql);
+
+  if (!$stm->execute()) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    return "";
+  }
+
+  $stm->bind_columns(\$bcid);
+  while ($stm->fetch) {
+    push @bcids, $bcid;
+  }
+  $stm->finish;
+
+  if (@bcids) {
+    my $temp = "'" . join("','",@bcids) . "'";
+    my $sql_pathway = "select distinct pathway_name, pathway_display " .
+                      "from $CGAP_SCHEMA2" . "BioPaths "  .
+                      "where organism = '$org' " .
+                      "and BC_ID in ( $temp ) " .
+                      "order by pathway_display";
+
+    my $stm = $db->prepare($sql_pathway);
+
+    if (!$stm->execute()) {
+       SetStatus(S_RESPONSE_FAIL);
+       print STDERR "$sql_pathway\n";
+       print STDERR "$DBI::errstr\n";
+       print STDERR "execute call failed\n";
+       return "";
+    }
+
+    $stm->bind_columns(\$pathway_name, \$pathway_display);
+
+    while ($stm->fetch) {
+      if ($pathway_display) {
+        $pathway_line = $pathway_line .
+          "<li><a href=\"" . $BASE .
+          "/Pathways/BioCarta/$pathway_name\">" .
+          $pathway_display . "</a>\n";
+      }
+    }
+
+    if ($pathway_line) {
+      $pathway_line = "<ul>" .  $pathway_line . "</ul>";
+    }
+  }
+  return $pathway_line;
+}
+
+######################################################################
+sub BuildGOLine {
+  my ($db, $org, $loc) = @_;
+
+  my $sql = "select go_id from $CGAP_SCHEMA2" . "Go_Genes " .
+            "where organism = '$org' " .
+            "and locus_id = $loc";
+
+  my ($goid, @goid, @goids, $init_nodes);
+  my ($golist, @golists);
+  my $gname = '';
+  my $gene_ontology_line = '';
+
+  my $stm = $db->prepare($sql);
+
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while ($goid = $stm->fetchrow_array()) {
+        @golists = GetParents($db, $goid);
+
+        foreach $golist (@golists) {
+          @goids = @{$golist};
+          $gname = pop(@goids);
+          @goids = reverse @goids;
+          $init_nodes = '%27' . join("%27,%27", @goids) . '%27';
+          $gene_ontology_line = $gene_ontology_line .
+            "<li><a href=javascript:GOOpenWindow(\"" . $BASE .
+            "/Genes/GOBrowser?SHOW_GENES=1&INIT_NODES=$init_nodes\")>$gname</a>" ;
+          undef @goids;
+        }
+      }
+    }
+  }
+  if ($gene_ontology_line) {
+    $gene_ontology_line = "<ul>" .  $gene_ontology_line . "</ul>";
+  }
+
+  return $gene_ontology_line;
+}
+
+######################################################################
+sub BuildKeggLine {
+  my ($db, $loc) = @_;
+
+  my ($sql_pathway);
+  my ($pathway_line, $ecno, @ecnos);
+  my ($path_id, $pathway_name);
+  my (%path_id, %coords, $x1, $y1, $x2, $y2);
+
+  my $sql = "select distinct ecno " .
+            "from $CMAP_SCHEMA.KeggGenes "  .
+            "where locus_id = $loc";
+
+  my $stm = $db->prepare($sql);
+
+  if (!$stm->execute()) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    return "";
+  }
+
+  $stm->bind_columns(\$ecno);
+  while ($stm->fetch) {
+    push @ecnos, $ecno;
+  }      
+  $stm->finish;
+
+  if (@ecnos) {
+    my $temp = "'" . join("','",@ecnos) . "'";
+    $sql_pathway = "select distinct p.path_id, p.pathway_name " .
+                   "from $CMAP_SCHEMA.KeggPaths k, " .
+                   "$CMAP_SCHEMA.Pathway_name p " .
+                   "where k.path_id = p.path_id " .
+                   "and (k.ecno in ($temp) " .
+                   "or k.ecno = '$loc') " .
+                   "order by p.pathway_name";
+  } else {
+    $ecno = $loc;
+    $sql_pathway = "select distinct p.path_id, p.pathway_name " .
+                   "from $CMAP_SCHEMA.KeggPaths k, " .
+                   "$CMAP_SCHEMA.Pathway_name p " .
+                   "where k.path_id = p.path_id " .
+                   "and k.ecno = '$ecno' " .
+                   "order by p.pathway_name";
+  }
+
+  if ($ecno) {
+    my $stm = $db->prepare($sql_pathway);
+
+    if (!$stm->execute()) {
+       SetStatus(S_RESPONSE_FAIL);
+       print STDERR "$sql_pathway\n";
+       print STDERR "$DBI::errstr\n";
+       print STDERR "execute call failed\n";
+       return "";
+    }
+
+    $stm->bind_columns(\$path_id, \$pathway_name);
+
+    while ($stm->fetch) {
+      $path_id{$pathway_name} = $path_id;
+    }
+    $stm->finish;
+
+    for $path_id (values %path_id) {
+      my $sql = "select distinct x1,y1,x2,y2 " .
+                "from $CMAP_SCHEMA.KeggCoords "  .
+                "where path_id = '$path_id' " .
+                "and ecno = '$ecno'";
+
+      my $stm = $db->prepare($sql);
+
+      if (!$stm->execute()) {
+        SetStatus(S_RESPONSE_FAIL);
+        print STDERR "$sql\n";
+        print STDERR "$DBI::errstr\n";
+        print STDERR "execute call failed\n";
+        return "";
+      }
+
+      $stm->bind_columns(\$x1,\$y1,\$x2,\$y2);
+      while ($stm->fetch) {
+        if (defined $coords{$path_id}) {
+          $coords{$path_id} .= ';' . "$x1,$y1,$x2,$y2";
+        } else {
+          $coords{$path_id} = "$x1,$y1,$x2,$y2";
+        }
+      }
+      $stm->finish;
+    }
+
+    my @sorted_paths = sort keys %path_id;
+    for $pathway_name (@sorted_paths) {
+      $path_id = $path_id{$pathway_name};
+        $pathway_line = $pathway_line . "<li>" .
+        "<a href=javascript:ColoredPath(\"$BASE/Pathways/Kegg/$path_id\",\"$coords{$path_id}\",\"$ecno\")>$pathway_name</a>";
+    }
+
+    if ($pathway_line) {
+      $pathway_line = "<ul>" .  $pathway_line . "</ul>";
+    }
+  }
+
+  return $pathway_line;
+}
+
+######################################################################
+sub GetBestSAGETag {
+  my ($db, $org, $cid) = @_;
+
+  my ($sql, $stm);
+  my ($tag, $t);
+
+  $sql = "select tag " .
+      "from $CGAP_SCHEMA2" . "sagebest_cluster " .
+      "where cluster_number = $cid";
+
+  $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+  if (not $stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  while (($t) = $stm->fetchrow_array()) {
+    $tag = $t;
+  }
+  ## take the last one
+  return $tag;
+}
+
+######################################################################
+sub GeneExpressionSection {
+  my ($db, $org, $cid) = @_;
+
+  my (@lines);
+
+  my $tissues_line = TissuesOfCluster($db, $org, $cid);
+  my $tag = GetBestSAGETag($db, $org, $cid);
+
+  push @lines, "<ul>";
+  push @lines, "<li>This gene is found in these";
+  push @lines, "<a href=\"" . $BASE . "/Tissues/LibsOfCluster?" .
+             "PAGE=1&ORG=$org&CID=$cid\">" .
+             "cDNA libraries</a> ";
+  push @lines, "from the following tissue types: " .
+             "<blockquote>$tissues_line</blockquote>";
+  if ($tag) {
+    push @lines, "<li>SAGE Anatomic Viewer";
+    push @lines, "<ul>";
+      push @lines, "<li><a href=\"" . $BASE . "/SAGE/Viewer?" .
+        "TAG=$tag&CELL=0\">Tissues only</a>";
+      push @lines, "<li><a href=\"" . $BASE . "/SAGE/Viewer?" .
+        "TAG=$tag&CELL=1\">Cell lines only</a>";
+      push @lines, "<li><a href=\"" . $BASE . "/SAGE/Viewer?" .
+        "TAG=$tag&CELL=2\">Tissues and cell lines</a>";
+    push @lines, "</ul>";
+    push @lines, "<br>";
+    push @lines, "<li><a href=\"" . $BASE . "/SAGE/FreqsOfTag?" .
+        "FORMAT=html&TAG=$tag\">SAGE Digital Northern</a>";
+    push @lines, "<br><br>";
+  }
+  push @lines, "<li><a href=\"" . $BASE . "/Tissues/VirtualNorthern?" .
+      "TEXT=0&ORG=$org&CID=$cid\">Monochromatic SAGE/cDNA Virtual Northern</a>"; 
+  push @lines, "<br><br>";
+  if ($org eq "Hs") {
+    push @lines, "<li><a href=\"$BASE/Microarray/" .
+      "MicroarrayAccessions?ORG=Hs&CID=$cid\">" .
+      "Two-dimensional array displays</a> " .
+      "(similar expression pattern in " .
+      "NCI60 microarray data or SAGE data)";
+  }
+
+  push @lines, "</ul>";
+
+  return join("\n", @lines);
+}
+
+######################################################################
+sub FindGenePage_1 {
+  my ($base, $org, $bcid, $ecno, $llno, $cid) = @_;
+  my ($id);
+
+  $BASE = $base;
+
+  if ($cid eq '') {
+    $id = GetPathInfo_1($org, $bcid, $ecno, $llno);
+  } else {
+    $id = $cid;
+  }
+  return BuildGenePage_1($base, $org, $id);
+}
+
+######################################################################
+sub BuildGenePage_1 {
+  my ($base, $org, $cid) = @_;
+
+  $BASE = $base;
+
+  my ($sym, $title, $loc, $cyt, $gb, $omim, $sv_clones);
+  my ($count, $band, $count1, $count2, $list, $url, $count3, $url500);
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    $db = "";
+  }
+
+  my $table_name = ($org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster" : "$CGAP_SCHEMA2" . "mm_cluster");
+
+  my $sql_lines = "select GENE, DESCRIPTION, LOCUSLINK, CYTOBAND, " .
+      "SEQUENCES, OMIM, SV_CLONES from " . $table_name . " where " .
+      " CLUSTER_NUMBER = $cid ";
+
+  &debug_print( "sql_lines: $sql_lines \n");
+
+  my $stm = $db->prepare($sql_lines);
+
+  if(!$stm->execute()) {
+
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql_lines\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    $db->disconnect();
+    return "";
+  }
+
+  &debug_print ("Finish execute. \n");
+
+  $stm->bind_columns(\$sym, \$title, \$loc, \$cyt, \$gb, \$omim, \$sv_clones);
+
+  while($stm->fetch) {
+
+    &debug_print ("EACH: $cid, $sym, $title, $loc, $cyt, $gb, $omim, $sv_clones \n");
+  }
+
+  if ($db && $org eq "Hs") {
+    ($count1, $list) =  CountAssoc($db, $sym);
+    ($count2, $url) = CountDTP($db, $cid, $sym);
+    ($band, $count) =  CountBreakpoints($db, $cyt);
+    ($count3, $url500) = Count500($sym);
+  }
+
+  # To search for SNPs or assemblies, if there is a gene symbol, go with that,
+  # else use the cluster number. If cluster numbering has changed since the last
+  # SNP/Assembly build, then we won't find the assembly. Chances with gene symbol
+  # are better.
+  my ($snp_asm_attr_name, $snp_asm_attr_val);
+  if ($sym) {
+    $snp_asm_attr_name = "keyword";
+    $snp_asm_attr_val  = $sym;
+  } else {
+    $sym = "-";
+    $snp_asm_attr_name = "gb";
+    $snp_asm_attr_val = "$org.$cid";
+  }
+
+  my $snp_asm_org = ($org eq "Hs" ? "Homo+sapiens" : "Mus+musculus");
+
+  $title or $title = '-';
+
+  my $gb_list;
+  my $nm_acc;
+  for (split / +/, $gb) {
+    $gb_list = $gb_list .
+        "<a href=javascript:spawn(" .
+        "\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&" .
+        "CMD=Search&term=$_\")>$_</a><br>\n";
+    if (/^NM_/ && !$nm_acc) {
+      $nm_acc = $_;
+    }
+  }
+
+  my $header_table = "<table><tr valign=top>".
+      "<td><b>Gene Information For:</b></td>" .
+      "<td>$org. $sym, $title</td></tr>" .
+      "<tr valign=top><td><b>Sequence ID:</b></td>" .
+      "<td>$gb_list</td>" .
+      "</tr></table>" ;
+
+  my $button_table = "<table cellspacing=1 cellpadding=4><tr>" .
+
+      "<td><a href=javascript:spawn(" .
+          "\"http://www.ncbi.nlm.nih.gov/UniGene/clust.cgi?" .
+          "ORG=$org&CID=$cid\")>" .
+          "UniGene</a></td>" .
+
+      "<td>" . ( $loc ?
+          ( "<a href=javascript:spawn(" .
+            "\"http://www.ncbi.nlm.nih.gov/LocusLink/LocRpt.cgi?" .
+            "l=$loc\")>LocusLink</a>"
+          ) : "" ) . "</td>" .
+
+      ($omim ?
+          ("<td><a href=javascript:spawn(" .
+          "\"http://www.ncbi.nlm.nih.gov/" .
+          "htbin-post/Omim/dispmim?$omim\")>" .
+          "OMIM</a></td>") : "") .
+
+      ($count2 ?
+          ("<td><a href=javascript:spawn(" .
+          "\"$url\")>" .
+          "DTP" .
+          "</a></td>") : "") .
+
+      "<td><a href=javascript:spawn(" .
+          "\"http://gai.nci.nih.gov/cgi-bin/GeneViewer.cgi?" .
+          "qt=1&query=" . ($org eq "Hs" ? "hs" : "mm") . ".$cid" .
+          "\")>SNPViewer</a></td>".
+
+      "<td><a href=javascript:spawn(" .
+          "\"http://lpgws.nci.nih.gov:82/perl/snpbr?st=2&org=$snp_asm_org&" .
+          "$snp_asm_attr_name=$snp_asm_attr_val" .
+          "\")>Assemblies</a></td>" .
+
+      ($count1  ?
+          ("<td><a href=\"" . $BASE .
+          "/Chromosomes/MCList?op=M&gene_op=o&gene=$list&page=1\">" .
+          "Cancer Aberrations" .
+          "</a></td>") : "") .
+
+      ($count3  ?
+          ("<td><a href=javascript:spawn(" .
+          "\"$url500\")>" .
+          "SNP500Cancer" .
+          "</a></td>") : "") .
+      
+      "</tr></table>" ;
+
+  &debug_print( "Before run BuildHomologLine \n"); 
+  my ($protsims_line, $homolog_line) = BuildHomologLine($db, $org, $cid);
+  &debug_print( "After run BuildHomologLine \n"); 
+  
+  my $cyt_line = "<table><tr>" .
+    "<td><font color=\"#666699\"><b>Cytogenetic Location</b></font>:</td>" .
+    "<td>" . ($cyt ? join(',',  split(/\002/, $cyt)) : "Unknown") . "</td>" .
+    "<td>" . ($org eq "Hs" && $count ? "<a href=\"" . $BASE .
+        "/Chromosomes/CytList?breakpoint=$band&page=1\">" .
+        "Mitelman Breakpoint Data</a>" : " ") . "</td></tr></table>";
+
+  my $sv_clones_line = ''; 
+  if ($sv_clones) {
+    $sv_clones_line =
+        "<table border=1 cellspacing=1 cellpadding=4><tr>" .
+        "<td><font color=\"#666699\"><b>Image Clone Id</b></font></td>" .
+        "<td><font color=\"#666699\"><b>GenBank Accession</b></font></td>" .
+        "</tr>\n";
+    for my $c (split "\002", $sv_clones) {
+      my ($clone_id, $acc_id) = split "\003", $c;
+      $acc_id or $acc_id = "-";
+      $sv_clones_line = $sv_clones_line .
+          "<tr><td>$clone_id</td><td><a href=javascript:spawn(" .
+          "\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?db=Nucleotide&" .
+          "CMD=Search&term=$acc_id\")>$acc_id</a></td></tr>\n";
+    }
+    $sv_clones_line = $sv_clones_line . "</table>";
+  }
+
+  my $mgc_clones_line = GetMGCClonesOfCluster($db, $org, $cid);
+
+  my $motif_sim_line;
+  my @acc_array;
+  LookForAccWithMotifInfo($db, $org, $cid, \@acc_array);
+  if (@acc_array) {
+    $motif_sim_line =
+        "<p>Find gene products sharing protein motifs with: &nbsp;";
+    for my $a (@acc_array) {
+      $motif_sim_line .=
+         "<a href=\"$BASE/Structure/GetSimMotifs?ACCESSION=$a" .
+         "&EVALUE=1e-3&SCORE=&PVALUE=0&PAGE=1&ORG=$org\">$a</a>" .
+         " &nbsp;";
+    }
+    $motif_sim_line .= "<br>";
+  }
+
+  my $gene_ontology_line;
+  my $gene_ontology_credits = 
+          "<font size=\"-2\" color=\"#666699\">" .
+          "Gene classification by the " .
+          "<a href=javascript:spawn(" .
+          "\"http://www.ebi.ac.uk/Databases\")>" .
+          "European Bioinformatics Institute</a>" .
+          ", as recorded in GOA (GO Annotation\@EBI)</font>";
+  my $pathway_line;
+  my $pathway_credits = 
+          "<font size=\"-2\" color=\"#666699\">" .
+          "Pathway information courtesy of " .
+          "<a href=javascript:spawn(" .
+          "\"http://www.biocarta.com" .
+          "\")>BioCarta</a>" .
+          "</font>";
+  my $kegg_line;
+  my $kegg_credits = 
+          "<font size=\"-2\" color=\"#666699\">" .
+          "Pathway information courtesy of " .
+          "<a href=javascript:spawn(" .
+          "\"http://www.genome.ad.jp/kegg" .
+          "\")>Kegg</a>" .
+          "</font>";
+
+  if ($loc) {
+    $pathway_line = BuildPathwayLine($db, $org, $loc);
+    $kegg_line = BuildKeggLine($db, $loc);
+    $gene_ontology_line = BuildGOLine($db, $org, $loc);
+  }
+
+  my $temp = $header_table . "\n" .
+           "<br>\n" .
+         DividerBar("Database Links") .
+           "<br>\n" .
+             $button_table .
+           "<br>\n" .
+         DividerBar("Gene Expression Data") .
+           "<br>\n" .
+GeneExpressionSection($db, $org, $cid) .
+#             "<p>This gene is found in these " .
+#             "<a href=\"" . $BASE . "/Tissues/LibsOfCluster?" .
+#             "PAGE=1&ORG=$org&CID=$cid\">" .
+#             "cDNA libraries</a> " .
+#             "from the following tissue types: " .
+#             "<blockquote>$tissues_line</blockquote>" .
+#             $microarray_search .
+           "<br>\n" .
+         DividerBar("Cytogenetic Location (from UniGene)") .
+           "<br>\n" .
+             "$cyt_line" .
+           "<br>\n" .
+         ($sv_clones_line ?
+             DividerBar("Sequence-verified (by Research Genetics) " .
+                 "Clones in Cluster") .
+           "<br>\n" .
+             "$sv_clones_line" .
+           "<br>\n"
+           : "") .
+         ($mgc_clones_line ?
+             DividerBar("Full-Length MGC Clones for This Gene") .
+           "<br>\n" .
+             "$mgc_clones_line" .
+           "<br>\n"
+           : "") .
+         ($motif_sim_line ?
+             DividerBar("Protein Similarities Based on Shared Motif Content") .
+           "<br>\n" .
+             "$motif_sim_line" .
+           "<br>\n"
+           : "") .
+         ($protsims_line ?
+             DividerBar("Protein Similarities (from UniGene)") .
+           "<br>\n" .
+             "$protsims_line" .
+           "<br>\n"
+           : "") .
+         ($homolog_line ?
+             DividerBar(($org eq "Mm" ? "Homo Sapiens" : "Mus Musculus") .
+                 " Orthologs (from HomoloGene)") .
+           "<br>\n" .
+             "$homolog_line" .
+           "<br>\n"
+           : "") .
+         ($gene_ontology_line ?
+             DividerBar("Gene Ontology") .
+             "$gene_ontology_credits<br>\n" .
+             "$gene_ontology_line<br>\n" : "") .
+         ($pathway_line ?
+             DividerBar("BioCarta Pathways") .
+             "$pathway_credits<br>\n" .
+             "$pathway_line<br>\n"       : "") .
+         ($kegg_line ?
+             DividerBar("Kegg Pathways") .
+             "$kegg_credits<br>\n" .
+             "$kegg_line<br>\n"       : "") ;
+
+  if ($db) {
+    $db->disconnect();
+  }
+
+  return $temp;
+
+}
+
+######################################################################
+sub GetParents {
+  my ($db, $goid) = @_;
+
+  my (@goid, @goids, @golists, @row);
+  my ($parent, @parents, @parents);
+  my $pname = '';
+  my $gname;
+  my %name;
+
+  my $sql = "select unique go_parent, go_name from $CGAP_SCHEMA2" . "Go_Names " .
+            "where go_id = $goid";
+  my $stp = $db->prepare($sql);
+  if (not $stp) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stp->execute()) {
+      while (@row = $stp->fetchrow_array()) {
+        push(@parents, $row[0]);
+        $name{$goid} = $row[1];
+      }
+    }
+  }
+  foreach $parent (@parents) {
+    push(@goids, $goid);
+    push(@goids, $parent);
+    my $the_parent = $parent;
+    while ($the_parent ne '0      ') {
+      my $sql = "select go_parent, go_name from $CGAP_SCHEMA2" . "Go_Names " .
+                "where go_id = $the_parent";
+      my $stp = $db->prepare($sql);
+      if (not $stp) {
+        print STDERR "prepare call failed\n";
+        SetStatus(S_RESPONSE_FAIL);
+        return "";
+      } else {
+        if ($stp->execute()) {
+          @row = $stp->fetchrow_array();
+          $the_parent = $row[0];
+          if ($the_parent ne '0      ') {
+            push(@goids, $the_parent);
+            if ($pname eq '') {
+              $pname = $row[1];
+              $pname =~ s/ +$//;
+            }
+          }
+        }
+      }
+    }
+    if (@parents > 1) {
+      $gname = "$name{$goid} {$pname}";
+    } else {
+      $gname = "$name{$goid}";
+    } 
+    push(@goids, $gname);
+    push @golists, [ @goids ];
+    undef @goids;
+    $pname = '';
+  }
+  return @golists;
+}
+
+#####################################################################
+sub CountBreakpoints {
+  my ($db, $break) = @_;
+  if ($break =~ /^(X|Y|\d+)(p|q)(\d+)/) {
+    $break = "$1$2$3";
+  } else {
+    return ("", 0);
+  }
+  my $count = 0;
+
+  my $sql = "select count(invno) from $CGAP_SCHEMA2" . "KaryBreak ".
+    "where Breakpoint = '$break'";
+
+  my (@row);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      @row = $stm->fetchrow_array();
+      $count=$row[0];
+      $stm->finish;
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  return ($break,$count);
+}
+
+#####################################################################
+sub CountAssoc {
+  my ($db, $gene) = @_;
+  my $count = 0;
+
+  my $sql1 = "select g.gene_uc from $CGAP_SCHEMA2" . "hs_gene_alias g where " . 
+    "exists (select h.cluster_number from $CGAP_SCHEMA2" . "hs_gene_alias h " .
+    "where h.gene_uc = '$gene' " .
+    "and h.cluster_number = g.cluster_number)";
+
+  my (@items,@row,@rows);
+  my $stm = $db->prepare($sql1);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while (@row = $stm->fetchrow_array()) {
+        push @rows, @row;
+      }      
+      $stm->finish;
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+  
+  my $temp = "'" . join("','",@rows) . "'";
+
+  my $sql2 = "select count(invno) from $CGAP_SCHEMA2" . "MolClinGene ".
+    "where Gene in ($temp)";
+
+  my (@row);
+  my $stm = $db->prepare($sql2);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      @row = $stm->fetchrow_array();
+      $count=$row[0];
+      $stm->finish;
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  $temp =~ s/'//g;
+
+  return ($count,$temp);
+}
+
+
+#####################################################################
+sub CountDTP {
+  my ($db, $cid, $sym) = @_;
+
+  my $sql =
+    "select d.molt_number,d.molt_id " .
+    "from $CGAP_SCHEMA2" . "dtp_accession d, " .
+    "$CGAP_SCHEMA2" . "hs_ug_sequence s " .
+    "where s.cluster_number = $cid " .
+    "and d.accession = s.accession " ;
+
+  my $count;
+
+  my (@row,@rows);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while (@row = $stm->fetchrow_array()) {
+        push @rows, [@row];
+      }
+      $stm->finish;
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  if (@rows) {
+    $count = 1;
+  } else {
+    $count = "";
+  }
+
+  my $molt_nbr = $rows[0][0];
+  my $molt_id = $rows[0][1];
+
+  my $url;
+
+  if ($sym) {
+    $url = "http://dtp.nci.nih.gov/servlet/hugoSearch?mtParamStr=$sym";
+  } else {
+    $url = "http://dtp.nci.nih.gov/servlet/mtDisplay?moltid=$molt_id&moltnbr=$molt_nbr";
+  }
+
+  return ($count,$url);
+}
+
+#####################################################################
+sub Count500 {
+  my ($sym) = @_;
+
+  my $count = 0;
+  my $url;
+
+  if ($sym) {
+    my $ua = LWP::UserAgent->new;
+
+    my $request = HTTP::Request->new('GET',
+      "http://snp500cancer.nci.nih.gov/cgap_gene_list.cfm?genelist=('$sym')");
+
+    my $response = $ua->request($request);
+
+    if ($response->is_success) {
+      if ($response->content =~ /^$sym/) {
+        $url = "http://snp500cancer.nci.nih.gov/snplist.cfm?gene_id=$sym&mode=valid";
+        $count = 1;
+      }
+    }
+  }
+  return ($count,$url);
+}
+
+######################################################################
+sub GetGeneByNumber_1 {
+  my ($base, $page, $org, $term) = @_;
+
+  $BASE = $base;
+
+  ## Look for gene given (a) putative cluster number, or (b)
+  ## putatitve GenBank Accession number of constitutent of cluster
+
+  my $build_id = $BUILDS{$org};
+
+  my $hs_bld = $BUILDS{'Hs'};  $hs_bld =~ s/^1//;
+  my $mm_bld = $BUILDS{'Mm'};  $mm_bld =~ s/^2//;
+
+  my $cmd = "" . $BASE . "/Genes/RunUniGeneQuery?ORG=$org&TERM=$term";
+
+  my $page_header = "<table><tr>" .
+      "<td><b>GeneFinder Results For</b>:</td>" .
+      "<td>$org; $term</td></tr>" .
+      "<tr><td><b>UniGene Build</b>:</td>" .
+      "<td>Hs.$hs_bld/Mm.$mm_bld</td></tr></table>";
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my ($cid, @cids);
+  my (@row, @rows);
+  my (@terms, @nums, @syms);
+  my ($sql, $sql_clu, $sql_acc, $sql_sym);
+  my ($stm);
+
+  $term =~ s/ //g;
+  $term =~ tr/a-z/A-Z/;
+  $term =~ tr/*/%/;
+  $term =~ s/%{2,}/%/g;
+
+  for $term (split (",", $term)) {
+    if ($term =~ /^(HS\.|MM\.)(\d+)/) {
+      if (($org eq "Hs" && $1 eq "HS.") or ($org eq "Mm" && $1 eq "MM.")) {
+        $term =~ s/^(HS\.|MM\.)//;
+      } else {
+        next;
+      }
+    }
+    if ($term =~ /^\d+$/) {
+      push @nums, $term
+    } else {
+      push @syms, "'$term'";
+    }
+  }
+
+  if (@nums) {
+    my $gene_cluster_table = ($org eq "Hs" ? " $CGAP_SCHEMA2" . "hs_cluster " : " $CGAP_SCHEMA2" . "mm_cluster ");
+    $sql_clu = 
+        "select distinct cluster_number from $gene_cluster_table " .
+        "where cluster_number in (" . join(", ", @nums) . ")";
+    $stm = $db->prepare($sql_clu);
+    if ($stm->execute()) {
+      while (($cid) = $stm->fetchrow_array()) {
+        push @cids, $cid;
+      }
+    } else {
+      SetStatus(S_RESPONSE_FAIL);
+      print STDERR "$sql_clu\n";
+      print STDERR "execute call failed\n";
+      return "";
+    }
+  }
+
+  if (@syms) {
+
+    my $ug_sequence =
+      ($org eq "Hs") ? "hs_ug_sequence" : "mm_ug_sequence";
+
+    $sql_acc = 
+      "select distinct cluster_number " .
+      "from $CGAP_SCHEMA2" . "$ug_sequence " .
+      "where accession in (" . join(", ", @syms) . ")";
+    &debug_print("sql_acc in ByNumber: $sql_acc \n" );
+    $stm = $db->prepare($sql_acc);
+    if ($stm->execute()) {
+      while (($cid) = $stm->fetchrow_array()) {
+        push @cids, $cid;
+      }
+    } else {
+      SetStatus(S_RESPONSE_FAIL);
+      print STDERR "$sql_acc\n";
+      print STDERR "execute call failed\n";
+      return "";
+    }
+
+    my $alias_table = $org eq "Hs" ? "hs_gene_alias" : "mm_gene_alias";
+    $sql_sym = 
+      "select distinct cluster_number " .
+      "from $CGAP_SCHEMA2" . "$alias_table " .
+      "where (gene_uc like " . 
+         join(" or gene_uc like ", @syms) . ")"; 
+    &debug_print("sql_sym in ByNumber : $sql_sym \n" );
+    $stm = $db->prepare($sql_sym);
+    if ($stm->execute()) {
+      while (($cid) = $stm->fetchrow_array()) {
+        push @cids, $cid;
+      }
+    } else {
+      SetStatus(S_RESPONSE_FAIL);
+      print STDERR "$sql_sym\n";
+      print STDERR "execute call failed\n";
+      return "";
+    }
+  }
+
+  if ($page == $CLONE_PAGE) {
+    return(FormatGenes($page, $org, $cmd, $page_header, \@cids)) ;
+  }
+  else {
+    return(FormatGenes($page, $org, $cmd, $page_header,
+               OrderGenesBySymbol($page, $org, \@cids)));
+  }
+}
+
+######################################################################
+sub GetProtSims {
+  my ($db, $org, $cid) = @_;
+
+  my $build = $BUILDS{$org};
+
+  if (not $db) {
+    return "";
+  }
+
+  ## load ORG_CODE_TABLE
+  my ($ORGANISM_ID, $ORGANISM_CODE);
+  my %ORG_CODE_TABLE;
+  my ($sql, $stm);
+
+  $sql = "select ORGANISM_ID, ORGANISM_CODE from $RFLP_SCHEMA.organism ";
+ 
+  $stm = $db->prepare($sql);
+ 
+  if(not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  }
+ 
+  if(!$stm->execute()) {
+     SetStatus(S_RESPONSE_FAIL);
+     print STDERR "$sql\n";
+     print STDERR "$DBI::errstr\n";
+     print STDERR "execute call failed\n";
+     return "";
+  }
+ 
+  $stm->bind_columns(\$ORGANISM_ID, \$ORGANISM_CODE);
+ 
+  while($stm->fetch) {
+    $ORG_CODE_TABLE{$ORGANISM_ID} = $ORGANISM_CODE;
+  }
+
+  my $sql = "select organism_id, gi, protid, pct, aln " .
+      "from $RFLP_SCHEMA.ug_protsim where " .
+      (sprintf "cluster_number = %d", $cid) . " and " .
+      (sprintf "build_id = %d", $build);
+
+  my (@protsim, @protsims);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while (@protsim = $stm->fetchrow_array()) {
+        $protsim[0] = $ORG_CODE_TABLE{$protsim[0]};
+        push @protsims, (join "\002", @protsim);
+      }
+      if (@protsims == 0) {
+        SetStatus(S_NO_DATA);
+      }
+    }
+  }
+
+  return (join "\001", @protsims);
+
+}
+
+######################################################################
+sub GetBatchGenes_1 {
+  my ($base, $page, $organism, $filedata) = @_;
+
+  $BASE = $base;
+
+  my ($org, $cid);
+  my (@rows, @accs, @lls, %cids);
+  my ($acc_list, $ll_list, $a, $l);
+  my ($sql, $stm);
+ 
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my @tempArray = split "\n", $filedata;
+  for (my $t = 0; $t < @tempArray; $t++ ) {
+    $tempArray[$t] =~  s/\r//;
+    next if ($tempArray[$t] eq "");
+    if ($tempArray[$t] =~ /(hs|mm)\.(\d+)/i) { # cluster
+      ($org, $cid) = ($1, $2);
+      next if (lc($organism) ne lc($org));
+
+      my $cluster_table =
+        ($organism eq "Hs") ? "hs_cluster" : "mm_cluster";
+      $sql = "select distinct cluster_number from " .
+             "$CGAP_SCHEMA2" . "$cluster_table " .
+             "where cluster_number = $cid";
+
+      $stm = $db->prepare($sql);
+      if (not $stm) {
+        print STDERR "prepare call failed\n";
+        SetStatus(S_RESPONSE_FAIL);
+        return "";
+      } else {
+        if ($stm->execute()) {
+          $stm->bind_columns(\$cid);
+          if ($stm->fetch) {
+            push @rows, $cid if (not $cids{$cid});
+            $cids{$cid} = 1;
+          }
+          $stm->finish();
+        } else {
+          print STDERR "execute failed\n";
+          SetStatus(S_RESPONSE_FAIL);
+          return "";
+        }
+      }
+    } elsif ($tempArray[$t] =~ /[A-Z]{1,2}_?\d{1,6}/) { # accession
+      push @accs, $tempArray[$t];
+    } else { # locuslink
+      push @lls, $tempArray[$t];
+    }
+  }
+
+  if (@accs) {
+    for ($a = 0; $a < @accs; $a += 1000) {
+      if (($a + 1000 - 1) < @accs) {
+        $acc_list = "'" . join("','", @accs[$a..$a+1000-1]) . "'";
+      } else {
+        $acc_list = "'" . join("','", @accs[$a..$#accs]) . "'";
+      }
+      my $ug_sequence =
+        ($organism eq "Hs") ? "hs_ug_sequence" : "mm_ug_sequence";
+      $sql = "select distinct cluster_number from " .
+             "$CGAP_SCHEMA2" . "$ug_sequence " .
+             "where accession in (" . $acc_list . ")";
+
+      $stm = $db->prepare($sql);
+      if (not $stm) {
+        print STDERR "prepare call failed\n";
+        SetStatus(S_RESPONSE_FAIL);
+        return "";
+      } else {
+        if ($stm->execute()) {
+          $stm->bind_columns(\$cid);
+          while ($stm->fetch) {
+            push @rows, $cid if (not $cids{$cid});
+            $cids{$cid} = 1;
+          }
+        } else {
+          print STDERR "execute failed\n";
+          SetStatus(S_RESPONSE_FAIL);
+          return "";
+        }
+      }
+    }
+  }
+
+  if (@lls) {
+    for ($l = 0; $l < @lls; $l += 1000) {
+      if (($l + 1000 - 1) < @lls) {
+        $ll_list = join(",", @lls[$l..$l+1000-1]);
+      } else {
+        $ll_list = join(",", @lls[$l..$#lls]);
+      }
+      my $cluster_table =
+        ($organism eq "Hs") ? "$CGAP_SCHEMA2" . "hs_cluster"
+                            : "$CGAP_SCHEMA2" . "mm_cluster";
+      $sql = "select distinct cluster_number " .
+             "from $cluster_table " .
+             "where locuslink in (" .  $ll_list . ")";
+
+      $stm = $db->prepare($sql);
+      if (not $stm) {
+        print STDERR "prepare call failed\n";
+        SetStatus(S_RESPONSE_FAIL);
+        return "";
+      } else {
+        if ($stm->execute()) {
+          $stm->bind_columns(\$cid);
+          while ($stm->fetch) {
+            push @rows, $cid if (not $cids{$cid});
+            $cids{$cid} = 1;
+          }
+        } else {
+          print STDERR "execute failed\n";
+          SetStatus(S_RESPONSE_FAIL);
+          return "";
+        }
+      }
+    }
+  }
+
+  $db->disconnect();
+
+  my $cmd = "" . $BASE . "/Genes/GetBatchGenes?ORG=$org&FILEDATA=$filedata&filename=";
+
+  my $hs_bld = $BUILDS{'Hs'};  $hs_bld =~ s/^1//;
+  my $mm_bld = $BUILDS{'Mm'};  $mm_bld =~ s/^2//;
+
+  my $page_header = "<table><tr valign=top>" .
+      "<td><b>Batch GeneFinder Results For</b>:</td>" .
+      "<td>" .
+      "$organism; " .
+      "</td></tr>" .
+      "<tr><td><b>UniGene Build</b>:</td>" .
+      "<td>Hs.$hs_bld/Mm.$mm_bld</td></tr></table>";
+
+  if($page == $CLONE_PAGE) {
+    return (FormatGenes($page, $organism, $cmd, $page_header, \@rows));
+  }
+  else {
+    return
+      (FormatGenes($page, $organism, $cmd, $page_header,
+      OrderGenesBySymbol($page, $organism, \@rows)));
+  }
+}
+
+######################################################################
+sub GetGOGenes_1 {
+
+  my $sql_clu;
+  my ($base, $page, $org, $goid) = @_;
+
+  $BASE = $base;
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my ($goname);
+  my $sql = "select distinct go_name from $CGAP_SCHEMA2" . "Go_Names " .
+            "where go_id = $goid";
+
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      $stm->bind_columns(\$goname);
+      $stm->fetch;
+      $stm->finish();
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  my $sql = "select distinct locus_id " .
+            "from $CGAP_SCHEMA2" . "Go_Genes " .
+            "where organism = '$org' " .
+            "and (go_id = '$goid' " .
+            "or go_id in ( " .
+              "select go_id " .
+              "from $CGAP_SCHEMA2" . "Go_Family " .
+              "where go_parent = '$goid' " .
+            "))";
+
+  my ($num, @nums);
+  my ($row, @rows);
+  my ($ll_list, $i);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      while ($num = $stm->fetchrow_array()) {
+          push @nums, $num
+      }
+      if (@nums == 0) {
+        SetStatus(S_NO_DATA);
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+
+    if (@nums) {
+      for ($i = 0; $i < @nums; $i += 1000) {
+        if (($i + 1000 - 1) < @nums) {
+          $ll_list = join(",", @nums[$i..$i+1000-1]);
+        } else {
+          $ll_list = join(",", @nums[$i..$#nums]);
+        }
+        my $cluster_table =
+         ($org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster" : "$CGAP_SCHEMA2" . "mm_cluster");
+        $sql_clu = 
+          "select distinct cluster_number " .
+          "from $cluster_table " .
+          "where " .
+          "locuslink in (" .  $ll_list . ")";
+        $stm = $db->prepare($sql_clu);
+        if ($stm->execute()) {
+          while (($row) = $stm->fetchrow_array()) {
+            push @rows, $row;
+          }
+        } else {
+          SetStatus(S_RESPONSE_FAIL);
+          return "";
+        }
+      }
+    }
+  }
+  $db->disconnect();
+
+  my $cmd = "GoGeneQuery?" .
+      "ORG=$org&" .
+      "GOID=$goid";
+
+  my $hs_bld = $BUILDS{'Hs'};  $hs_bld =~ s/^1//;
+  my $mm_bld = $BUILDS{'Mm'};  $mm_bld =~ s/^2//;
+
+  my $page_header = "<table><tr valign=top>" .
+      "<td><b>GeneFinder Results For</b>:</td>" .
+      "<td>" .
+          "$org; " .
+          ($goname   ? $goname   . "; " : "")   .
+          "</td></tr>" .
+      "<tr><td><b>UniGene Build</b>:</td>" .
+      "<td>Hs.$hs_bld/Mm.$mm_bld</td></tr></table>";
+
+  if( $page == $CLONE_PAGE ) {
+    return (FormatGenes($page, $org, $cmd, $page_header, \@rows));
+  }
+  else {
+    return
+      (FormatGenes($page, $org, $cmd, $page_header,
+      OrderGenesBySymbol($page, $org, \@rows)));
+  }
+}
+
+######################################################################
+sub GetGOTerms_1 {
+
+  my ($pattern, $validate) = @_;
+  my $options;
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  $pattern =~ tr/A-Z/a-z/;
+  $pattern =~ s/'/`/g;
+  $pattern =~ s/\*/%/g;
+  my $sql = "select distinct go_name from $CGAP_SCHEMA2" . "Go_Names " .
+            "where lower(go_name) like '$pattern'" .
+            "and (hs_genes > 0 or mm_genes > 0)";
+
+  my ($name, @names);
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      $stm->bind_columns(\$name);
+      while ($stm->fetch) {
+        push @names, $name
+      }
+      if (@names == 0) {
+        SetStatus(S_NO_DATA);
+        print STDERR "no data\n";
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+
+  }
+  $db->disconnect();
+
+  if (@names == 0) {
+    if ($validate eq "1") {
+      $options = "No Matching Terms";
+    } else {
+      $options = "<OPTION>No Matching Terms</OPTION>";
+    }
+  } else {
+    $options = "<OPTION>" . join("</OPTION><OPTION>",@names) . "</OPTION>";
+  }
+
+  return $options;
+}
+
+######################################################################
+sub GetKeggTerms_1 {
+
+  my ($pattern) = @_;
+  my ($name, @names, $options);
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  $pattern =~ tr/A-Z/a-z/;
+  $pattern =~ s/\\'/''/g;
+  $pattern =~ s/\*/%/g;
+
+  my $sql = "select distinct name from $CMAP_SCHEMA.KeggEnzymes " .
+            "where lower(name) like '$pattern'";
+
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      $stm->bind_columns(\$name);
+      while ($stm->fetch) {
+        push @names, ucfirst $name
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+  my $sql = "select distinct name from $CMAP_SCHEMA.KeggCompounds " .
+            "where lower(name) like '$pattern'";
+
+  my $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      $stm->bind_columns(\$name);
+      while ($stm->fetch) {
+        push @names, ucfirst $name
+      }
+      if (@names == 0) {
+        SetStatus(S_NO_DATA);
+        print STDERR "no data\n";
+      }
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  $db->disconnect();
+
+  if (@names == 0) {
+    $options = "<OPTION>No Matching Terms</OPTION>";
+  } else {
+    $options = "<OPTION>" . join("</OPTION><OPTION>", sort @names) . "</OPTION>";
+  }
+
+  return $options;
+}
+
+######################################################################
+sub GetPathInfo_1 {
+
+  my ($org, $bcid, $ecno, $llno) = @_;
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my ($stm, $sql, $sql_clu);
+  if ($bcid ne '') {
+    $sql = "select locus_id from $CGAP_SCHEMA2" . "BioGenes " .
+           "where organism = '$org' " .
+           "and bc_id = '$bcid'";
+  } elsif ($ecno ne '') {
+    $sql = "select locus_id from $CMAP_SCHEMA.KeggGenes " .
+           "where organism = '$org' " .
+           "and ecno = '$ecno'";
+  }
+
+  my ($loc, $cid);
+  if ($llno ne '') {
+    $loc = $llno;
+  } else {
+    $stm = $db->prepare($sql);
+    if (not $stm) {
+      print STDERR "prepare call failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    } else {
+      if ($stm->execute()) {
+        $stm->bind_columns(\$loc);
+        $stm->fetch;
+        $stm->finish;
+      } else {
+        print STDERR "execute failed\n";
+        SetStatus(S_RESPONSE_FAIL);
+        return "";
+      }
+    }
+  }
+
+  if ($loc ne '') {
+    my $cluster_table =
+      ($org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster" : "$CGAP_SCHEMA2" . "mm_cluster");
+    $sql_clu = 
+      "select distinct cluster_number " .
+      "from $cluster_table " .
+      "where locuslink = $loc";
+
+    $stm = $db->prepare($sql_clu);
+
+    if ($stm->execute()) {
+      $stm->bind_columns(\$cid);
+      $stm->fetch;
+      $stm->finish;
+      if (! $cid) {
+        SetStatus(S_NO_DATA);
+      }
+    } else {
+      SetStatus(S_RESPONSE_FAIL);
+    }
+  } else {
+    SetStatus(S_NO_DATA);
+  }
+
+  $db->disconnect();
+
+  return($cid);
+}
+
+######################################################################
+sub ListBioCartaPathways_1 {
+  my ($base) = @_;
+
+  $BASE = $base;
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my ($pathway_page, $pathway_alpha, $gene, @genes);
+  my ($path_id, $pathway_name);
+  my ($first, $pfirst, $no_m, $pnum, $pair);
+  my (%paths, %m_paths);
+
+  my $sql_pathway = "select distinct p.path_id, p.pathway_name " .
+                    "from $CGAP_SCHEMA2" . "BioPathway_name p " .
+                    "order by upper(p.pathway_name)";
+
+  my $stm = $db->prepare($sql_pathway);
+
+  if (!$stm->execute()) {
+     SetStatus(S_RESPONSE_FAIL);
+     print STDERR "$sql_pathway\n";
+     print STDERR "$DBI::errstr\n";
+     print STDERR "execute call failed\n";
+     return "";
+  }
+
+  $stm->bind_columns(\$path_id, \$pathway_name);
+
+  $pathway_page = "<TBODY><TR><TD valign=top align=left>";
+  $pathway_alpha = "<THEAD><TR><TD align=center>";
+  $first = ""; $pnum = 0;
+  while ($stm->fetch) {
+    if ($pathway_name) {
+      if ($path_id !~ /^m_/) {
+        $paths{$pnum++} = $path_id . ',' . $pathway_name;
+      } else {
+        $no_m = substr($path_id,2);
+        $m_paths{$no_m} = 1;
+      }
+    }
+  }
+  foreach $pnum (sort numerically keys %paths) {
+    ($path_id,$pathway_name) = split ',', $paths{$pnum};
+    $pfirst = uc substr($pathway_name,0,1);
+    if ($first ne $pfirst) {
+      if ($first ne "") {
+        $pathway_page .= "</UL>";
+      }
+      $first = $pfirst;
+      $pathway_alpha .= "<A HREF=\"BioCarta_Pathways#" . $first . "\"><FONT face=Verdana color=#009999 size=2><B>" . $first . "</B></FONT></A> &nbsp;";
+      $pathway_page .=
+        "&nbsp;&nbsp;&nbsp;&nbsp;\n" .
+        "<A NAME=\"" . $first . 
+        "\"><FONT face=Verdana color=#009999 size=4><B>" .
+        $first . "</B></FONT></A>\n<UL>";
+    }
+
+    $pathway_page .= 
+    "<LI><A class=genesrch href=\"" . $BASE .
+    "/Pathways/BioCarta/$path_id\">" . $pathway_name . "</A>\n" .
+    "<A href=\"" . $BASE . "/Pathways/BioCarta/$path_id\"> " .
+    "<IMG SRC=\"" . IMG_DIR . "/BioCarta/buttonH.gif\" border=0 title=\"Human Pathway\"></A>\n";
+    if ($m_paths{$path_id}) {
+      $pathway_page .= 
+      "<A class=genesrch href=\"" . $BASE .
+      "/Pathways/BioCarta/m_$path_id\">" .
+      "<IMG SRC=\"" . IMG_DIR . "/BioCarta/buttonM.gif\" border=0 title=\"Mouse Pathway\"></A>\n";
+    }
+  }
+  $stm->finish;
+  if (not $first) {
+    $pathway_page = "&nbsp;</TD></TR><TR><TD><B>No Pathways Found</B></TD></TR><TR><TD>";
+  }
+  $pathway_page .=  "</UL></TD></TR></TBODY>\n";
+  $pathway_alpha .= "</TD></TR>";
+  $pathway_alpha .= "</THEAD>";
+
+  $db->disconnect();
+
+  return $pathway_alpha . $pathway_page;
+}
+
+######################################################################
+sub GetPathGenes_1 {
+
+  my ($base, $page, $org, $path) = @_;
+
+  $BASE = $base;
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my (%path_id, %pathway);
+  my ($path_id, $path_name);
+  my ($sql, $stm);
+
+  $sql = "select distinct path_id, pathway_name " .
+         "from $CMAP_SCHEMA.pathway_name" ;
+
+  $stm = $db->prepare($sql);
+
+  if (not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  }
+  else {
+
+    if (!$stm->execute()) {
+       SetStatus(S_RESPONSE_FAIL);
+       print STDERR "$sql\n";
+       print STDERR "$DBI::errstr\n";
+       print STDERR "execute call failed\n";
+       return "";
+    }
+
+    $stm->bind_columns(\$path_id, \$path_name);
+
+    while ($stm->fetch) {
+      $path_id{lc $path_name} = $path_id;
+      $pathway{$path_id} = 1;
+    }
+  }
+
+  my $cluster_table =
+      ($org eq "Hs") ? "hs_cluster" : "mm_cluster";
+  $sql  = "select distinct c.cluster_number from $CGAP_SCHEMA2" . "$cluster_table c";
+  if (defined $pathway{$path}) {
+    $sql .= ", $CMAP_SCHEMA.keggpaths kp " .
+            "where kp.path_id = '$path' " .
+            "and to_char(c.locuslink) = kp.ecno";
+  } else { ##if (defined $bc_pathway{$path}) {
+    $sql .= ", $CGAP_SCHEMA2" . "biopaths bp, $CGAP_SCHEMA2" . "biogenes bg " .
+            " where bp.pathway_name = '$path' " .
+            " and c.locuslink = bg.locus_id " .
+            " and bp.bc_id = bg.bc_id";
+  }
+
+  my ($cid, @cids);
+  $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "prepare call failed\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  } else {
+    if ($stm->execute()) {
+      $stm->bind_columns(\$cid);
+      while ($stm->fetch) {
+        push @cids, $cid;
+      }
+      $stm->finish();
+    } else {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+  }
+
+  $db->disconnect();
+
+  my $cmd = "PathGeneQuery?" .
+      "ORG=$org&" .
+      "PATH=$path";
+
+  my $hs_bld = $BUILDS{'Hs'};  $hs_bld =~ s/^1//;
+  my $mm_bld = $BUILDS{'Mm'};  $mm_bld =~ s/^2//;
+
+  my $page_header =
+      "<table><tr>" .
+      "<td><b>GeneFinder Results For</b>:</td>" .
+      "<td>" .
+          "$org; " .
+          "$path " .
+      "</td></tr>" .
+      "<tr valign=top><td><b>UniGene Build</b>:</td>" .
+      "<td>Hs.$hs_bld/Mm.$mm_bld</td>" .
+      "</tr></table>" ;
+
+  if ($page == $CLONE_PAGE) {
+    return
+      (FormatGenes($page, $org, $cmd, $page_header, \@cids));
+  }
+  else {
+    return
+      (FormatGenes($page, $org, $cmd, $page_header,
+       OrderGenesBySymbol($page, $org, \@cids)));
+  }
+}
+
+######################################################################
+sub CommonGeneQuery_1 {
+  my ($base, $page, $org, $ckbox, $page_header, $genes) = @_;
+
+  $BASE = $base;
+
+  my @ckbox = split ",", $ckbox;
+  if (@ckbox < 1) {
+    SetStatus(S_NO_DATA);
+    return;
+  }
+#
+# 0=CytLoc  1=Pathway  2=Ontology  3=Tissue  4=Motif  5=SNP
+#
+
+  my @genes = split ",", $genes;
+  if (@genes < 1) {
+    SetStatus(S_NO_DATA);
+    return;
+  }
+
+  if( $page == $CLONE_PAGE ) {
+    my $cmd = "";
+    return (FormatGenes($page, $org, $cmd, $page_header, \@genes));
+  } 
+
+  my ($i, $j);
+  if ($page == 0) {
+    $i = 0;
+    $j = $#genes;
+  } else {
+    $i = ($page - 1) * ITEMS_PER_PAGE;
+    $j = $i + ITEMS_PER_PAGE - 1;
+    if ($j > $#genes) {
+      $j = $#genes;
+    }
+  }
+
+  my @genes_page = @genes[$i..$j];
+  my $genes_page = join ",", @genes_page;
+
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+    SetStatus(S_RESPONSE_FAIL);
+    return "";
+  }
+
+  my ($row, $trow, @rows, @scrollers);
+  my ($cid);
+  my ($gene, $name, $loc, $cyt, $snp, $path);
+  my ($sql, $sql1, $sql2, $stm, $fetched, $lastbr);
+  my (%motifs, %snps, %tsnps, %tissues);
+
+  my $table_name   = ($org eq "Hs" ? "$CGAP_SCHEMA2" . "hs_cluster"
+                                   : "$CGAP_SCHEMA2" . "mm_cluster");
+  my $tissue_table = ($org eq "Hs" ? "hs_gene_tissue"
+                                   : "mm_gene_tissue");
+  my $table_header = 
+    "<table border=1 cellspacing=1 cellpadding=4>" .
+    "<tr bgcolor=\"#666699\" height=26>" .
+    "<th width=\"5%\" ><font color=\"white\"><b>Symbol</b></font></th>" .
+    "<th width=\"20%\"><font color=\"white\"><b>Name</b></font></th>";
+  my $headless = 1;
+  my $rows = 0;
+  my %width = ("Pathway"  => 225,
+               "Ontology" => 225,
+               "Tissue"   => 85,
+               "Motif"    => 85,
+               "Snp"      => 130
+              );
+
+  if ($ckbox =~ /3/) {
+    $sql = "select distinct c.cluster_number, s.tissue_name " .
+           "from $CGAP_SCHEMA2" . "tissue_selection s, " .
+           "$CGAP_SCHEMA2" . "$tissue_table c " .
+           "where s.tissue_code = c.tissue_code " .
+           "and c.cluster_number in ($genes_page) " .
+           "order by s.tissue_name";
+    $stm = $db->prepare($sql);
+    if (not $stm) {
+      print STDERR "prepare call failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+    if (!$stm->execute()) {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+
+    $stm->bind_columns(\$cid, \$name);
+    while ($stm->fetch) {
+      $tissues{$cid} .= "$name<br>";
+    }
+  }
+  if ($ckbox =~ /4/) {
+    my $ug_sequence =
+      ($org eq "Hs") ? "hs_ug_sequence" : "mm_ug_sequence";
+
+    $sql =
+      "select /*+ RULE */ distinct s.cluster_number, m.family_name " .
+      "from $CGAP_SCHEMA2" . "motif_info m, " .
+      "$CGAP_SCHEMA2" . "$ug_sequence s " .
+      "where s.accession = m.accession " .
+      "and s.cluster_number in ($genes_page) " .
+      "order by m.family_name";
+
+    $stm = $db->prepare($sql);
+    if (not $stm) {
+      print STDERR "prepare call failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+    if (!$stm->execute()) {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+
+    $stm->bind_columns(\$cid, \$name);
+    while ($stm->fetch) {
+      $motifs{$cid} .= "$name<br>";
+    }
+  }
+  if ($ckbox =~ /5/) {
+    $sql = "select distinct m.cluster_number, a.new_id, s.cds_change " .
+           "from $RFLP_SCHEMA.snpblast s, " .
+           "$RFLP_SCHEMA.mrna2ug m, " .
+           "$RFLP_SCHEMA.snp_list l, " .
+           "$RFLP_SCHEMA.snp_alias a, " .
+           "$CGAP_SCHEMA2" . "build_id b " .
+           "where b.organism = '$org' " .
+           "and b.build_id = m.build_id " .
+           "and m.accession = s.accession " .
+           "and m.cluster_number in ($genes_page) " .
+           "and s.snp_id = a.new_id " .
+           "and a.old_id = l.snp_id " .
+           "and l.status = 'V' " .
+           "and s.identity_percent >= 98 " .
+           "and s.snp_type = 2 " .
+           "order by a.new_id";
+
+    $stm = $db->prepare($sql);
+    if (not $stm) {
+      print STDERR "prepare call failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+    if (!$stm->execute()) {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+
+    $stm->bind_columns(\$cid, \$snp, \$name);
+    while ($stm->fetch) {
+      $snps{$cid} .= "<a href=javascript:spawn(\"" . "http://gai.nci.nih.gov/cgi-bin/GeneViewer.cgi?qt=1&query=hs.$cid\")>" . "$snp</a>\011$name<br>";
+      $tsnps{$cid} .= "$snp\t$name<br>";
+    }
+  }
+
+  foreach $cid (@genes_page) {
+    $sql = "select GENE, DESCRIPTION, LOCUSLINK, CYTOBAND " .
+           "from " . $table_name . " where " .
+           "CLUSTER_NUMBER = $cid";
+
+    $stm = $db->prepare($sql);
+    if (not $stm) {
+      print STDERR "prepare call failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+    if(!$stm->execute()) {
+      print STDERR "execute failed\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+    }
+    $stm->bind_columns(\$gene, \$name, \$loc, \$cyt);
+    $stm->fetch;
+    $stm->finish;
+
+    $gene = '-' if ($gene eq '');
+    $lastbr = (length $gene <= 8) ? "<br>&nbsp;" : "";
+    $rows++;
+    $row  = "<tr valign=top height=85>";
+    $row .= "<td>$gene<br>&nbsp;<br>&nbsp;<br>&nbsp;$lastbr</td>";
+    $row .= "<td>$name<br>&nbsp;<br><a href=GeneInfo?ORG=$org&CID=$cid>Gene Info</a></td>";
+    $trow = "$gene\t$name\t$org.$cid\t$loc";
+
+    foreach (@ckbox) {
+      $sql = ''; $sql1 = ''; $sql2 = '';
+      $fetched = 0;
+      my $divid = '';
+      SWITCH: {
+        /0/ && do {      ## Cyt Loc
+          $table_header .=
+          "<th width=\"5%\" nowrap><font color=\"white\"><b>Cyt Loc</b></font></th>"
+          if ($headless);
+          $cyt = ($cyt ? join(',',  split(/\002/, $cyt)) : "Unknown");
+          last SWITCH;
+        };
+   
+        /1/ && do {      ## Pathways
+          $table_header .=
+          "<th width=\"25%\"><font color=\"white\"><b>Pathways</b></font></th>"
+          if ($headless);
+
+          $sql = "select distinct p.path_id, p.pathway_name " .
+                 "from $CMAP_SCHEMA.KeggPaths k, " .
+                 "$CMAP_SCHEMA.Pathway_name p " .
+                 "where k.path_id = p.path_id " .
+                 "and k.ecno = '$loc' " if ($loc ne '');
+
+          $sql1 = "select distinct p.path_id, p.pathway_name " .
+                  "from $CMAP_SCHEMA.KeggPaths kp, " .
+                  "     $CMAP_SCHEMA.KeggGenes kg, " .
+                  "     $CMAP_SCHEMA.Pathway_name p " .
+                  "where kp.path_id = p.path_id " .
+                  "and kp.ecno = kg.ecno " .
+                  "and kg.locus_id = $loc " if ($loc ne '');
+
+          $sql2 = "select distinct pathway_name, pathway_display " .
+                  "from $CGAP_SCHEMA2" . "BioPaths " .
+                  "where organism = '$org' " .
+                  "and BC_ID in ( " .
+                     "select distinct bc_id " .
+                     "from $CGAP_SCHEMA2" . "BioGenes "  .
+                     "where organism = '$org' " .
+                     "and locus_id = $loc " .
+                  ") " if ($loc ne '');
+          $divid = 'Pathway';
+          last SWITCH;
+        };
+   
+        /2/ && do {      ## Ontology
+          $table_header .=
+          "<th width=\"25%\"><font color=\"white\"><b>Ontology</b></font></th>"
+          if ($headless);
+          $sql = "select distinct go_name " .
+                 "from $CGAP_SCHEMA2" . "Go_Names gn, " .
+                 "$CGAP_SCHEMA2" . "Go_Genes g " .
+                 "where gn.go_id = g.go_id " .
+                 "and g.locus_id = $loc" if ($loc ne '');
+   
+          $divid = 'Ontology';
+          last SWITCH;
+        };
+   
+        /3/ && do {      ## Tissues
+          $table_header .=
+           "<th width=\"10%\"><font color=\"white\"><b>Tissues</b></font></th>"
+          if ($headless);
+          $sql = "";
+   
+          $divid = 'Tissue';
+          last SWITCH;
+        };
+   
+        /4/ && do {      ## Motifs
+          $table_header .=
+          "<th width=\"10%\"><font color=\"white\"><b>Motifs</b></font></th>"
+          if ($headless);
+          $sql = "";
+   
+          $divid = 'Motif';
+          last SWITCH;
+        };
+   
+        /5/ && do {      ## SNPs
+          $table_header .=
+           "<th width=\"15%\"><font color=\"white\"><b>SNP Id/Changes</b></font></th>"
+          if ($headless);
+          $sql = "";
+   
+          $divid = 'Snp';
+          last SWITCH;
+        };
+   
+        DEFAULT:  print "$_ : No Match\n";
+      }
+      if ($sql eq '' && $sql2 eq '') {
+        if ($divid eq 'Tissue') {
+          if (defined $tissues{$cid}) {
+            $row .= "<td>$tissues{$cid}";
+            my @tissues = split "<br>", $tissues{$cid};
+            $trow .= "\t" . join("|", @tissues);
+            $fetched = @tissues;
+          } else {
+            $row .= "<td>";
+            $trow .= "\t";
+          }
+        } 
+        elsif ($divid eq 'Motif') {
+          if (defined $motifs{$cid}) {
+            $row .= "<td>$motifs{$cid}";
+            my @motifs = split "<br>", $motifs{$cid};
+            $trow .= "\t" . join("|", @motifs);
+            $fetched = @motifs;
+          } else {
+            $row .= "<td>";
+            $trow .= "\t";
+          }
+        } 
+        elsif ($divid eq 'Snp') {
+          if (defined $snps{$cid}) {
+            $row .= "<td><pre>$snps{$cid}</pre>";
+            my @snps = split "<br>", $snps{$cid};
+            my @tsnps = split "<br>", $tsnps{$cid};
+            $trow .= "\t" . join("|", @tsnps);
+            $fetched = @snps;
+          } else {
+            $row .= "<td>";
+            $trow .= "\t";
+          }
+        } else {
+          if ($cyt ne '') {
+            $row .= "<td>$cyt";
+            $trow .= "\t$cyt";
+            $cyt = '';
+          } else {
+            $row .= "<td>";
+            $trow .= "\t";
+          }
+        }
+      } else {
+        my @row;
+        $row .= "<td>";
+        if ($sql ne '') {
+          $stm = $db->prepare($sql);
+          if (not $stm) {
+            print STDERR "prepare call failed\n";
+            SetStatus(S_RESPONSE_FAIL);
+            return "";
+          }
+          if (!$stm->execute()) {
+            print STDERR "execute failed\n";
+            SetStatus(S_RESPONSE_FAIL);
+            return "";
+          }
+
+          if ($divid eq 'Pathway') {
+            $stm->bind_columns(\$path, \$name);
+          } else {
+            $stm->bind_columns(\$name);
+          }
+          $trow .= "\t";
+          while ($stm->fetch) {
+            if ($sql2 ne '') {     ## doing pathways
+              push @row, "<a style=\"color:#000000;text-decoration:none\" href=\"$BASE/Pathways/Kegg/$path\">$name</a>";
+            } else {
+              $row .= "$name<br>";
+              $trow .= "$name|";
+              $fetched++;
+            }
+          }
+        }
+        if ($sql1 ne '') {
+          $stm = $db->prepare($sql1);
+          if (not $stm) {
+            print STDERR "prepare call failed\n";
+            SetStatus(S_RESPONSE_FAIL);
+            return "";
+          }
+          if (!$stm->execute()) {
+            print STDERR "execute failed\n";
+            SetStatus(S_RESPONSE_FAIL);
+            return "";
+          }
+
+          $stm->bind_columns(\$path, \$name);
+          while ($stm->fetch) {
+            push @row, "<a style=\"color:#000000;text-decoration:none\" href=\"$BASE/Pathways/Kegg/$path\">$name</a>";
+          }
+        }
+        if ($sql2 ne '') {
+          $stm = $db->prepare($sql2);
+          if (not $stm) {
+            print STDERR "prepare call failed\n";
+            SetStatus(S_RESPONSE_FAIL);
+            return "";
+          }
+          if (!$stm->execute()) {
+            print STDERR "execute failed\n";
+            SetStatus(S_RESPONSE_FAIL);
+            return "";
+          }
+
+          $stm->bind_columns(\$path, \$name);
+          while ($stm->fetch) {
+            push @row, "<a style=\"color:#000000;text-decoration:none\" href=\"$BASE/Pathways/BioCarta/$path\">$name</a>";
+          }
+        }
+        if (@row > 0) {
+          my @srow = sort @row;
+          my @urow;
+          for (my $s = 0 ; $s < $#srow ; $s++) {
+            if ($srow[$s] !~ $srow[$s+1]) {
+              push @urow, $srow[$s];
+            } 
+          }
+          push @urow, $srow[$#srow];
+          $row .= join "<br>", @urow;
+          $trow .= join "|", @urow;
+          $fetched = @urow;
+        }
+      }
+      if ($fetched == 0) {
+        $row .= "&nbsp;";
+      }
+      $row .= "</td>";
+    }
+    $row .= "</tr>";
+    if ($page == 0) {
+      push @rows, $trow;
+    } else {
+      push @rows, $row;
+    }
+    $table_header .= "</tr>" if ($headless);
+    $headless = 0;
+  }
+  $db->disconnect();
+
+  if ($page != 0) {                         ## Shotgun Approach ##
+  my ($r, $crow, $td);
+  my (@tds, @color, @sect1, @sect2, @sect3, @sect4);
+  my @palette = ("","red","green","green","maroon");
+  my $c = 1;
+  my $rind = 0;
+  foreach (@ckbox) {
+    next if (/0/ || /5/);
+    $color[$c++] = $palette[$_]; 
+  }
+
+  my @crows = @rows;
+  foreach $crow (@crows) {
+    $crow =~ s/^.*?<td>//;
+    $crow =~ s/<\/td>(?!<td>).*$//;
+    @tds = split "</td><td>", $crow;
+    foreach (@tds) {
+      s/^<div [^>]*>//;
+      s/<B>.*$//;
+    }
+    $td = ($ckbox =~ /0/) ? 3 : 2;
+    @sect1 = split "<br>", $tds[$td++];
+    @sect2 = split "<br>", $tds[$td++];
+    @sect3 = split "<br>", $tds[$td++];
+    @sect4 = split "<br>", $tds[$td];
+
+    for ($r = $rind + 1; $r < @rows; $r++) {
+      foreach $name (@sect1) {
+        next if ($name =~ /&nbsp;/);
+        my $cname = $name;
+        $cname =~ s/(\[|\(|\)|\+|\])/\\$1/g;
+        if ($rows[$r] =~ />$cname<(br|\/td)>/) {
+          $rows[$r] =~ s/#000000/$color[1]/;
+          $rows[$rind] =~ s/#000000/$color[1]/;
+        }
+      }
+      foreach $name (@sect2) {
+        my $cname = $name;
+        $cname =~ s/(\[|\(|\)|\+|\])/\\$1/g;
+        if ($rows[$r] =~ />$cname<(br|\/td)>/) {
+          my $brtd = $1;
+          $rows[$r] =~ s/>$cname<$brtd>/><font color=$color[2]>$name<\/font><$brtd>/;
+          $rows[$rind] =~ s/>$cname<(br|\/td)>/><font color=$color[2]>$name<\/font><$1>/;
+        }
+      }
+      foreach $name (@sect3) {
+        my $cname = $name;
+        $cname =~ s/(\[|\(|\)|\+|\])/\\$1/g;
+        if ($rows[$r] =~ />$cname<(br|\/td)>/) {
+          my $brtd = $1;
+          $rows[$r] =~ s/>$cname<$brtd>/><font color=$color[3]>$name<\/font><$brtd>/;
+          $rows[$rind] =~ s/>$cname<(br|\/td)>/><font color=$color[3]>$name<\/font><$1>/;
+        }
+      }
+      foreach $name (@sect4) {
+        my $cname = $name;
+        $cname =~ s/(\[|\(|\)|\+|\])/\\$1/g;
+        if ($rows[$r] =~ />$cname<(br|\/td)>/) {
+          my $brtd = $1;
+          $rows[$r] =~ s/>$cname<$brtd>/><font color=$color[4]>$name<\/font><$brtd>/;
+          $rows[$rind] =~ s/>$cname<(br|\/td)>/><font color=$color[4]>$name<\/font><$1>/;
+        }
+      }
+    }
+    $rind++;
+  }
+  }
+  if ($page == 0) {
+    return join "\n", @rows;
+  }
+
+  my $action    = "CommonView";
+  my $form_name = "pform";
+  my @hidden_names;
+  my @hidden_vals;
+
+  $hidden_names[0] = "CKBOX"; $hidden_vals[0] = $ckbox;
+
+  my $i = 2;
+  for $cid (@genes) {
+    ($hidden_names[$i], $hidden_vals[$i]) = ("CIDS", $cid);
+    $i++;
+  }
+
+  return PageCommonGeneList(
+      $BASE, $page, $org, $page_header, $table_header,
+      $action, $form_name, \@hidden_names, \@hidden_vals,
+      \@rows, \@scrollers, \@genes);
+}
+
+######################################################################
+sub debug_print {
+  my @args = @_;
+  my $i = 0;
+  if(defined($DEBUG_FLAG) && $DEBUG_FLAG) {
+    for($i = 0; $i <= $#args; $i++) {
+      print " $args[$i]\n";
+    }
+  }
+}
+
+######################################################################
+
+1;

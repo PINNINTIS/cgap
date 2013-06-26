@@ -1,0 +1,1235 @@
+<TABLE border=1 cellpadding=1 width=800>
+<TR bgcolor=ffffcc>
+    <TD bgcolor=ffffff rowspan="4"> &nbsp;</TD>
+    <TD colspan=29><font size="1"><B>DEVELOPMENT: dpc</B> </font> </TD>
+</TR>
+
+<TR bgcolor=ffffcc>
+     <TD><font size="1">0.5</font></TD>
+     <TD><font size="1">2.5</font></TD>
+     <TD><font size="1">3.5</font></TD>
+     <TD><font size="1">5.5</font></TD>
+     <TD><font size="1">6.5</font></TD>
+     <TD><font size="1">7.0</font></TD>
+     <TD><font size="1">7.5</font></TD>
+     <TD><font size="1">8.0</font></TD>
+     <TD><font size="1">8.5</font></TD>
+     <TD><font size="1">9.0</font></TD>
+     <TD><font size="1">9.5</font></TD>
+     <TD><font size="1">10.5</font></TD>
+     <TD><font size="1">11.5</font></TD>
+     <TD><font size="1">12.5</font></TD>
+     <TD><font size="1">13.5</font></TD>
+     <TD><font size="1">14.5</font></TD>
+     <TD><font size="1">15.5</font></TD>
+     <TD><font size="1">16.5</font></TD>
+     <TD><font size="1">17.5</font></TD>
+     <TD><font size="1">18.5</font></TD>
+     <TD><font size="1">20</font></TD>
+     <TD><font size="1">21</font></TD>
+     <TD><font size="1">27</font></TD>
+     <TD><font size="1">34</font></TD>
+     <TD><font size="1">40</font></TD>
+     <TD><font size="1">47</font></TD>
+     <TD><font size="1">55</font></TD>
+     <TD><font size="1">62</font></TD>
+     <TD><font size="1">104</font></TD>
+</TR>
+
+<TR bgcolor=ffffcc>
+   <TD colspan=29><B><font size="1">DEVELOPMENT: Theiler Stage</font></B></TD>
+</TR>
+
+<TR bgcolor=ffffcc>
+     <TD><font size="1">1</font></TD>
+     <TD><font size="1">3</font></TD>
+     <TD><font size="1">5</font></TD>
+     <TD><font size="1">7</font></TD>
+     <TD><font size="1">8</font></TD>
+     <TD><font size="1">10</font></TD>
+     <TD><font size="1">11</font></TD>
+     <TD><font size="1">12</font></TD>
+     <TD><font size="1">13</font></TD>
+     <TD><font size="1">14</font></TD>
+     <TD><font size="1">15</font></TD>
+     <TD><font size="1">17</font></TD>
+     <TD><font size="1">19</font></TD>
+     <TD><font size="1">20</font></TD>
+     <TD><font size="1">21</font></TD>
+     <TD><font size="1">22</font></TD>
+     <TD><font size="1">23</font></TD>
+     <TD><font size="1">24</font></TD>
+     <TD><font size="1">25</font></TD>
+     <TD><font size="1">26</font></TD>
+     <TD><font size="1">27</font></TD>
+     <TD><font size="1">28</font></TD>
+     <TD><font size="1">7d</font></TD>
+     <TD><font size="1">14d</font></TD>
+     <TD><font size="1">20d</font></TD>
+     <TD><font size="1">27d</font></TD>
+     <TD><font size="1">35d</font></TD>
+     <TD><font size="1">42d</font></TD>
+     <TD><font size="1">12w</font></TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc><B><font size="1">TISSUE</font></B></TD>
+<TD valign=top colspan=29> &nbsp;</TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Whole embryo</font></TD>
+<TD align=center valign=middle> <img src=dot2.gif> </TD>
+<TD align=center valign=middle> <img src=dot2.gif> </TD>
+<TD align=center valign=middle> <img src=dot2.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Adrenal gland</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD bgcolor=ffccff> &nbsp; </TD>
+<TD bgcolor=cc3366> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot8.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif> </TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Bladder</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif> </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot32.gif> </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Brain</font></TD>
+<TD colspan=29> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp; Prestriatum</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp;</TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top ><font size="1"> &nbsp; &nbsp; Telencephalon<BR> &nbsp; &nbsp; dorsal svz</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">&nbsp; &nbsp;Telencephalon<BR> &nbsp; &nbsp; ventral</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp;Telencephalon<BR> &nbsp; &nbsp; ventral svz</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp; Visual cortex</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot256.gif> </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot64.gif></TD>
+<TD align=center valign=middle> <img src=dot32.gif></TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc><font size="1">Embryonic tissue</font></TD>
+<TD colspan=29> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc ><font size="1"> &nbsp; &nbsp;Branchial arch</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc ><font size="1"> &nbsp; &nbsp;Urogenital sinus (F)</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot256.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc><font size="1"> &nbsp; &nbsp;Urogenital sinus (M)</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot256.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc ><font size="1"> &nbsp; &nbsp;Urogenital sinus (M)<BR> &nbsp; &nbsp; mesenchyme</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc ><font size="1"> &nbsp; &nbsp;Urogenital sinus (M)<BR>&nbsp; &nbsp; epithelium</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Eye, optic cup</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot8.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Heart</font></TD>
+<TD colspan=29> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp; Atrioventricular<BR> &nbsp; &nbsp; canal</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp; Atrium</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp; Bulbous cordis</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1"> &nbsp; &nbsp; Ventricle</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Liver</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot16.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp;</TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Lung</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot16.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Mammary gland</font></TD>
+<TD colspan=29> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">&nbsp; &nbsp; Involution</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">&nbsp; &nbsp; Pregnant</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot32.gif></TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">&nbsp; &nbsp; Puberty</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Muscle, skeletal</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Ovary</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot32.gif></TD>
+<TD> &nbsp;</TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Pancreas</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc ><font size="1">Placenta</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot513.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot256.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">Prostate</font></TD>
+<TD colspan=29> &nbsp; </TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">&nbsp; &nbsp; Dorsal</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+</TR>
+
+<TR>
+<TD bgcolor=ffffcc valign=top><font size="1">&nbsp; &nbsp; Whole</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Spleen</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot4.gif></TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Testis</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+</TR>
+
+<TR bgcolor=ffffff>
+<TD bgcolor=ffffcc valign=top><font size="1">Thymus</font></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot2.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot32.gif></TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD> &nbsp; </TD>
+<TD align=center valign=middle> <img src=dot128.gif></TD>
+</TR>
+
+<TR bgcolor=ffffcc>
+  <TD bgcolor=ffffff rowspan="4"> &nbsp;</TD>
+  <TD colspan=29><B><font size="1">DEVELOPMENT: Theiler Stage</font></B></TD>
+</TR>
+
+<TR bgcolor=ffffcc>
+     <TD><font size="1">1</font></TD>
+     <TD><font size="1">3</font></TD>
+     <TD><font size="1">5</font></TD>
+     <TD><font size="1">7</font></TD>
+     <TD><font size="1">8</font></TD>
+     <TD><font size="1">10</font></TD>
+     <TD><font size="1">11</font></TD>
+     <TD><font size="1">12</font></TD>
+     <TD><font size="1">13</font></TD>
+     <TD><font size="1">14</font></TD>
+     <TD><font size="1">15</font></TD>
+     <TD><font size="1">17</font></TD>
+     <TD><font size="1">19</font></TD>
+     <TD><font size="1">20</font></TD>
+     <TD><font size="1">21</font></TD>
+     <TD><font size="1">22</font></TD>
+     <TD><font size="1">23</font></TD>
+     <TD><font size="1">24</font></TD>
+     <TD><font size="1">25</font></TD>
+     <TD><font size="1">26</font></TD>
+     <TD><font size="1">27</font></TD>
+     <TD><font size="1">28</font></TD>
+     <TD><font size="1">7d</font></TD>
+     <TD><font size="1">14d</font></TD>
+     <TD><font size="1">20d</font></TD>
+     <TD><font size="1">27d</font></TD>
+     <TD><font size="1">35d</font></TD>
+     <TD><font size="1">42d</font></TD>
+     <TD><font size="1">12w</font></TD>
+</TR>
+
+
+<TR bgcolor=ffffcc>
+   <TD colspan=29><font size="1"><B>DEVELOPMENT: dpc</B> </font> </TD>
+</TR>
+
+<TR bgcolor=ffffcc>
+     <TD><font size="1">0.5</font></TD>
+     <TD><font size="1">2.5</font></TD>
+     <TD><font size="1">3.5</font></TD>
+     <TD><font size="1">5.5</font></TD>
+     <TD><font size="1">6.5</font></TD>
+     <TD><font size="1">7.0</font></TD>
+     <TD><font size="1">7.5</font></TD>
+     <TD><font size="1">8.0</font></TD>
+     <TD><font size="1">8.5</font></TD>
+     <TD><font size="1">9.0</font></TD>
+     <TD><font size="1">9.5</font></TD>
+     <TD><font size="1">10.5</font></TD>
+     <TD><font size="1">11.5</font></TD>
+     <TD><font size="1">12.5</font></TD>
+     <TD><font size="1">13.5</font></TD>
+     <TD><font size="1">14.5</font></TD>
+     <TD><font size="1">15.5</font></TD>
+     <TD><font size="1">16.5</font></TD>
+     <TD><font size="1">17.5</font></TD>
+     <TD><font size="1">18.5</font></TD>
+     <TD><font size="1">20</font></TD>
+     <TD><font size="1">21</font></TD>
+     <TD><font size="1">27</font></TD>
+     <TD><font size="1">34</font></TD>
+     <TD><font size="1">40</font></TD>
+     <TD><font size="1">47</font></TD>
+     <TD><font size="1">55</font></TD>
+     <TD><font size="1">62</font></TD>
+     <TD><font size="1">104</font></TD>
+  </TR>
+</TABLE>
+

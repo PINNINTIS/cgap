@@ -1,0 +1,247 @@
+#!/usr/local/bin/perl
+
+#####################################################################
+# CreateGenomicsCacheFile.pl
+
+BEGIN {
+  push @INC, "/share/content/CGAP/SAGE/run";
+}
+
+use strict;
+use DBI;
+use CGAPConfig;
+use Cache;
+
+
+
+my $BASE;
+
+my %MAGIC_RANK;
+my $cache = new Cache(CACHE_ROOT, GENOMICS_CACHE_PREFIX);
+
+my $file_dir = INIT_SAGE_DATA_HOME . "sage_upload";
+my $tmp_file_dir = INIT_SAGE_DATA_HOME . "tmp_upload";
+
+GetBatchGenomics();
+
+######################################################################
+sub GetBatchGenomics {
+
+  my (%tag2allinfo, %chr_position2allinfo);
+  my (@all_lines, @good_lines, @no_result_lines);
+ 
+  my ($list);
+  my ($sql, $stm);
+  my %goodInput;
+  my @garbage;
+  my $count;
+ 
+  opendir (DATADIR, $file_dir) or die "Can not open $file_dir \n";
+  while( my $filename = readdir(DATADIR) ) {
+    if( !($filename =~ /^\./) ) {
+      if( $filename =~ /\.txt$/ ) {
+        my $full_filename = $file_dir . "/" . $filename;
+        my $tmp_filename = $tmp_file_dir . "/" . $filename;
+        print "8888: $full_filename 8888\n";
+        print "8888: $tmp_filename 8888\n";
+        my $cmd = "mv $full_filename $tmp_filename";
+        print "8888: $cmd 8888\n";
+        system($cmd);
+        process_file($tmp_filename);      
+      }
+    }
+  }
+}
+
+######################################################################
+sub WriteGenomicsToCache {
+  my ($data) = @_;
+ 
+  my ($genomics_cache_id, $filename) = $cache->MakeCacheFile();
+  if ($genomics_cache_id != $CACHE_FAIL) {
+    if (open(SOUT, ">$filename")) {
+      print SOUT $data;
+      close SOUT;
+      chmod 0666, $filename;
+    } else {
+      $genomics_cache_id = 0;
+    }
+  }
+  return $genomics_cache_id;
+}
+
+######################################################################
+sub process_file {
+  my ($file) = @_;
+  print "8888: $file\n";
+  my ($sql, $stm, $list);
+  my (%tag2allinfo, %chr_position2allinfo); 
+  my (@all_lines, @good_lines, @dup_lines, @no_result_lines);
+  my $FILE_ID;
+  my %tags;
+  my $lines;
+  my $no_results_lines;
+  my $count = 0;
+  my ($org, $order, $email);
+  my (%dup_tags);
+
+  open(IN, $file) or die "Can not open file $file\n";
+  while( <IN> ) {
+    chop;
+    if( $count > 2 ) {
+      $tags{$_} = 1; 
+    }
+    if( $count == 0 ) {
+      $org = $_;
+    }
+    elsif( $count == 1 ) {
+      $order = $_;
+    }
+    elsif( $count == 2 ) {
+      $email = $_;
+    }
+    $count++;
+  }
+
+  close IN;
+
+  print "8888: $org, $order, $email \n";
+
+  my $genomic_file = INIT_SAGE_DATA_HOME . "SAGEGENOMICSHS.dat";
+  open(GIN, $genomic_file) or die "Can not open file $genomic_file\n";
+  while( <GIN> ) {
+    chop;
+    my ($TAG, $CHROMOSOME, $START_POSITION, $STRAND ) = split "\t", $_;
+    if( defined $tags{$TAG} ) {
+      if( $order eq "Original" ) {
+        if( not defined $dup_tags{$TAG} ) {
+          $tag2allinfo{$TAG} = join "\t", $TAG, $CHROMOSOME, $START_POSITION, $STRAND;
+          $dup_tags{$TAG} = 1;
+        }
+        else {
+          $dup_tags{$TAG} = $dup_tags{$TAG} + 1;
+          delete $tag2allinfo{$TAG};
+        }
+      }
+      else {
+        if( not defined $dup_tags{$TAG} ) {
+          if( $CHROMOSOME eq "X" ) {
+            $chr_position2allinfo{$TAG}{23}{$START_POSITION}{$STRAND} = 1;
+               ## join "\t", $TAG, $CHROMOSOME, $START_POSITION, $STRAND;
+          }
+          elsif( $CHROMOSOME eq "Y" ) {
+            $chr_position2allinfo{$TAG}{24}{$START_POSITION}{$STRAND} = 1;
+              ##  join "\t", $TAG, $CHROMOSOME, $START_POSITION, $STRAND;
+          }
+          elsif( $CHROMOSOME eq "MT" ) {
+            $chr_position2allinfo{$TAG}{25}{$START_POSITION}{$STRAND} = 1;
+              ##  join "\t", $TAG, $CHROMOSOME, $START_POSITION, $STRAND;
+          }
+          else {
+            $chr_position2allinfo{$TAG}{$CHROMOSOME}{$START_POSITION}{$STRAND} = 1;
+              ##  join "\t", $TAG, $CHROMOSOME, $START_POSITION, $STRAND;
+          }
+          $dup_tags{$TAG} = 1;
+        }
+        else {
+          $dup_tags{$TAG} = $dup_tags{$TAG} + 1;
+          delete $chr_position2allinfo{$TAG};
+        }
+      }
+    }
+  }
+  close GIN;
+
+  print "8888: finish file process\n";
+
+  if( $order eq "Original" ) {
+    open(INF, $file) or die "Can not open file $file\n";
+    $count = 1;
+    while( <INF> ) {
+      chop;
+      if( $count > 3 ) {
+        if( defined $tag2allinfo{$_} ) {
+          push @good_lines, $tag2allinfo{$_} . "\n";
+        }
+        elsif( defined $dup_tags{$_} and $dup_tags{$_} > 1 ) {
+          push @dup_lines, $_ . "\t" . $dup_tags{$_} . "\n";
+        }
+        else {
+          push @no_result_lines, $_ . "\n";
+        }
+      }
+      $count++;
+    }
+    close INF;
+  }
+  else {
+    my %tmp;
+    for my $tag ( keys %chr_position2allinfo ) {
+      for my $chr ( keys %{$chr_position2allinfo{$tag}} ) {
+        for my $pos ( keys %{$chr_position2allinfo{$tag}{$chr}}) {
+          for my $strand ( keys %{$chr_position2allinfo{$tag}{$chr}{$pos}}) {
+            $tmp{$chr}{$pos}{$strand} = $tag;
+          }
+        }
+      }
+    }
+    for my $chr (sort numerically keys %tmp) {
+      for my $pos (sort numerically keys %{$tmp{$chr}}) {
+        for my $strand (sort keys %{$tmp{$chr}{$pos}}) {
+          my $tmp_chr = $chr;
+          if( $chr eq "23" ) {
+            $chr = "X";
+          }
+          elsif( $chr eq "24" ) {
+            $chr = "Y";
+          }
+          elsif( $chr eq "25" ) {
+            $chr = "MT";
+          }
+
+          push @good_lines, 
+              (join "\t", $tmp{$tmp_chr}{$pos}{$strand},$chr,$pos,$strand) . "\n";
+        }
+      }
+    }
+    open(INF, $file) or die "Can not open file $file\n";
+    $count = 1;
+    while( <INF> ) {
+      chop;
+      if( $count > 3 ) {
+        if( defined $chr_position2allinfo{$_} ) {
+          next;
+        }
+        elsif( defined $dup_tags{$_} and $dup_tags{$_} > 1 ) {
+          push @dup_lines, $_ . "\t" . $dup_tags{$_} . "\n";
+        }
+        else {
+          push @no_result_lines, $_ . "\n";
+        }
+      }
+      $count++;
+    }
+    close INF;
+  }
+
+  my $header_1 = "HEADER	TAG	CHR	START	STRAND\n";
+  my $header_2 = "HEADER	TAG	FREQUENCY\n";
+  my $header_3 = "HEADER	TAG\n";
+  my $lines = $header_1 . (join "", @good_lines) . "//\n"; 
+  $lines = $lines . $header_2 . (join "", @dup_lines) . "//\n"; 
+  $lines = $lines . $header_3 . (join "", @no_result_lines) . "//\n"; 
+  my $genomics_cache_id = WriteGenomicsToCache($lines);
+
+  open(MAIL, "|/usr/lib/sendmail -t");
+  print MAIL "To: $email\n";
+  print MAIL "From: wuko\@mail.nih.gov\n";
+  print MAIL "Subject: Batch Genomics\n";
+  print MAIL "This is the url http://cgap-dev.nci.nih.gov/SAGE/GetGenomicsFile?CACHE=$genomics_cache_id to get your file by click this highperlink.\n";
+  close (MAIL);
+ 
+}
+######################################################################
+sub numerically { $a <=> $b };
+sub r_numerically { $b <=> $a };
+
+######################################################################

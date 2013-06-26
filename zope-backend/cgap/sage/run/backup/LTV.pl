@@ -1,0 +1,690 @@
+#!/usr/local/bin/perl
+
+
+BEGIN {
+  my @path_elems = split("/", $0);
+  pop @path_elems;
+  push @INC, join("/", @path_elems);
+}
+
+if (-d "/app/oracle/product/dbhome/current") {
+  $ENV{'ORACLE_HOME'} = "/app/oracle/product/dbhome/current";
+} elsif (-d "/app/oracle/product/8.1.7") {
+  $ENV{'ORACLE_HOME'} = "/app/oracle/product/8.1.7";
+} else {
+  $ENV{'ORACLE_HOME'} = "/app/oracle/product/8.1.6";
+}
+
+use DBI;
+use CGAPConfig;
+use strict;
+use CGI;
+
+## my (
+##     $gene,
+##     $IMG_DIR
+## ) = @ARGV;
+
+my $query = new CGI;
+my $gene        = $query->param("ACC");
+my $org         = $query->param("ORG");
+my $method      = $query->param("METHOD");
+my $IMG_DIR     = $query->param("IMG_DIR");
+
+#my $gene = "BC053550";
+#my $org = "Hs";
+#my $method = "SS10";
+#my $IMG_DIR = "http://cgap.nci.nih.gov/SAGE/images";
+
+my ($db, @rows, $text, %prot_set);
+
+print "Content-type: text/plain\n\n";
+
+use constant INFO_PARA1 => qq(
+<P><B>Brief Summary of Ludwig Transcript (LT) Viewer</B>
+<blockquote>
+Below is a visual representation of a particular transcript with, at
+most, four possible virtual SAGE tag locations, starting from the 3' end.
+Transcripts which overlap this longer transcript are positioned on the
+display and annotated as either internally primed or alternatively
+polyadenylated. In addition, there is a table containing information on
+the influence of Single Nucleotide Polymorphisms (SNPs) in the generation
+of alternative tags
+);
+
+use constant INFO_PARA2 => qq(
+<blockquote>The table below summarizes the tag information from above.
+The tag link enables the 
+user to see which other gene(s) may be represented by the particular tag
+and the reliability of each mapping. 
+<B><font color=cc0033>Be aware</font></B> that it is possible that
+an internal tag from one gene might, on
+occasion, have a better match to a different gene and thus the tag
+frequency is possibly the sum of more 
+than one gene.
+</blockquote>);
+
+
+print LTV_1($gene);
+
+######################################################################
+sub TAG2GENE_URL {
+  my ($org, $method, $tag) = @_;
+  return "<a href=\"GeneByTag" .
+      "?ORG=$org\&METHOD=$method&FORMAT=html&TAG=$tag\">$tag</a>";
+}
+
+######################################################################
+sub LTV_1 {
+  my ($gene) = @_;
+
+  my ($sql, $stm);
+  my ($gene_fl, $tag1, $freq1, $tag2, $freq2, $tag3, $freq3,
+      $tag4, $freq4, $len_fl, $pos1, $pos2, $pos3, $pos4);
+  my ($pic1,  $pic2,  $pic3,  $pic4);
+  my ($blue1, $blue2, $blue3, $blue4);
+  my ($postagaux, $gene_est, $pos_tag, $pos_real, $postag, $string);
+  my (%hash);
+  my ($count);
+  my ($strheader1, $strheader2, $strheader3, $strheader4);
+  my ($leg1, $leg2, $leg3, $leg4);
+  my %code = (
+    "Hs,SS10" => "A",
+    "Hs,LS10" => "A",
+    "Hs,LS17" => "C",
+    "Mm,SS10" => "K",
+    "Mm,LS10" => "L",
+    "Mm,LS17" => "M"
+  );
+  for my $x (split(",", $method)) {
+    $prot_set{$code{"$org,$x"}} = 1;
+  }
+  if (keys %prot_set == 0) {
+    print "Unrecognized protocol\n";
+    exit;
+  }
+
+  $db = DBI->connect("DBI:Oracle:" . $$DB_INSTANCE,$DB_USER,$DB_PASS);
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE . "\n";
+    exit();
+  }
+
+  $sql = "select gene_fl, tag1, freq1, tag2, freq2, tag3, freq3, " .
+         "tag4, freq4, len_fl, pos1, pos2, pos3, pos4 " .
+         "from $CGAP_SCHEMA.ltv_sage_tag " .
+         "where gene_fl = '$gene' " .
+         "and protocol in ('" . join("','", keys %prot_set) . "')" ;
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+  }
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+  }
+  ($gene_fl, $tag1, $freq1, $tag2, $freq2, $tag3, $freq3,
+      $tag4, $freq4, $len_fl, $pos1, $pos2, $pos3, $pos4) =
+      $stm->fetchrow_array;
+  $stm->finish();
+
+  my (@t, %tag_freq);
+  for my $t ($tag1, $tag2, $tag3, $tag4) {
+    if ($t) {
+      push @t, $t;
+      $tag_freq{$t} = 0;
+    }
+  }
+  if (@t) {
+    $sql = "select tag, sum(frequency) from $CGAP_SCHEMA.sagefreq " .
+        "where tag in ('" . join("','", @t) . "') " .
+        "and protocol in ('" . join("','", keys %prot_set) . "') " .
+        "group by tag";
+    $stm = $db->prepare($sql);
+    if(not $stm) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "prepare call failed\n";
+    }
+    if(!$stm->execute()) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+    }
+    while (my ($tag, $freq) = $stm->fetchrow_array) {
+      $tag_freq{$tag} = $freq;
+    }
+  }
+
+  $sql = "select pos_tag, pos_real " .
+         "from $CGAP_SCHEMA.ltv_ip " .
+         "where gene_fl = '$gene'";
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+  }
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+  }
+  ($postagaux, $pos_real) = $stm->fetchrow_array;
+  $stm->finish();
+
+  if( $gene_fl eq "" ) {
+    return @rows, "Gene not found!\n";
+  }
+
+#############################################
+# HEADER
+#--------------------------------------------
+# This is the first table where the positions
+#(bp number) and tags are included
+#
+##############################################
+
+#First Line
+  push @rows, INFO_PARA1;
+
+  push @rows, "<p><b>Transcript $gene_fl</b>";
+
+  push @rows, "<p>";
+  push @rows, "<table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" >";
+  push @rows, "<tr>";
+  push @rows, "<td width=\"92\"></td>";
+  push @rows, "<td></td>";
+  push @rows, "<td colspan=2 align=center></td>";
+
+  push @rows, "<td><div align=\"center\"><font size=-1>#4</font></div></td>";
+  push @rows, "<td colspan=3 align=center></td>";
+
+  push @rows, "<td><div align=\"center\"><font size=-1>#3</font></div></td>";
+  push @rows, "<td colspan=3 align=center></td>";
+
+  push @rows, "<td><div align=\"center\"><font size=-1>#2</font></div></td>";
+  push @rows, "<td colspan=3 align=center></td>";
+
+  push @rows, "<td><font size=-1>#1</font></td>";
+  push @rows, "<td></td>";
+  push @rows, "<td></td>";
+  push @rows, "</tr>";
+
+#Second Line
+    
+  $pic1 = "green.gif"; 
+  $pic2 = "yellow.gif"; 
+  $pic3 = "orange.gif"; 
+  $pic4 = "red.gif"; 
+  $blue1 = $blue2 = $blue3 = $blue4 = "blue.gif";
+    
+  if($tag1 eq "no_tag") {
+    $pic1 = "black.gif";
+  }
+  if($tag2 eq "no_tag") {
+    $pic2 = "black.gif";
+  }
+  if($tag3 eq "no_tag") {
+    $pic3 = "black.gif";
+  }
+  if($tag4 eq "no_tag") {
+    $pic4 = "black.gif";
+  }
+  $leg1 = $pic1; 
+  $leg2 = $pic2; 
+  $leg3 = $pic3; 
+  $leg4 = $pic4;
+  $text = "";
+    
+  if($postagaux eq "4") {
+    $blue4 = "est.gif";
+  }
+  if($postagaux eq "3") {
+    $blue3 = "est.gif";
+  }
+  if($postagaux eq "2") {
+    $blue2 = "est.gif";
+  }
+  if($postagaux eq "1") {
+    $blue1 = "est.gif";
+  }
+
+  #verify if tag1 is incomplete
+  if( length($tag1) < 10 && $tag1 ne "no_tag") {
+    $leg1 = $pic1 = "purple.gif";
+    $text = " [ Incomplete Tag ]";
+  }
+
+  push @rows, "<tr>";
+  push @rows, "<td width=\"99\"><div align=right>5'&nbsp;</div></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_big.gif\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$blue4\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$pic4\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$blue3\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+    
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$pic3\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$blue2\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$pic2\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$blue1\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_$pic1\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+  push @rows, "<td><img src=\"$IMG_DIR/ltv_med.gif\"></td>";
+  push @rows, "<td>&nbsp;3'</td></tr>";
+
+#Position (bp number) Information
+
+  $strheader1 = "";
+  $strheader2 = "";
+  $strheader3 = "";
+  $strheader4 = "";
+  if($postagaux eq "4")  {
+     $strheader4 = $pos_real;
+  }
+  if($postagaux eq "3") {
+    $strheader3 = $pos_real;
+  }
+  if($postagaux eq "2") {
+    $strheader2 = $pos_real;
+  }
+  if($postagaux eq "1") {
+    $strheader1 = $pos_real;
+  }
+
+  push @rows, "<tr>";
+  push @rows, "<td width=\"99\">bp number:</td>";
+  push @rows, "<td><div align=left>1</div></td>";
+  push @rows, "<td colspan=2 align=left>$strheader4</td>";
+
+  push @rows, "<td colspan=2><div align=\"left\">$pos4</div></td>";
+  push @rows, "<td colspan=2 align=left>$strheader3</td>";
+
+  push @rows, "<td colspan=2><div align=\"left\">$pos3</div></td>";
+  push @rows, "<td colspan=2 align=left>$strheader2</td>";
+
+  push @rows, "<td colspan=2><div align=\"left\">$pos2</div></td>";
+  push @rows, "<td colspan=2 align=left>$strheader1</td>";
+
+  push @rows, "<td colspan=2><div align=\"left\">$pos1</div></td>";
+  push @rows, "<td></td>";
+  push @rows, "<td><div align=\"right\">$len_fl</div></td>";
+  push @rows, "</tr></table>";
+
+##############################################
+# IP
+#--------------------------------------------
+# In this table is displayed all information
+# about IP.
+#
+##############################################
+
+  $sql = "select gene_est, pos_tag, pos_real " .
+         "from $CGAP_SCHEMA.ltv_ip " .
+         "where gene_fl = '$gene' order by pos_real";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+  }
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+  }
+  $count = 0;
+  while (($gene_est, $pos_tag, $pos_real) = $stm->fetchrow_array) {
+    $string = "$string<img src=\"$IMG_DIR/ltv_line2.gif\">" .
+        "<a href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?" .
+        "db=nucleotide&cmd=search&term=$gene_est\">$gene_est</a><br>\n";
+    $postag = "$pos_tag";
+    $count++;
+    if ($count == 5) {
+      $stm->finish();
+      last;
+    }
+  }
+
+  if ($count ne 0) {
+    push @rows, "<br><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" ><tr>";
+    push @rows, "<td valign=top width=\"99\">IP transcripts:</td>";
+
+    if($postag eq 4) {
+      push @rows, "<td width=\"78\" ></td>";
+      push @rows, "<td>"; 
+      push @rows, "$string";
+      push @rows, "</td>";
+    } 
+
+    if($postag eq 3) {
+      push @rows, "<td width=\"188\"></td>";
+      push @rows, "<td>";        
+      push @rows, "$string";
+      push @rows, "</td>";
+    }
+
+    if($postag eq 2) {
+      push @rows, "<td width=\"300\"></td>";
+      push @rows, "<td>"; 
+      push @rows, "$string";
+      push @rows, "</td>";
+    }
+
+    if($postag eq 1) {
+      push @rows, "<td width=\"403\"></td>";
+      push @rows, "<td>"; 
+      push @rows, "$string";
+      push @rows, "</td>";
+    }
+
+    push @rows, "</tr></table>";
+
+  } else {
+    push @rows, "<br><br>No IP for this gene.";
+  }
+
+
+#############################################
+# PA
+#-------------------------------------------
+# In this table is displayed all information
+# about PA.
+#
+#############################################
+
+  $sql = "select gene_est, pos_tag, pos_real " .
+         "from $CGAP_SCHEMA.ltv_apa " .
+         "where gene_fl = '$gene' order by pos_real";
+    
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+  }
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+  }
+
+  %hash = ();
+  $count = 0;
+  $string = "";
+  $postag = "";
+  while (($gene_est, $pos_tag, $pos_real) = $stm->fetchrow_array) {
+      $string="$string<img src=\"$IMG_DIR/ltv_line2.gif\">" .
+      "<a href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?" .
+      "db=nucleotide&cmd=search&term=$gene_est\">$gene_est</a><br>";
+      $postag = "$pos_tag";
+      $count++;
+      if ($count == 5) {
+        $stm->finish();
+        last;
+      }
+  }
+
+  if ( $count ne 0 ) {
+    push @rows, "<br><table cellspacing=\"0\" cellpadding=\"0\" border=\"0\" ><tr>";
+    push @rows, "<td valign=top width=\"99\">PA transcripts:</td>";
+        
+    if($postag eq 4) {
+      push @rows, "<td width=\"78\" ></td>";
+      push @rows, "<td>"; 
+      push @rows, "$string";
+      push @rows, "</td>";
+    } 
+
+    if($postag eq 3) {
+      push @rows, "<td width=\"188\"></td>";
+      push @rows, "<td>";        
+      push @rows, "$string";
+      push @rows, "</td>";
+    }
+
+    if($postag eq 2) {
+      push @rows, "<td width=\"300\"></td>";
+      push @rows, "<td>"; 
+      push @rows, "$string";
+      push @rows, "</td>";
+    }
+
+    if($postag eq 1) {
+      push @rows, "<td width=\"403\"></td>";
+      push @rows, "<td>"; 
+      push @rows, "$string";
+      push @rows, "</td>";
+    }
+
+      push @rows, "</tr></table>";
+  } else {
+      push @rows, "<br><br>No APA for this gene.";
+  }
+
+########################################
+# SnP Info
+#
+#######################################
+
+  ## for now, just human short
+  if (defined $prot_set{"A"}) { 
+    GetSNPInfo();
+  }
+
+########################################
+# TAG Info Summary
+#
+#######################################
+  
+  push @rows, "<p><b>Tag Info Summary</b>";
+  
+  push @rows, INFO_PARA2;
+  
+  push @rows, "<blockquote>";
+
+  push @rows, "<p><table cellpadding=\"4\" border=\"1\">";
+
+  push @rows, "<tr>";
+  push @rows, "<th>Tag</th>";
+  push @rows, "<th>Tag Sequence</th>";
+  push @rows, "<th>Tag Position</th>";
+  push @rows, "<th>BP Number</th>";
+  push @rows, "<th>Tag Freq&nbsp;</th>";
+##  push @rows, "<th>SAGEmap Info</th>";
+  push @rows, "</tr>";
+
+  push @rows, "<tr>";
+  push @rows, "<td align=center><img src=\"$IMG_DIR/ltv_$leg1\"></td>";
+##  push @rows, "<td align=center>".uc($tag1).$text."</td>";
+  push @rows, "<td align=center>";
+  if ($text eq "" && uc($tag1) ne "NO_TAG") {
+    push @rows, TAG2GENE_URL($org, $method, uc($tag1));
+  } else {
+    push @rows, uc($tag1).$text;
+  }
+  push @rows, "</td>";
+  push @rows, "<td align=center>1</td>";
+  push @rows, "<td align=center>$pos1</td>";
+##  push @rows, "<td align=center>".$freq1."</td>";
+  push @rows, "<td align=center>".$tag_freq{$tag1}."</td>";
+##  push @rows, "<td align=center><a href=\"http://www.ncbi.nlm.nih.gov/SAGE/SAGEtag.cgi?tag=$tag1\">Sagemap</a></td>";
+  push @rows, "</tr>";
+
+  push @rows, "<tr>";
+  push @rows, "<td align=center><img src=\"$IMG_DIR/ltv_$leg2\"></td>";
+##  push @rows, "<td align=center>".uc($tag2)."</td>";
+  push @rows, "<td align=center>";
+  if ($text eq "" && uc($tag2) ne "NO_TAG") {
+    push @rows, TAG2GENE_URL($org, $method, uc($tag2));
+  } else {
+    push @rows, uc($tag2).$text;
+  }
+  push @rows, "</td>";
+  push @rows, "<td align=center>2</td>";
+  push @rows, "<td align=center>$pos2</td>";
+##  push @rows, "<td align=center>".$freq2."</td>";
+  push @rows, "<td align=center>".$tag_freq{$tag2}."</td>";
+##  push @rows, "<td align=center><a href=\"http://www.ncbi.nlm.nih.gov/SAGE/SAGEtag.cgi?tag=$tag2\">Sagemap</a></td>";
+  push @rows, "</tr>";
+
+  push @rows, "<tr>";
+  push @rows, "<td align=center><img src=\"$IMG_DIR/ltv_$leg3\"></td>";
+##  push @rows, "<td align=center>".uc($tag3)."</td>";
+  push @rows, "<td align=center>";
+  if ($text eq "" && uc($tag3) ne "NO_TAG") {
+    push @rows, TAG2GENE_URL($org, $method, uc($tag3));
+  } else {
+    push @rows, uc($tag3).$text;
+  }
+  push @rows, "</td>";
+  push @rows, "<td align=center>3</td>";
+  push @rows, "<td align=center>$pos3</td>";
+##  push @rows, "<td align=center>".$freq3."</td>";
+  push @rows, "<td align=center>".$tag_freq{$tag3}."</td>";
+##  push @rows, "<td align=center><a href=\"http://www.ncbi.nlm.nih.gov/SAGE/SAGEtag.cgi?tag=$tag3\">Sagemap</a></td>";
+  push @rows, "</tr>";
+    
+  push @rows, "<tr>";
+  push @rows, "<td align=center><img src=\"$IMG_DIR/ltv_$leg4\"></td>";
+##  push @rows, "<td align=center>".uc($tag4)."</td>";
+  push @rows, "<td align=center>";
+  if ($text eq "" && uc($tag4) ne "NO_TAG") {
+    push @rows, TAG2GENE_URL($org, $method, uc($tag4));
+  } else {
+    push @rows, uc($tag4).$text;
+  }
+  push @rows, "</td>";
+  push @rows, "<td align=center>4</td>";
+  push @rows, "<td align=center>$pos4</td>";
+##  push @rows, "<td align=center>".$freq4."</td>";
+  push @rows, "<td align=center>".$tag_freq{$tag4}."</td>";
+##  push @rows, "<td align=center><a href=\"http://www.ncbi.nlm.nih.gov/SAGE/SAGEtag.cgi?tag=$tag4\">Sagemap</a></td>";
+  push @rows, "</tr>";
+  push @rows, "</table>";
+  push @rows, "</blockquote>";
+
+##########################
+# NOTES
+#
+##########################
+  push @rows, "<br>";
+  push @rows, "<p><b>Notes</b>:";
+  push @rows, "<ul>";
+  push @rows, "<li><img src=\"$IMG_DIR/ltv_est.gif\"> " .
+      "corresponds to A-rich regions, defined as an internal stretch " .
+      "of eight adenosines within a 10 bp region.";
+  push @rows, "<li><b>IP transcripts</b> are \"probably\" derived from " .
+      "an internal priming of an internal A-rich region.";
+  push @rows, "<li><b>PA transcripts</b> are sequences that have a " .
+      "polyA signal and a poyA tail and therefore are \"probably\" derived " .
+      "from alternative polyadenylation.";
+  push @rows, "</ul>";
+
+  return join("\n", @rows);
+}
+
+######################################################################
+sub GetSNPInfo {
+
+  my ($sql, $stm);
+  my ($newtag, $pos_real1, $tag_freq, $snp, $snp_id, $snp_pos, $type);
+  my (%snp_data, @tmp);
+
+  #SNP in tag##
+
+  $sql = "select newtag, pos_real, tag_freq,snp, snp_id, snp_pos, type " .
+      "from $CGAP_SCHEMA.ltv_snp where gene_fl='$gene' " .
+      "and protocol in ('" . join("','", keys %prot_set) . "')" ;
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+  }
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+  }
+
+  while (($newtag, $pos_real1, $tag_freq, $snp, $snp_id, $snp_pos, $type) =
+      $stm->fetchrow_array ) {
+    push @{ $snp_data{$type} }, join("\t",
+    $newtag, $pos_real1, $tag_freq, $snp, $snp_id, $snp_pos);
+  }
+
+  push (@rows, "<br>");
+
+  if (defined $snp_data{"in"}) {
+      push (@rows, "<br><font face=arial>SNP modifies the 3' most tag sequence</font>");
+    DoSNPRows($snp_data{"in"});
+  }
+
+  if (defined $snp_data{"mk"}) {
+    push (@rows, "<br><font face=arial>SNP creates a new 3' most NlaIII site</font>");
+    DoSNPRows($snp_data{"mk"});
+  }
+
+  if (defined $snp_data{"rm"}) {
+    push (@rows, "<br><font face=arial>SNP destroys the 3' most NlaIII site</font>");
+    DoSNPRows($snp_data{"rm"});
+  }
+
+  if (! defined $snp_data{"in"} &&
+      ! defined $snp_data{"mk"} &&
+      ! defined $snp_data{"rm"}) {
+    push (@rows, "<br>No SNP-Associated Alternative Tag for this gene.");
+  }
+
+}
+
+######################################################################
+sub DoSNPRows {
+  my ($snp_data) = @_;
+
+  push (@rows, "<br><br><table cellpadding=\"4\" border=\"1\">");
+  push (@rows, "<tr>");
+  push (@rows, "<th>New 3' most Tag</th>");
+  push (@rows, "<th>BP Number</th>");
+  push (@rows, "<th>Tag Freq&nbsp;</th>");
+  push (@rows, "<th>SNP id</th>");
+  push (@rows, "<th>SNP</th>");
+  push (@rows, "<th>SNP BP Number</th>");
+  push (@rows, "</tr>");
+
+  foreach my $tmp_snp (@{ $snp_data }) {
+    push (@rows, "<tr>");
+    my ($tag, $bp_num, $tag_freq, $snp, $snp_id, $snp_pos) =
+        split (/\t/,$tmp_snp);
+    if ($snp eq "") {
+      $snp = "\&nbsp;"
+    }
+    push (@rows, "<td align=center>".uc($tag).$text."</td>");
+    push (@rows, "<td align=center>$bp_num</td>");
+    push (@rows, "<td align=center>$tag_freq</td>");
+    push (@rows, "<td align=center>" .
+        "<a href=\"http://www.ncbi.nlm.nih.gov/entrez/query.fcgi?" .
+        "db=snp&cmd=search\&term=$snp_id\">$snp_id</a></td>");
+    push (@rows, "<td align=center>".$snp."</td>");
+    push (@rows, "<td align=center>$snp_pos</td>");
+  }
+  push (@rows, "</tr>");
+  push (@rows, "</table>");
+
+}
+  

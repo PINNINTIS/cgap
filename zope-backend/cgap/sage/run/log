@@ -1,0 +1,15 @@
+brain,normal
+embryonic stem cell,normal
+mammary gland,neoplasia
+lung,neoplasia
+mammary gland,normal
+
+pooled tags follow:
+embryonic stem cell,normal
+brain,normal
+mammary gland,neoplasia
+lung,neoplasia
+pancreas,normal
+mammary gland,normal
+Content-type: text/plain
+

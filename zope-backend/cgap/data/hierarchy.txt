@@ -1,0 +1,1341 @@
+keyword
+	agent
+		DMSO
+		MPTP
+		acetominophen
+		amyloid beta-peptide
+		anti-cancer agent
+			5-aza-2-deoxycytidine
+			5-azacytidine
+			LGD1069
+			all-trans retinoic acid
+			ara-C
+			endostatin
+			hydroxyurea
+			lupron
+			trichostatin
+		apoptotic agent
+			alsterpaullone
+		carcinogen
+			4-acetylaminofluorene
+			DMBA
+			MNU
+			PMA
+			benzo(a)pyrene (BaP)
+			diethylnitrosamine
+			dioxin
+				TCDD
+			methylcholanthrene
+			sulfur mustard
+		cycloheximide
+		cytokine
+			GM-CSF
+			LIF
+			TGFbeta1
+			TNF alpha
+			interferon
+				gamma interferon
+		differentiation factor
+			osteoclast differentiation factor (ODF)
+		fibrate
+			clofibrate
+			fenofibrate
+		glucose
+		homocysteine
+		hormones
+			DES
+			FSH
+			androgen
+			erythropoietin
+			estrogen
+			glucocorticoids
+				dexamethasone
+				hydrocortisone
+			growth hormone
+			hCGH
+			insulin
+			pregnant mare serum gonadotropin (PMSG)
+			progesterone
+			prolactin
+			thyroid hormone
+		ionomycin
+		lectin
+			Concanavalin A (Con A)
+		metal salt
+			lithium
+			mercury
+			platinum
+			sodium chloride
+		mitogen
+			TGFalpha
+			bFGF
+			nerve growth factor (NGF)
+			phytohemagglutinin (PHA)
+		mitotic inhibitor
+		mixed agents
+		morphine
+		morphogen
+			BMP4
+			activin
+			retinoic acid
+			sonic hedgehog (SHH)
+		nitrogen
+			ammonium
+		nootropic drug
+			cerebrolysin
+		other therapeutic agent
+			8-bromo-cyclic AMP
+			Muromonab-CD3
+			pentylenetetrazol (PTZ)
+			salicylic acid
+			sodium butyrate
+			vaccine
+		oxytetracyclin
+		particulate matter (PM)
+		toxic agent
+			alpha-naphthylisothiocyanate
+			carbon tetrachloride
+			cholera toxin
+			corrosive agent
+				hydrogen peroxide
+			dichloro-diphenyl-trichloroethane (DDT)
+			endotoxin
+				lipopolysaccharide (LPS)
+			ethanol
+			hydrazine
+			neurotoxin
+				oxidopamine
+			sporidesmin
+			streptozocin
+			tributyltin (TBT)
+		transgene
+		tunicamycin
+		unknown transforming agent
+	developmental stage
+		adult
+			aged
+			elderly
+		embryo
+			blastula
+			early gestation embryo
+			filamentous embryo
+			gastrula/neurula cusp
+			late gestation embryo
+			mid-gestation embryo
+			mixed embryonic stages
+			near-term
+			neurula
+			organogenesis
+			peri-implantation embryo
+			post implantation embryo
+				egg cylinder
+				gastrula
+			pre-implantation embryo
+				blastocyst
+				cleavage
+					early cleavage
+				dividing egg
+				morula
+			tailbud embryo
+			unknown embryonic stage
+			zygote
+		embryo and adult
+		embryoid body
+		female germ line
+			egg
+				fertilized egg
+				unfertilized egg
+			oocyte
+				germinal vesicle
+				metaphase II
+		fetus
+			first trimester
+			full-term
+			second trimester
+			third trimester
+		infant
+		juvenile
+		mixed developmental stages
+		neonate
+		ovum
+			unfertilized ovum
+		pediatric
+		perinatal
+		post natal
+			0.5 days post natal
+			1 day post natal
+			10 days post natal
+			10.5 days post natal
+			13 days post natal
+			15 days post natal
+			16 days post natal
+			2 days post natal
+			2.5 days post natal
+			20 days post natal
+			21 days post natal
+			27 days post natal
+			3 days post natal
+			4 days post natal
+			4.5 days post natal
+			5 days post natal
+			6 days post natal
+			6.5 days post natal
+			7 days post natal
+		unknown developmental stage
+		young
+	embryonic stem cell line
+		H1
+		H7
+		H9
+		HSF1
+		HSF6
+		WA01
+		WA07
+		hESBGN-01
+	gender
+		female
+		hermaphrodite
+		male
+		mixed pool by gender
+	histology
+		cancer grade
+			anaplastic
+			apoptotic
+			benign
+			dedifferentiated
+			differentiated
+			grade I
+			grade II
+			grade III
+			grade IV
+			high grade
+			in situ
+			invasive
+			low grade
+			malignant
+			metastasis
+			moderately differentiated
+			poorly differentiated
+			undifferentiated
+			well differentiated
+		cell type
+			blood cell
+				erythroblast
+				hemocyte
+				macrophage
+				peripheral blood mononuclear cell
+				platelet
+				red blood cell
+				white blood cell
+					lymphocyte
+						B-cell
+							plasma cell
+						T-cell
+							CD4+ T cell
+						natural killer cell
+						peripheral blood lymphocyte (PBL)
+					myeloid
+						granulocyte
+							eosinophil
+						monocyte
+							splenocyte
+						neutrophil
+					stimulated leukocyte
+					unstimulated leukocyte
+			connective tissue cells
+				adipocyte
+				chondrocyte
+				dermal papilla cell
+				fibroblast
+				mast cell
+				osteoblast
+				osteoclast
+				pericyte
+				stromal cell
+				synoviocyte
+			contractile cells
+				myoblast
+				myocyte
+				myoepithelium
+				smooth muscle
+			dendritic cell
+				afferent lymph dendritic cell (ALDC)
+			epithelium
+				duct epithelium
+				endothelium
+					umbilical vein endothelial cell
+				neuroepithelium
+				pigmented epithelium
+				simple columnar epithelium
+				stratified squamous epithelium
+			germline cell
+				Leydig cell
+				Sertoli cell
+				germ cell
+				spermatid
+				spermatocyte
+				spermatogonia
+				spermatozoon
+			hepatocyte
+			nervous system cell
+				astrocyte
+				dopaminergic cell
+				ganglion cell
+					retinal ganglion cell
+				granule cell
+				neuron
+					dopaminergic neuron
+					motor neuron
+					sensory neuron
+						olfactory neuron
+				neurosphere
+			other cells / cell communities
+				alveolar cell
+				melanocyte
+				mesangial cell
+				mucosa
+			pancreatic beta cell
+			stem cell
+				adult stem cell
+					granule cell precursor
+					hematopoietic cell
+						CD34+ cell
+						erythroid progenitor
+						granulocyte macrophage progenitor (GMP)
+						megakaryocyte
+						myeloid progenitor cell
+					mesenchymal stem cell
+				embryonic germ cell
+				embryonic stem cell
+				epithelial progenitor
+				neural progenitor cell
+				nullipotent stem cell
+				trophoblast stem cell
+		health state
+			abnormal
+				genetic predisposition
+					Denys-Drash syndrome
+					Gaucher's disease
+					Huntington disease
+					Pompe disease
+					malignant hyperthermia
+				mixed pathologies
+				neoplasia
+					adenoid cystic carcinoma
+					adrenal tumor
+						adrenal adenoma
+						adrenal carcinoma
+						pheochromocytoma
+					bone tumor
+						chondroma
+						chondrosarcoma
+						enchondroma
+						giant cell tumor of bone
+						multiple myeloma
+							plasma cell leukemia
+						osteosarcoma
+					breast (mammary gland) tumor
+						breast (mammary gland) cancer
+							ductal carcinoma of the breast
+								ductal carcinoma in situ (DCIS)
+									comedo carcinoma in situ
+									non-comedo carcinoma in situ
+								invasive ductal carcinoma
+									tubular carcinoma of the breast
+							lobular carcinoma of the breast
+								invasive lobular carcinoma of the breast
+								lobular carcinoma in situ (LCIS)
+						fibrocystic breast disease
+					cancer of the vulva
+					cervical tumor
+						cervical cancer
+							cervical carcinoma
+								cervical adenocarcinoma
+								squamous carcinoma of the cervix
+						cervical dysplasia
+					colorectal tumor
+						adenomatous polyposis coli
+						colorectal adenoma
+							colonic tubulovillous adenoma
+							colonic villous adenoma
+						colorectal cancer
+							adenocarcinoma of the colon
+								mucinous adenocarcinoma of the colon and rectum
+					esophageal tumor
+						esophageal cancer
+							esophageal adenocarcinoma
+							squamous cell carcinoma of the esophagus
+					fallopian tube (oviduct) tumor
+						fallopian tube carcinoma
+					gallbladder tumor
+						cancer of the gallbladder
+							squamous cell carcinoma of gallbladder
+					gastrointestinal tumor
+						small intestine tumor
+							small intestine cancer
+								small intestine adenocarcinoma
+						stomach tumor
+							stomach cancer
+								gastric adenocarcinoma
+								gastric signet-ring cell adenocarcinoma
+								hepatoid gastric carcinoma
+								multiple myeloma of the stomach
+					germ cell tumor
+						embryonal carcinoma
+						gestational trophoblastic disease
+							choriocarcinoma
+							hydatidiform mole
+								invasive hydatidiform mole
+						seminoma
+						teratocarcinoma
+						teratoma
+					head and neck tumor
+						laryngeal tumor
+							laryngeal cancer
+								squamous cell carcinoma of the larynx
+						nasal tumor
+							esthesioneuroblastoma
+						oral tumor
+							mouth cancer
+								squamous cell carcinoma of the mouth
+						parathyroid tumor
+						pharyngeal tumor
+							pharyngeal cancer
+								nasopharyngeal carcinoma
+								squamous cell carcinoma of the pharynx
+						pituitary tumor
+							pituitary adenoma
+						salivary gland tumor
+							salivary gland cancer
+								salivary gland adenocarcinoma
+								salivary gland epidermoid carcinoma
+						squamous cell carcinoma of the head and neck
+						thyroid tumor
+							thyroid adenoma
+								follicular adenoma of the thyroid
+							thyroid carcinoma
+								follicular thyroid carcinoma
+								medullary thyroid carcinoma
+								papillary thyroid carcinoma
+						tongue tumor
+							tongue cancer
+					heart tumor
+						heart myxoma
+					kidney tumor
+						Wilms' tumor
+						renal cell carcinoma
+							clear cell renal carcinoma
+							papillary renal cell carcinoma
+					leukemia
+						lymphocytic leukemia
+							acute lymphocytic leukemia
+							chronic lymphocytic leukemia
+						myelogenous leukemia
+							acute myelogenous leukemia
+								acute monocytic leukemia
+								acute promyelocytic leukemia
+								erythroleukemia
+							chronic myelogenous leukemia
+					liver tumor
+						hepatic adenoma
+						liver cancer
+							adenocarcinoma of the liver
+							cholangiocarcinoma
+							hepatoblastoma
+							hepatocellular carcinoma
+					lymphoma
+						Hodgkin's disease
+						non-Hodgkin's lymphoma
+							B-cell lymphoma
+								Burkitt's lymphoma
+								follicular lymphoma
+								mantle cell lymphoma
+								marginal zone lymphoma
+									monocytoid B-cell lymphoma
+							T-cell lymphoma
+								large cell lymphoma
+									anaplastic large cell lymphoma
+					malignant blood neoplasia
+					malignant transformation
+					mastocytoma
+					mixed tumors
+					nervous tissue tumor
+						brain/CNS tumor
+							glioma
+								astrocytoma
+									glioblastoma multiforme
+									pilocytic astrocytoma
+								ependymoma
+								oligoastrocytoma
+								oligodendroglioma
+							non-glioma
+								dysembryoplastic neuroepithelial tumor
+								meningioma
+								primitive neuroectodermal tumor of the CNS
+									Ewing's sarcoma
+										neuroepithelioma
+									ependymoblastoma
+									medulloblastoma
+									neuroblastoma
+						ganglioneuroma
+						schwannoma
+					ovarian tumor
+						cystadenoma of the ovary
+						dermoid cyst of the ovary
+						ovarian cancer
+							mixed mullerian tumor of the ovary
+							ovarian carcinoma
+								borderline ovarian carcinoma
+								clear cell ovarian tumor
+								endometrioid ovarian carcinoma
+								mucinous ovarian tumor
+								ovarian adenocarcinoma
+								papillary ovarian carcinoma
+								papillary serous ovarian carcinoma
+								serous ovarian tumor
+								spindle cell ovarian tumor
+							sex-cord stromal tumor of the ovary
+								fibrothecoma
+								granulosa cell tumor of the ovary
+					pancreatic tumor
+						benign serous cystadenoma of the pancreas
+						pancreatic cancer
+							islet cell tumor
+							pancreatic adenocarcinoma
+							pancreatic ductal carcinoma
+						pancreatic endocrine tumor
+							insulinoma
+					penile tumor
+						penile cancer
+							epidermoid carcinoma of the penis
+					prostate tumor
+						benign prostatic hyperplasia (BPH)
+						prostate cancer
+							prostatic adenocarcinoma
+							transitional cell carcinoma of the prostate
+						prostatic intraepithelial neoplasia
+					respiratory tract tumor
+						bronchioloalveolar carcinoma
+						lung tumor
+							carcinoid lung tumor
+								neuroendocrine lung carcinoid
+							non-small cell lung cancer
+								lung adenocarcinoma
+								lung squamous cell carcinoma
+							small cell lung cancer
+					retinoblastoma
+					skin tumor
+						hemangioma
+						melanoma
+						non-melanoma
+							basal cell carcinoma
+							squamous cell carcinoma of the skin
+								epithelioid sarcoma
+					soft tissue/muscle tissue tumor
+						fibrosarcoma
+						leiomyoma
+						leiomyosarcoma
+						liposarcoma
+						mesothelioma
+						rhabdomyosarcoma
+							alveolar rhabdomyosarcoma
+							synovial sarcoma
+						sarcoma
+					testicular tumor
+						Leydig cell tumor
+					thymic tumor
+						thymoma
+					tumor of peripheral nervous system
+						peripheral neuroectodermal tumor
+					tumor of the placenta
+					ureteral tumor
+					urinary bladder tumor
+						bladder carcinoma
+							transitional cell carcinoma of the bladder
+						transitional cell papilloma of the bladder
+					uterine tumor
+						endometrial carcinoma
+							papillary serous adenocarcinoma of the uterus
+				non-neoplasia
+					Alzheimer's disease
+					Crohn's disease
+					Down syndrome
+					Paget-Schroetter syndrome
+					Patau syndrome
+					abscess
+					agenesis
+						cerebral agenesis
+					alopecia
+					amyotrophic lateral sclerosis
+					anencephaly
+					angina
+					arteriosclerosis
+					arthritis
+						osteoarthritis
+						rheumatoid arthritis
+					asthma
+					atherosclerosis
+					cardiomyopathy
+					cervicitis
+					cholecystitis
+					chronic fatigue syndrom (CFS)
+					cirrhosis of the liver
+					colonic diverticular disease
+					diabetes
+					dissecting aortic aneurysm
+					endometriosis
+					epilepsy
+					erythema nodosum
+					eye disease
+						cataract
+						keratoconus
+						pterygium
+						rod-cone degeneration (prcd)
+					fibrosis
+						cystic fibrosis
+					gliosis
+					goiter
+					heart disease
+					hydrocephalus
+					hypereosinophilia
+					hyperlipidemia
+					hyperthyroidism
+						Graves disease
+					hypoplastic left heart syndrome
+					hypotrichosis
+					idiopathic pulmonary disease
+					infectious disease
+						leprosy
+					intracranial hemorrhage
+					leukoplakia
+					mastitis
+					menorrhagia
+					minimal change disease (MCD)
+					multiple sclerosis
+					muscle disorder
+						muscular atrophy
+						muscular dystrophy
+							Duchenne muscular dystrophy (DMD)
+							facioscapulohumeral muscular dystrophy
+							limb-girdle muscular dystrophy (LGMD)
+					nasal polyp
+					nephritis
+					obesity
+					obstructive pulmonary disease
+						chronic obstructive pulmonary disease
+						pulmonary emphysema
+					ovarian stromal hyperthecosis
+					polycystic kidney disease
+					preeclampsia
+					psoriasis
+					reactive lymphoid hyperplasia
+					scarring
+						hypertrophic scar
+						keloid scar
+					scenesence
+					schizophrenia
+					seizure
+					sialoadenitis
+					splenomegaly
+					squamous epithelial hyperplasia
+					stroke
+					systemic lupus erythematosus (SLE)
+					systemic sclerosis
+					thrombocytopenic purpura
+					thymic hyperplasia
+					ulcerative colitis
+			genetically modified
+			mixed (normal and tumor)
+			normal
+		uncharacterized histology
+	infection
+		Plasmodium berghei
+		Plasmodium gallinaceum
+		Plasmodium inui
+		Plasmodium yoelii
+		Theileria annulata
+		bacteria
+			Actinobacillus pleuropneumoniae (APP)
+			Anaplasma marginale
+			Borrelia burgdorferi
+			Escherichia coli
+			Mycobacterium leprae
+			Ralstonia solanacearum
+			Salmonella enterica
+			Vibrio cholerae
+		flatworm
+			Echinococcus granulosus
+		fungus
+		insect
+			Melophagus ovinus
+		mock infection
+		mycobacteria
+			Mycobacterium bovis
+			Mycobacterium tuberculosis
+		nematode
+			Brugia malayi
+			Teladorsagia
+			Trichostrongylus colubriformis
+			filarial worm
+		oomycetes
+		virus
+			Dengue virus
+			Epstein-Barr virus (EBV)
+			PRRSV
+			SARS
+			Swine Influenza Virus (SI)
+			West Nile virus
+			encephalitis
+			nodavirus
+			orf
+			parainfluenza virus
+			respiratory syncytial virus
+	library description
+		library preparation
+			characterized preparation
+				antibody purified
+				bulk
+					micro-bulk
+				cell line
+					short term culture
+				clone collection
+					PCR directed strategy
+						RNA template
+						cDNA template
+						genomic template
+						rough ER-bound polysomes
+				directionally cloned
+				explant
+				flow-sorted
+				microdissected
+				microscope dissected
+				nondirectionally cloned
+				oligo-dT primed
+				random primed
+				size fractionated
+				vector
+					phage vector
+					phagemid
+					plasmid vector
+			uncharacterized preparation
+		library project
+			BMAP
+			CGAP
+			MGC
+			ORESTES
+		library protocol
+			full-length enriched
+			long-transcript enriched
+			non-normalized
+				Clontech non-normalized
+				Krizman protocol 1
+				Krizman protocol 2
+				Krizman protocol 3
+				Krizman protocol R-D
+				LTI non-normalized
+				Rubin non-normalized
+				Soares non-normalized
+				Staudt non-normalized
+				Stratagene non-normalized
+				Sugano non-normalized
+			normalized
+				Clontech normalized
+				LTI normalized
+				Rubin normalized
+				Soares normalized
+			short-transcript enriched
+			subtracted
+				Soares subtracted
+		library type
+			EST
+			SAGE
+				extracted short SAGE
+				long SAGE
+					SAGELite
+				short SAGE
+		sequencing
+			sequencing from 3' end
+			sequencing from 5' end
+	position
+		animal pole
+		anterior
+		caudal
+		dorsal
+		posterior
+		supraorbital
+		vegetal pole
+		ventral
+		xenograft
+	provisional
+		APP
+		Amphiregulin
+		BCL-2
+		BLG
+		BRCA1
+		CARM null
+		CARM wild type
+		CRX null
+		Cre-Lox
+		Cripto
+		E2F1 null
+		E2F1 wild type
+		HGF
+		Heregulin
+		IGF1
+		IGF2
+		Int2
+		Int3-Notch4
+		KGF
+		LIF-
+		Lang-Evans
+		MMTV
+		MMTV-P
+		Miscellaneous
+		P-cadherin null
+		PyVT
+		SV40TAG
+		Str-1
+		T-cell receptor alpha/beta
+		T-cell receptor gamma/delta
+		TGFbeta DNIIR
+		Tet
+		Tpr-Met
+		Wnt-10b
+		c-erb-B1 EGFR
+		c-erb-B2
+		c-erb-B2 activated
+		c-erb-B3
+		c-erb-B4
+		c-myc
+		cell cycle
+		chordoma
+		conditional
+		cyclinD
+		differentiation
+			Wnt1
+		difluoromethyl ornithine (DFMO)
+		epithelial hyperplasia
+		gamma Irradiation
+		gangrene
+		genitourinary
+			urinary
+		growth factor
+		head and neck
+		histone deacetylase inhibitor
+		monocyte-derived dendritic cell (MoDC)
+		mts1
+		mutant p53
+		oxytetracycline (HCL)
+		p53 null
+		p53 wild type
+		phorbol myristate acetate
+		promoter
+			C3-1
+			H19 enhancer
+			MMTV-LTR
+			MT
+			WAP
+		radiation
+		ret
+		scrarring
+		thrombocytopenic purpura (ITP)
+		thyroid hormones
+		transforming agent
+			receptors
+			signal pathways
+		traverse colon
+		vH-ras
+		virus
+	reproductive history
+		castrated
+		nulliparous
+		parous
+		sterile
+		virgin
+	reproductive stage
+		estrus
+		lactating
+		ovulation
+		pregnant
+	strain
+		129 mouse
+			129
+			129/Ola
+			129/Sv
+		BALB mouse
+			BALB/c
+			BALB/cByJ
+			BALB/cN
+			BALB/cRos
+			BALB/slc
+		C3H mouse
+			C3H
+			C3H/DiSn
+			C3H/HA
+			C3H/He
+			C3H/HeJ
+			C3H/J
+		C57 mouse
+			C57
+			C57/BL
+			C57B2/6
+			C57BL/6Ka
+			C57BL/6N
+			C57BL/6NCr
+			C57BL/Ks
+			C57Black
+		CD-1
+		FVB mouse
+			FVB
+			FVB/N
+			FVB/N-3
+		Fischer
+		Hans-Wistar
+		ICR mouse
+			ICR
+		Lewis
+		Long Evans
+		Merino
+		NEDH
+		NOD mouse
+			NOD
+			NOD/Lt
+		PVG/c
+		S.R-Cyp11b
+		SHR rat
+		SR/Jr
+		SS/Jr
+		Texel
+		W rat
+		WAG/Rij
+		Wiltshire
+		Wistar Kyoto
+		Zucker
+		[horse]
+			American Quarter Horse
+			Belgian Draft
+			Dartmoor Pony
+			Polish Arabian
+			Standardbred
+			Tennessee Walking Horse
+			Thoroughbred
+		crossbred
+		mixed breed
+		other mouse strains
+			AKR/J
+			BDF1
+			BXSB
+			CF-1
+			CKH
+			CRH/HA
+			CZECH II
+			DBA/2
+			DBA/2J
+			DDD
+			F1
+			Knowles/Solter
+			Kunmingbai (KM)
+			NIH/Swiss
+			NMRI
+			NSA
+			SCID
+			SIM (Sandos Inbred Mice)
+			Swiss
+			Swiss Webster
+			WBB6F1-W/Wv
+			rds
+		wild type
+	stress
+		Chung Model
+		anemia
+		bone fracture
+		chemical stress
+		confinement stress
+		exercise
+		heavy metal stress
+			aluminum stress
+		hepatectomy
+		hypoxia
+		immune system activation
+		infected
+		injury
+			ischemia-reperfusion
+		irradiation
+			UV irradiation
+			UV-B irradiation
+			UV-C irradiation
+			gamma irradiation
+		mixed stresses
+		normal conditions
+		nutrient deficiency
+			carbon deficiency
+			glucose deficiency
+			nitrogen deficiency
+			phosphate deficiency
+			sulfur deficiency
+		ovariectomy
+		oxidative stress
+		pH stress
+			acidic pH stress
+			alkaline pH stress
+		physical damage
+			shear stress
+		temperature stress
+			cold stress
+			heat stress
+		thyroidectomy
+		treated
+		zinc deficiency
+	tissue
+		abdomen
+			umbilical region
+		ascites
+		blood
+			blood serum
+			cord blood
+		bone
+			clivus
+			femur
+			mandible
+			maxilla
+			maxillary process
+			pelvis
+			spine
+			sternum
+			tibia
+		bone marrow
+		conceptus
+		connective tissue
+			cartilage
+			dura mater
+			synovium
+		digestive
+			anus
+			gastrointestinal tract
+				esophagus
+				intestine
+					hindgut
+					large intestine
+						appendix
+						cecum
+						colon
+							descending colon
+							hepatic flexure
+							right colon
+								ascending colon
+							sigmoid colon
+							transverse colon
+						large intestine mesoderm
+						rectum
+					small intestine
+						Peyer's patch
+						duodenum
+						ileum
+						jejunum
+				stomach
+					abomasum
+					fundus region of the stomach
+			liver
+				bile duct
+				gallbladder
+				regenerated liver
+			pancreas
+				pancreatic islet
+		ear
+			inner ear
+				cochlea
+				organ of Corti
+				utricle
+				vestibule
+					vestibular end organs
+		embryonic tissue
+			Rathke's pouch
+			animal cap
+			atrioventricular canal
+			atrioventricular cushions
+			branchial arch
+			dorsal lip
+			ectoderm
+				neural crest
+				primitive streak
+			ectoplacental cone
+			embryonic gonad
+				Mullerian duct
+			embryonic head
+			embryonic limb
+			endoderm
+			endomesoderm
+			fetal medulla
+			hensens node
+			inner cell mass
+			limb bud
+			mesoderm
+				mesenchyme
+				somite
+			mesonephros
+				gonadal ridge
+				wolffian duct
+			neural tube
+			notochord
+			optic vesicle
+			placentome
+			urogenital sinus
+		endocrine
+			adrenal gland
+				adrenal cortex
+				adrenal medulla
+			parathyroid
+			pineal gland
+			pituitary gland
+			thyroid
+			ultimobranchial gland
+		epiphyseal growth plate
+		extraembryonic tissue
+			amnion
+			amniotic fluid
+			placenta
+			trophoblast
+			umbilical cord
+		fertilized ovum
+		head
+			eye
+				choroid
+				ciliary body
+				cornea
+				eye anterior segment
+				iris
+				lacrimal gland
+				lens
+				optic cup
+				retina
+					fovea
+					macula
+				sclera
+				trabecular meshwork
+			harderian gland
+			mouth
+				buccal mucosa
+				floor of the mouth
+				gum
+				palate
+				retromolar trigone
+				tongue
+					taste bud
+			olfactory system
+				olfactory mucosa
+					olfactory epithelium
+				olfactory rosettes
+				turbinate
+			salivary gland
+				parotid
+			tooth
+				enamel organ
+				molar
+			vibrissa
+				vibrissa follicle
+		heart
+			bulbus cordis
+			heart atrium
+			heart ventricle
+			myocardium
+			pericardium
+			valve
+		limb
+			forelimb
+			hindlimb
+			joint
+		lymphoreticular
+			lymph
+			lymph node
+				colic lymph node
+				gastric lymph node
+				jejunal lymph node
+				mesenteric lymph node
+			spleen
+			thymus
+			tonsil
+		mammary gland
+			breast
+			galactophore
+			mammary gland fat-pad
+			mammary gland parenchyma
+			nipple
+		mixed tissue
+		muscle
+			cardiac muscle
+			diaphragm
+			extraocular muscle
+			red muscle
+			skeletal muscle
+				Psoas major muscle
+				biceps femoris
+				cutaneus trunci
+				gastrocnemius
+				infraspinatus
+				loin
+				longissimus dorsi
+				longissimus thoracis
+				longissmusclorsi
+				masseter
+				semimembranosus
+				semitendinosus
+				supraspinatus
+				triceps brachii
+				triceps brachii
+				vastus intermedius
+			soleus
+			white muscle
+		nervous
+			central nervous system
+				brain
+					basal ganglia
+						corpus striatum
+							accumbens nucleus
+							caudate nucleus
+							globus pallidus
+							putamen
+						substantia nigra
+						subthalamic nucleus
+					cerebrospinal fluid
+					cerebrum
+						cerebral cortex
+							frontal cortex
+								olfactory bulb
+							frontal lobe
+								prefrontal cortex
+							occipital cortex
+							occipital lobe
+							parietal cortex
+							parietal lobe
+							temporal cortex
+								hippocampus
+									dentate gyrus
+							temporal lobe
+								amygdala
+							visual cortex
+						cingulate gyrus
+						lateral ventricle
+							lateral ventricle wall
+								corpus callosum
+					choroid plexus
+					circumventricular organs
+						area postrema (AP)
+						subfornical organ
+					cranial nerve
+						nodose ganglion
+						optic nerve
+						trigeminal ganglion
+						white matter
+					hindbrain
+						brain stem
+							medulla oblongata
+								ventral medullary surface
+							pons
+						cerebellum
+							cerebellar cortex
+							cerebellar vermis
+					meninges
+						leptomeninges
+					mesencephalon
+						periaqueductal gray
+						tectum mesencephali
+							corpora quadrigemina
+					prosencephalon
+						diencephalon
+							epithalamus
+							hypothalamus
+								suprachiasmatic nucleus (SCN)
+								supraoptic nucleus
+							thalamus
+						telencephalon
+					whole brain
+				neural complex
+				spinal cord
+			ganglia
+				dorsal root ganglion
+			peripheral nervous system
+				nerve
+				sympathetic ganglion
+		peritoneum
+			mesentery
+			omentum
+			peritoneal space
+				peritoneal exudate
+		reproductive system
+			female genital
+				cervix
+				ovary
+					corpus luteum
+					granulosa cells
+					ovarian cortex
+						ovarian follicle
+							primary oocyte
+							secondary oocyte
+						small follicle
+				oviduct
+				uterus
+					endometrium
+						caruncular
+						intercaruncular
+					myometrium
+					pregnant uterus
+						decidua
+				vagina
+			gonad
+			male genital
+				bulbourethral gland
+				epididymis
+				penis
+				prostate
+					prostate dorsal lobe
+				seminal vesicle
+				testicle
+				testis
+					seminiferous tubule
+				vesicular gland
+		respiratory
+			lung
+				alveolus
+			pleura
+				pleural effusion
+			respiratory airway
+				bronchus
+				larynx
+				trachea
+			upper respiratory tract
+				pharynx
+					hypopharynx
+					nasopharynx
+		skin
+			epidermis
+				hair follicle
+			foreskin
+		soft tissue
+			adipose tissue
+				abdominal fat pad
+				brown fat
+				subcutaneous fat
+				white fat
+			chest wall
+			mesothelium
+		tail
+		trunk
+		uncharacterized tissue
+		urinary system
+			bladder
+			kidney
+				proximal tubule
+			ureter
+			urethra
+		vascular
+			artery
+				aorta
+					aortic arch
+				carotid artery
+				coronary artery
+				internal mammary artery
+				pulmonary artery
+			microvasculature
+				brain microvasculature
+			vein
+		whole body

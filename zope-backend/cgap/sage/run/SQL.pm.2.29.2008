@@ -1,0 +1,274 @@
+package SQL;
+## require Exporter;
+use strict;
+use DBI;
+use SAGEConfig;
+## @ISA = qw(Exporter);
+## @EXPORT = qw(MakeCacheFile, FindCacheFile, $CACHE_FAIL);
+
+my %Default = (
+               DB => "",                    #database name
+               USER => "",                  #database login name
+               AUTH => "",                  #database login password
+               DRIVER => "",                #driver for DBI
+              );
+
+######################################################################
+sub new {
+  my ($class, $DB_INSTANCE, $DB_USER, $DB_PASS) = @_;
+  my $self = bless { %Default, @_ } => $class;
+
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE, $DB_USER, $DB_PASS);
+  if (not $db or $db->err()) {
+    ## print  "Cannot connect to " . $DB_USER . "@" . $DB_INSTANCE . "\n";
+    return CREATE_DB_FAIL;
+  }
+  $self->{DB} = $db;
+  return $self;
+}
+
+######################################################################
+## select method: 1: table name array ref, 
+##                2: select name array ref, 
+##                3: where left  array ref
+##                4: where right array ref, include =, !=, <=, < ...,
+##                                          if needs ' ', added it in
+##                5: group by name array ref
+##                6: order by name array ref
+sub select {
+  my $self = shift; 
+
+  my @result;
+
+  my ($table_name_ref, 
+      $select_name_ref, 
+      $where_left_ref, 
+      $where_right_ref, 
+      $group_by_name_ref, 
+      $order_by_name_ref) = @_; 
+
+  my $table_names = join ',', @$table_name_ref; 
+  my $select_names = join ',', @$select_name_ref;
+  my @where_left = @$where_left_ref, 
+  my @where_right = @$where_right_ref, 
+  my @tmp_where;
+  for (my $i=0; $i<@where_left; $i++) {
+    push @tmp_where, $where_left[$i] . $where_right[$i]; 
+  }
+
+  my $wheres = join ' and ', @tmp_where;
+  ## my $wheres = convrtSingleToDoubleQuote($tmp_wheres);
+
+  my $group_by_names = join ',', @$group_by_name_ref;
+  my $order_by_names = join ',', @$order_by_name_ref;
+
+  my $sql = "select $select_names from $table_names ";
+  if( $wheres ne "" ) {
+    $sql = $sql . " where " . $wheres;
+  } 
+  if( $group_by_names ne "" ) {
+    $sql = $sql . " group by " . $group_by_names;
+  }
+
+  if( $order_by_names ne "" ) {
+    $sql = $sql . " order by " . $order_by_names;
+  }
+
+  my $stm = $self->{DB}->prepare($sql);
+
+  if(not $stm) {
+    print  "$sql\n";
+    print  "$DBI::errstr\n";
+    print  "prepare call failed\n";
+    push( @result, SELECT_PREPARE_FAIL );
+    return @result;
+  }
+  else {
+
+    if(!$stm->execute()) {
+       print  "$sql\n";
+       print  "$DBI::errstr\n";
+       print  "execute call failed\n";
+       push( @result, SELECT_EXECUTE_FAIL );
+       return @result;
+    }
+
+    while (my $a = join "\t", $stm->fetchrow_array) {
+        push(@result,$a);
+    }
+
+    return @result;
+  }
+}
+
+
+######################################################################
+## insert method: 1: table name,
+##                2: name array ref,
+##                3: value array ref
+sub insert {
+  my $self =shift; 
+
+  my ($table_name, 
+      $name_ref, 
+      $value_ref ) = @_; 
+ 
+  my $names = join ',', @$name_ref;
+  my $values = join ',', @$value_ref;
+
+  ## my $values = convrtSingleToDoubleQuote($tmp_values);
+
+  my $sql = "INSERT INTO $table_name ";
+  if( $names ne "" ) {
+    $sql = $sql . " ( " . $names . " ) ";
+  } 
+
+  my $sql = $sql . " values ( " . $values . " ) ";
+  my $sth = $self->{DB}->prepare($sql);
+  if(not $sth) { 
+    print  "$sql\n";
+    print  "$DBI::errstr\n";
+    print  "prepare call failed\n";
+    return INSERT_PREPARE_FAIL;
+  }
+
+  if(!$sth->execute()) {
+    print  "$sql\n";
+    print  "$DBI::errstr\n";
+    print  "execute call failed\n";
+    return INSERT_EXECUTE_FAIL;
+  }
+
+  return EXECUTE_SUCCESSFULL;
+}
+
+######################################################################
+## update method: 1: table name,
+##                2: name array ref,
+##                3: value array ref
+##                3: where left  array ref
+##                4: where right array ref, include =, <=, < ...,
+##                                          if needs ' ', added it in
+
+sub update {
+  my $self = shift;
+ 
+  my ($table_name,
+      $name_ref,
+      $value_ref,
+      $where_left_ref,
+      $where_right_ref) = @_;
+
+  my @names = @$name_ref;
+  my @values = @$value_ref;
+  my @where_left = @$where_left_ref; 
+  my @where_right = @$where_right_ref;
+
+  my @set;
+  for (my $i=0; $i<@names; $i++) {
+    push @set, $names[$i] . " = " . $values[$i];
+  }
+ 
+  my $name2values = join ' , ', @set;
+
+  ## my $name2values = convrtSingleToDoubleQuote($tmp_name2values);
+ 
+  my @tmp_where;
+  for (my $i=0; $i<@where_left; $i++) {
+    push @tmp_where, $where_left[$i] . $where_right[$i];
+  }
+ 
+  my $wheres = join ' and ', @tmp_where;
+ 
+  my $sql = "update $table_name set $name2values  ";
+
+ 
+  if( $wheres ne "" ) {
+    $sql = $sql . " where " . $wheres;
+  }
+
+  my $sth = $self->{DB}->prepare($sql);
+  if(not $sth) {
+    print  "$sql\n";
+    print  "$DBI::errstr\n";
+    print  "prepare call failed\n";
+    return UPDATE_PREPARE_FAIL;
+  }
+
+  if(!$sth->execute()) {
+    print  "$sql\n";
+    print  "$DBI::errstr\n";
+    print  "execute call failed\n";
+    return UPDATE_EXECUTE_FAIL;
+  }
+
+  return EXECUTE_SUCCESSFULL;
+}
+
+
+######################################################################
+## delete method: 2: table name 
+##                4: where left  array ref
+##                5: where right array ref, include =, <=, < ...,
+##                                          if needs ' ', added it in
+
+sub delete {
+  my $self = shift; 
+
+  my ($table_name, 
+      $where_left_ref, 
+      $where_right_ref) = @_; 
+
+  my @result;
+  my @where_left = @$where_left_ref, 
+  my @where_right = @$where_right_ref, 
+  my @tmp_where;
+  for (my $i=0; $i<@where_left; $i++) {
+    push @tmp_where, $where_left[$i] . $where_right[$i]; 
+  }
+
+  my $wheres = join ' and ', @tmp_where;
+
+  my $sql = "delete from $table_name ";
+  if( $wheres ne "" ) {
+    $sql = $sql . " where " . $wheres;
+  } 
+
+  my $stm = $self->{DB}->prepare($sql);
+
+  if(not $stm) {
+    print  "$sql\n";
+    print  "$DBI::errstr\n";
+    print  "prepare call failed\n";
+    return DELETE_PREPARE_FAIL;
+  }
+  else {
+
+    if(!$stm->execute()) {
+       print  "$sql\n";
+       print  "$DBI::errstr\n";
+       print  "execute call failed\n";
+       return DELETE_EXECUTE_FAIL;
+    }
+
+    return EXECUTE_SUCCESSFULL;
+  }
+}
+
+######################################################################
+sub DESTROY {
+    my($self) = @_;
+    $self->{DB}->disconnect; 
+}
+
+######################################################################
+sub convrtSingleToDoubleQuote {
+  my ($temp) = @_;
+
+  $temp =~ s/'/''/g;
+
+  return $temp
+}
+
+######################################################################
+1;

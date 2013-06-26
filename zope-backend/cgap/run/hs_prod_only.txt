@@ -1,0 +1,127 @@
+white blood cell	Activated T-cells XII
+white blood cell	Sugano cDNA library, lymphocyte
+white blood cell	LST1
+white blood cell	Lymphocyte RACE ready cDNA
+white blood cell	NIH_MGC_48
+white blood cell	Homo sapiens u937
+white blood cell	NETRP1
+white blood cell	TLYMNOT08
+white blood cell	THP-1 TAP Library
+white blood cell	TLYMNOT03
+white blood cell	Human Natural Killer cell cDNA
+white blood cell	human B lymphocyte cDNA library
+white blood cell	RA-MO-III
+white blood cell	Activated T-cells XX
+white blood cell	Homo sapiens T-cell library (Sugita Y)
+white blood cell	TLYMTXT02
+white blood cell	RA-MO-I
+white blood cell	Dimethylfumarate induced differential expression of mRNA in U937 cells
+white blood cell	NIH_MGC_51
+white blood cell	RZPD no.9016
+white blood cell	NIH_MGC_50
+white blood cell	LTI_NFL008_TC2
+white blood cell	TLYMUNT01
+white blood cell	Soares_NFL_T_GBC_S1
+white blood cell	ACTVT2
+white blood cell	NIH_MGC_38
+white blood cell	Subtracted cDNA libraries from human Jurkat cells
+white blood cell	EOSINOT02
+white blood cell	TLYMUNT03
+white blood cell	TMLR3DT01
+white blood cell	NIH_MGC_126
+white blood cell	NIH_MGC_142
+white blood cell	brain I, Batten's subtracted
+white blood cell	Human tonsils DDRT-PCR
+white blood cell	Jurkat T-cells V
+white blood cell	Homo sapiens HTLV-1 transformed T cell line C91-PL
+white blood cell	NEUTGMT01
+white blood cell	NCI_CGAP_GCB0
+white blood cell	SAGE_Universal_Reference_Human_RNA
+white blood cell	Activated T-cells II
+white blood cell	NCI_CGAP_CLL1
+white blood cell	U937
+white blood cell	RZPD no.9017
+white blood cell	Human lymphocytes cDNA (R.Meneveri)
+white blood cell	LTI_FL012_TC1
+white blood cell	Human HIV associated B-cell centroblastic lymphoma
+white blood cell	human lymphocyte Matchmaker cDNA library
+white blood cell	TLYJINT01
+white blood cell	LYMPB1
+white blood cell	T cell activated by anti-CD3 and anti-CD28 Subtracted with the normal human T cell
+white blood cell	Human T-cell cDNA library (M.G.Smirnova)
+white blood cell	Human peripheral blood lymphocytes, large insert, pCMV expression library
+white blood cell	Activated T-cells I
+white blood cell	Human lymphocytes
+white blood cell	Homo sapiens B CELLS (RAMOS CELL LINE)
+white blood cell	Supt cells
+white blood cell	Activated T-cells VII
+white blood cell	Activated T-cells VI
+white blood cell	Jurkat T-cells III
+white blood cell	Human Jurkat cell line mRNA (Thiele,K.)
+white blood cell	Namalwa B cells II
+white blood cell	Activated T-cells XI
+white blood cell	Homo sapiens U937
+white blood cell	Homo sapiens T CELLS (JURKAT CELL LINE)
+white blood cell	Activated T-cells X
+white blood cell	U937 cell line
+white blood cell	NIH_MGC_127
+white blood cell	Homo sapiens library (Spurkland A)
+white blood cell	LYMPB2
+white blood cell	Activated T-cells IX
+white blood cell	Homo sapiens T CELLS (JURKAT CELL LINE) COT 10-NORMALIZED
+white blood cell	T-cell lymphoma
+white blood cell	U937 cells Express Library
+white blood cell	CLONTECH cDNA library CCRF-CEM, cat# HL1063g
+white blood cell	Activated T-cells III
+white blood cell	Human HIV associated B-cell immunoblastic lymphoma
+white blood cell	Oleic acid SSH Library
+white blood cell	NIH_MGC_52
+white blood cell	ACTVT1
+white blood cell	Sugano cDNA library, lymphocyte Daudi
+white blood cell	KRIBB Human DP intrathymic T-cell cDNA library
+white blood cell	Jurkat T-cells II
+white blood cell	Soares_NPBMC
+white blood cell	Raji cells, cyclohexamide treated I
+white blood cell	Human LAK cell (Y.Abe)
+white blood cell	cDNA Library from rIL-2 activated lymphocytes
+white blood cell	LTI_FL011_BC1
+white blood cell	Homo sapiens T lymphocyte
+white blood cell	NETRP2
+white blood cell	TLYMTXT03
+white blood cell	TLYJNOT01
+white blood cell	Jurkat T-cells I
+white blood cell	KRIBB Human TN intrathymic T-cell cDNA library
+white blood cell	Homo sapiens ATL-derived JuanaW
+white blood cell	Homo sapiens HTLV-1-transformed C91-PL
+white blood cell	NIH_MGC_37
+white blood cell	LTI_NFL010_BC2
+white blood cell	DNC15
+white blood cell	UPC15
+white blood cell	TLYMNOT05
+white blood cell	Monocytes, stimulated II
+white blood cell	NCI_CGAP_GCB1
+white blood cell	Monocytes Differential Display ARE-cDNA PCR
+white blood cell	Subtracted cDNA library of activated B lymphocyte
+white blood cell	NIH_MGC_36
+white blood cell	CCRF-CEM cells, cyclohexamide treated I
+white blood cell	Daudi lymphoma
+white blood cell	Activated T-cells VIII
+white blood cell	Homo sapiens monocyte library (Sugita Y)
+white blood cell	THP-1 OligodT Library
+white blood cell	cDNA library of activated B cell line 3D5
+white blood cell	Human lymphocyte mRNA (Zhu,L.-P.)
+white blood cell	NIH_MGC_141
+white blood cell	NIH_MGC_128
+white blood cell	MOLT-4
+white blood cell	Activated T-cells V
+white blood cell	NIH_MGC_106
+white blood cell	TMLR2DT01
+white blood cell	Namalwa B cells I
+white blood cell	SARS patients lymphocyte SSH
+white blood cell	EOSINOT01
+white blood cell	Homo sapiens B CELLS (RAMOS CELL LINE) COT 25-NORMALIZED
+white blood cell	NIH_MGC_2
+white blood cell	Jurkat T-cells VI
+white blood cell	KRIBB Human CD4 intrathymic T-cell cDNA library
+white blood cell	Activated T-cells IV
+white blood cell	human activated B lymphocyte
