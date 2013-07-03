@@ -1,0 +1,32 @@
+Name		Experimental Library Name
+		Control Library Name
+EGFR		SAGE_Brain_glioblastoma_CL_H54+EGFRvIII
+		SAGE_Brain_glioblastoma_CL_H54+LacZ
+beta-catenin	SAGE_Kidney_embryonic_CL_293+beta-catenin
+		SAGE_Kidney_embryonic_CL_293-control
+Hypoxia		SAGE_Brain_glioblastoma_hypoxia_CL_H247
+		SAGE_Brain_glioblastoma_control_CL_H247
+senescence 	SAGE_Prostate_normal_epithelium_CS_senescent
+		SAGE_Prostate_normal_epithelium_CS_confluent
+tamoxifen	SAGE_Breast_carcinoma_CL_ZR75_1_tamoxifen
+		SAGE_Breast_carcinoma_CL_ZR75_1_untreated
+estrogen	SAGE_Breast_carcinoma_CL_ZR75_1_estrogen
+		SAGE_Breast_carcinoma_CL_ZR75_1_untreated
+estrogen	SAGE_Breast_carcinoma_CL_MCF7estradiol_10H
+		SAGE_Breast_carcinoma_CL_MCF7control_0h
+colon_e1		SAGE_Colon_adenocarcinoma_B_Tu102
+colon_e2		SAGE_Colon_adenocarcinoma_B_Tu98
+colon_c1		SAGE_Colon_normal_B_NC1
+colon_c2		SAGE_Colon_normal_B_NC2
+Prostate	SAGE_Prostate_adenocarcinoma_MD_PR317
+		SAGE_Prostate_normal_MD_PR317
+Breast		SAGE_Breast_carcinoma_AP_DCIS-2
+		SAGE_Breast_normal_AP_Br_N
+Brain regions	SAGE_Brain_normal_cortex_B_BB542
+		SAGE_Brain_normal_cerebellum_B_BB542
+Brain regions	SAGE_Brain_normal_cortex_B_BB542
+		SAGE_Brain_normal_thalamus_B_1
+Breast		SAGE_Breast_metastatic_carcinoma_B_95-260
+		SAGE_Breast_carcinoma_B_95-259
+Breast		SAGE_Breast_metastatic_carcinoma_B_95-348
+		SAGE_Breast_carcinoma_B_95-347

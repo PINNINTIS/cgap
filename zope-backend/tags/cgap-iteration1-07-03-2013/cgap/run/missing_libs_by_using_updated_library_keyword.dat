@@ -1,0 +1,2916 @@
+23997	Homo sapiens monocyte library (Sugita Y)
+	uncharacterized treatment
+	uncharacterized histology
+		histology ## this is missing after comented the codes
+	uncharacterized preparation
+		white blood cell ## this is missing after comented the codes
+	blood
+	est
+	monocyte
+		myeloid ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+23197	Monocytes Differential Display ARE-cDNA PCR
+	subtracted
+	normal
+		health state ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		myeloid ## this is missing after comented the codes
+	est
+	monocyte
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+30109	Human HIV associated B-cell immunoblastic lymphoma
+	lymphoma
+	subtracted
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	lymphoreticular
+		abnormal ## this is missing after comented the codes
+	male
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+	unknown developmental stage
+942	Monocytes, stimulated II
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		myeloid ## this is missing after comented the codes
+	monocyte
+	est
+		cell type ## this is missing after comented the codes
+	flow-sorted
+	agent
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+40184	NETRP1
+	uncharacterized treatment
+	neutrophil
+	uncharacterized histology
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	short term culture
+	cell line
+	est
+		myeloid ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+882	Jurkat T-cells II
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+10713	NIH_MGC_50
+	non-normalized
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	soares non-normalized
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage
+39879	RIKEN full-length enriched mouse cDNA library, C57BL/6J spleen Th2 CD4+Tcell
+	full-length enriched
+	uncharacterized treatment
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized histology
+		t-cell ## this is missing after comented the codes
+	cd4+ t cell
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	c57bl/6j
+	lymphoreticular
+		histology ## this is missing after comented the codes
+	uncharacterized preparation
+		white blood cell ## this is missing after comented the codes
+	est
+	unknown developmental stage
+	spleen
+27317	NIH_MGC_141
+	full-length enriched
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		digestive ## this is missing after comented the codes
+	liver
+	salivary gland
+		urinary system ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		head ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	brain
+	mixed tissue
+		large intestine ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	colon
+	est
+	cornea
+	plasmid vector
+	mgc
+	natural killer cell
+		central nervous system ## this is missing after comented the codes
+		female genital ## this is missing after comented the codes
+	ovary
+	non-normalized
+		respiratory ## this is missing after comented the codes
+	kidney
+	pooled tissue
+	mammary gland
+		cell type ## this is missing after comented the codes
+	pharynx
+		blood cell ## this is missing after comented the codes
+		upper respiratory tract ## this is missing after comented the codes
+	skin
+		white blood cell ## this is missing after comented the codes
+	lung
+	size fractionated
+	blood
+	nervous
+	cell line
+	eye
+	gastrointestinal tract
+		intestine ## this is missing after comented the codes
+	unknown developmental stage
+1488	Subtracted cDNA library of activated B lymphocyte
+	subtracted
+		carcinogen ## this is missing after comented the codes
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	pooled tissue
+		cell type ## this is missing after comented the codes
+	tonsil
+	immune system activation
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+		stress ## this is missing after comented the codes
+	lymphoreticular
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	pma
+	est
+	unknown developmental stage
+28074	NEUTGMT01
+	uncharacterized treatment
+	uncharacterized histology
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+	neutrophil
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		cytokine ## this is missing after comented the codes
+	cell line
+	blood
+		myeloid ## this is missing after comented the codes
+	mixed pool by gender
+	est
+	gm-csf
+	unknown developmental stage
+	treated
+1795	Homo sapiens library (Spurkland A)
+		stress ## this is missing after comented the codes
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	immune system activation
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+40211	LYMPB2
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	cell line
+	blood
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+921	Activated T-cells X
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+55	NCI_CGAP_GCB1
+	normal
+	lymphoreticular
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	normalized
+	est
+	cgap
+	mgc
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	soares normalized
+		blood cell ## this is missing after comented the codes
+38675	Homo sapiens T lymphocyte
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+1013	RA-MO-I
+	subtracted
+		non-neoplasia ## this is missing after comented the codes
+	uncharacterized histology
+		health state ## this is missing after comented the codes
+	monocyte
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	male
+		abnormal ## this is missing after comented the codes
+	rheumatoid arthritis
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+		myeloid ## this is missing after comented the codes
+	est
+		arthritis ## this is missing after comented the codes
+31475	Homo sapiens T CELLS (JURKAT CELL LINE)
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+919	Activated T-cells I
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	agent
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	adult
+24296	Subtracted Mouse Intestinal Intraepithelial Lymphocyte Library
+	subtracted
+	uncharacterized histology
+	lymphocyte
+		digestive ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+		balb mouse ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	male
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		strain ## this is missing after comented the codes
+	plasmid vector
+	gastrointestinal tract
+	intestine
+	balb/c
+1310	Human Jurkat cell line mRNA (Thiele,K.)
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+	agent
+888	Jurkat T-cells III
+	non-normalized
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+22031	LTI_NFL008_TC2
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	normalized
+	cell line
+	est
+	unknown developmental stage
+28304	TLYMNOT05
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		blood ## this is missing after comented the codes
+		t-cell ## this is missing after comented the codes
+	cd4+ t cell
+	cell line
+	est
+	cord blood
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+39902	RIKEN full-length enriched mouse cDNA library, pooled tissue 12
+	full-length enriched
+	uncharacterized treatment
+	lymphoreticular
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	thymus
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	spleen
+78	NCI_CGAP_CLL1
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	b-cell
+	cgap
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+	chronic lymphocytic leukemia
+		abnormal ## this is missing after comented the codes
+	phagemid
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	normalized
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+	unknown developmental stage
+	soares normalized
+39321	RZPD no.9016
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+	oligo-dt primed
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	adult
+26659	Homo sapiens HTLV-1-transformed C91-PL
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	cell line
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+26512	NIH_MGC_126
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		digestive ## this is missing after comented the codes
+	liver
+	salivary gland
+		urinary system ## this is missing after comented the codes
+		head ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	brain
+	mixed tissue
+		large intestine ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	colon
+	est
+	mgc
+	natural killer cell
+		central nervous system ## this is missing after comented the codes
+		female genital ## this is missing after comented the codes
+	ovary
+	non-normalized
+		respiratory ## this is missing after comented the codes
+	kidney
+	pooled tissue
+	mammary gland
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	pharynx
+		blood cell ## this is missing after comented the codes
+		upper respiratory tract ## this is missing after comented the codes
+	skin
+	prostate
+		white blood cell ## this is missing after comented the codes
+	lung
+	size fractionated
+	nervous
+	cell line
+	eye
+	gastrointestinal tract
+		intestine ## this is missing after comented the codes
+	unknown developmental stage
+	bladder
+106	Soares_NFL_T_GBC_S1
+	subtracted
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	fetus
+	b-cell
+		respiratory ## this is missing after comented the codes
+	pooled tissue
+	cgap
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	soares subtracted
+		reproductive system ## this is missing after comented the codes
+	mixed tissue
+		histology ## this is missing after comented the codes
+	lung
+		white blood cell ## this is missing after comented the codes
+	bulk
+	est
+	mixed developmental stages
+	testis
+28302	TLYJNOT01
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+24365	RIKEN full-length enriched, B cells CRL-1702 WEHI 231 cDNA
+	crossbred
+	lymphoma
+	full-length enriched
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+		strain ## this is missing after comented the codes
+	unknown developmental stage
+23164	Dimethylfumarate induced differential expression of mRNA in U937 cells
+		lymphoma ## this is missing after comented the codes
+	subtracted
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+	non-hodgkin's lymphoma
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+10781	Mus musculus L-G myeloid precursor
+	uncharacterized treatment
+	uncharacterized histology
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	myeloid
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+28551	C57BL/6 mice Prostate T lymphocyte Leader
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	c57bl/6
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+	prostate
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	adult
+27318	NIH_MGC_142
+	full-length enriched
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		digestive ## this is missing after comented the codes
+	liver
+	salivary gland
+		urinary system ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		head ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	brain
+	mixed tissue
+		large intestine ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	colon
+	est
+	plasmid vector
+	mgc
+	natural killer cell
+		central nervous system ## this is missing after comented the codes
+		female genital ## this is missing after comented the codes
+	ovary
+	non-normalized
+		respiratory ## this is missing after comented the codes
+	kidney
+	pooled tissue
+	mammary gland
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	pharynx
+		blood cell ## this is missing after comented the codes
+		upper respiratory tract ## this is missing after comented the codes
+	skin
+	prostate
+		white blood cell ## this is missing after comented the codes
+	lung
+	size fractionated
+	blood
+	nervous
+	cell line
+	eye
+	gastrointestinal tract
+		intestine ## this is missing after comented the codes
+	unknown developmental stage
+	bladder
+28311	TMLR3DT01
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	male
+		histology ## this is missing after comented the codes
+	uncharacterized preparation
+		white blood cell ## this is missing after comented the codes
+	blood
+	est
+28309	TLYMUNT03
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	male
+		histology ## this is missing after comented the codes
+	uncharacterized preparation
+		white blood cell ## this is missing after comented the codes
+	blood
+	est
+28643	RIKEN full-length enriched, pooled tissues, bladder, etc.
+	full-length enriched
+	uncharacterized treatment
+	uncharacterized histology
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	mixed (normal and tumor)
+	b-cell
+	bone marrow
+	kidney
+	pooled tissue
+		digestive ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+		urinary system ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	skin
+	stem cell
+	mixed tissue
+		histology ## this is missing after comented the codes
+		large intestine ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	colon
+	mixed pool by gender
+	est
+	mixed developmental stages
+	gastrointestinal tract
+		intestine ## this is missing after comented the codes
+	bladder
+7631	NIH_MGC_2
+	non-normalized
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage
+28705	RIKEN full-length enriched, spleen lymphocyte
+	c57bl/6j
+	full-length enriched
+	uncharacterized treatment
+	normal
+	lymphoreticular
+	lymphocyte
+		health state ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	flow-sorted
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	spleen
+926	Activated T-cells IX
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+18991	NCI_CGAP_BC3
+		lymphoma ## this is missing after comented the codes
+	directionally cloned
+	non-normalized
+		health state ## this is missing after comented the codes
+	marginal zone lymphoma
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	lti non-normalized
+	b-cell
+	cgap
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+		vector ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+	unknown developmental stage
+939	Activated T-cells VII
+		stress ## this is missing after comented the codes
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	immune system activation
+	treated
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+944	Activated T-cells VIII
+		stress ## this is missing after comented the codes
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	immune system activation
+	treated
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+14876	U937 cell line
+		lymphoma ## this is missing after comented the codes
+	subtracted
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+	non-hodgkin's lymphoma
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+924	Activated T-cells II
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	agent
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	adult
+6527	KRIBB Human DP intrathymic T-cell cDNA library
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+	thymus
+	unknown developmental stage
+27934	EOSINOT02
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+	eosinophil
+		granulocyte ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	uncharacterized preparation
+		white blood cell ## this is missing after comented the codes
+	blood
+	mixed pool by gender
+	est
+		myeloid ## this is missing after comented the codes
+	unknown developmental stage
+884	Namalwa B cells I
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	cell line
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+973	Raji cells, cyclohexamide treated I
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+	bone
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	b-cell
+	burkitt's lymphoma
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+	maxilla
+	cycloheximide
+	treated
+249	caffeine-1-8 cDNA RDA third difference product
+	uncharacterized treatment
+	uncharacterized histology
+	lymphocyte
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+42162	RIKEN full-length enriched mouse cDNA library, BALB/c CRL-1669 BCL1 Clone 13.20-3B3 B cells
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		balb mouse ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		strain ## this is missing after comented the codes
+	unknown developmental stage
+	balb/c
+38129	Sugano cDNA library, lymphocyte
+	lymphoma
+	uncharacterized treatment
+	lymphocyte
+		health state ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+28706	RIKEN full-length enriched, thymus lymphocyte
+	c57bl/6j
+	full-length enriched
+	uncharacterized treatment
+	normal
+	lymphoreticular
+	lymphocyte
+		health state ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	thymus
+		cell type ## this is missing after comented the codes
+	flow-sorted
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+7786	NIH_MGC_36
+	directionally cloned
+	non-normalized
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	soares non-normalized
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage
+39678	RIKEN full-length enriched mouse cDNA library, BALB/C CRL-1669 BCL1 Clone 13.20-3B3 B cells
+	full-length enriched
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		balb mouse ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		strain ## this is missing after comented the codes
+	unknown developmental stage
+	balb/c
+39810	RIKEN full-length enriched mouse cDNA library, CRL-1702 WEHI 231 B cells
+	crossbred
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	b-cell lymphoma
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	est
+		strain ## this is missing after comented the codes
+	unknown developmental stage
+24355	RIKEN full-length enriched, B cells CRL-1669 BCL1 Clone 13.20-3B3 cDNA
+	full-length enriched
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		balb mouse ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		strain ## this is missing after comented the codes
+	unknown developmental stage
+	balb/c
+34676	SARS patients lymphocyte SSH
+	subtracted
+	uncharacterized histology
+	lymphocyte
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		virus ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		provisional ## this is missing after comented the codes
+	blood
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	sars
+36799	Lymphocyte RACE ready cDNA
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+31474	Homo sapiens B CELLS (RAMOS CELL LINE)
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	b-cell
+	burkitt's lymphoma
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+79	NCI_CGAP_GCB0
+	lymphoreticular
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	est
+	cgap
+	staudt non-normalized
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	tonsil
+		blood cell ## this is missing after comented the codes
+20354	Soares_NPBMC
+	normal
+	lymphocyte
+		health state ## this is missing after comented the codes
+	oligo-dt primed
+	cgap
+		cell type ## this is missing after comented the codes
+	flow-sorted
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	phagemid
+		white blood cell ## this is missing after comented the codes
+	normalized
+	blood
+	est
+	unknown developmental stage
+	soares normalized
+13745	Homo sapiens U937
+		lymphoma ## this is missing after comented the codes
+	subtracted
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+		stress ## this is missing after comented the codes
+	non-hodgkin's lymphoma
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+	treated
+10699	LTI_FL011_BC1
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	b-cell
+	burkitt's lymphoma
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+	phagemid
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+	unknown developmental stage
+1374	Human lymphocyte mRNA (Zhu,L.-P.)
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+1502	Mouse B cells treated with LPS and IL-4
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+		balb mouse ## this is missing after comented the codes
+	immune system activation
+		blood cell ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+	lymphoreticular
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		strain ## this is missing after comented the codes
+	unknown developmental stage
+	balb/c
+	spleen
+38076	Sugano cDNA library, lymphocyte Daudi
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	b-cell
+	burkitt's lymphoma
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+	uncharacterized preparation
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+7788	NIH_MGC_38
+	directionally cloned
+	non-normalized
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	soares non-normalized
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage
+6471	DNC15
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+	monocyte
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+	male
+	infant
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	blood
+	est
+		myeloid ## this is missing after comented the codes
+23187	human activated B lymphocyte
+		stress ## this is missing after comented the codes
+	uncharacterized treatment
+	lymphoreticular
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	tonsil
+	immune system activation
+		blood cell ## this is missing after comented the codes
+31444	Homo sapiens T CELLS (JURKAT CELL LINE) COT 10-NORMALIZED
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	oligo-dt primed
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	normalized
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+940	Activated T-cells XII
+		stress ## this is missing after comented the codes
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	immune system activation
+	treated
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+42146	T cell activated by anti-CD3 and anti-CD28 Subtracted with the normal human T cell
+	subtracted
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+	immune system activation
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+		stress ## this is missing after comented the codes
+	male
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	est
+39322	RZPD no.9017
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+	oligo-dt primed
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	adult
+621	RA-MO-III
+	subtracted
+		non-neoplasia ## this is missing after comented the codes
+	uncharacterized histology
+		health state ## this is missing after comented the codes
+	monocyte
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	adult
+		gender ## this is missing after comented the codes
+	male
+		abnormal ## this is missing after comented the codes
+	rheumatoid arthritis
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+		myeloid ## this is missing after comented the codes
+	est
+		arthritis ## this is missing after comented the codes
+19020	NIH_MGC_48
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	rubin non-normalized
+		cell type ## this is missing after comented the codes
+	tonsil
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	cell line
+	est
+	plasmid vector
+	mgc
+	unknown developmental stage
+920	Activated T-cells V
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+32160	THP-1 TAP Library
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+	acute monocytic leukemia
+	oligo-dt primed
+	monocyte
+		cell type ## this is missing after comented the codes
+		acute myelogenous leukemia ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		toxic agent ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	infant
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	lipopolysaccharide (lps)
+	cell line
+	blood
+		myeloid ## this is missing after comented the codes
+	est
+	plasmid vector
+		endotoxin ## this is missing after comented the codes
+		myelogenous leukemia ## this is missing after comented the codes
+1330	Human T-cell cDNA library (M.G.Smirnova)
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+6528	KRIBB Human CD4 intrathymic T-cell cDNA library
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+	thymus
+	unknown developmental stage
+23304	Mus musculus unstimulated Th2
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+1645	Human tonsils DDRT-PCR
+	uncharacterized treatment
+	normal
+		carcinogen ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+	tonsil
+	immune system activation
+		blood cell ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+	lymphoreticular
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	pma
+	est
+	unknown developmental stage
+	treated
+19907	RDA-C/EBPE
+	crossbred
+	subtracted
+	uncharacterized histology
+	juvenile
+		peritoneum ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+	peritoneal exudate
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		peritoneal space ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	mixed pool by gender
+	myeloid
+	est
+	plasmid vector
+		strain ## this is missing after comented the codes
+28308	TLYMUNT01
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	male
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+28306	TLYMTXT02
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+		t-cell ## this is missing after comented the codes
+	cd4+ t cell
+	muromonab-cd3
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		other therapeutic agent ## this is missing after comented the codes
+	cell line
+	blood
+	est
+	unknown developmental stage
+	treated
+890	Namalwa B cells II
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+19004	U937 cells Express Library
+		lymphoma ## this is missing after comented the codes
+	subtracted
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+	non-hodgkin's lymphoma
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+6380	U937
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+	non-hodgkin's lymphoma
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+1489	cDNA library of activated B cell line 3D5
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	cell line
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+938	Activated T-cells III
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+16462	LST1
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+	non-hodgkin's lymphoma
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+26443	NIA Mouse Germinal Center B Cell cDNA Library
+	uncharacterized treatment
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+	unknown developmental stage
+40185	NETRP2
+	uncharacterized treatment
+	neutrophil
+	normal
+		health state ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+		myeloid ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+1292	Human lymphocytes cDNA (R.Meneveri)
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+12617	Soares_mouse_NMGB_bcell
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	phagemid
+		white blood cell ## this is missing after comented the codes
+	normalized
+	est
+	unknown developmental stage
+	soares normalized
+31434	Homo sapiens B CELLS (RAMOS CELL LINE) COT 25-NORMALIZED
+		lymphoma ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	b-cell
+	burkitt's lymphoma
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	normalized
+	cell line
+	est
+24177	SAGE_Universal_Reference_Human_RNA
+	glioblastoma multiforme
+	melanoma
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		skin tumor ## this is missing after comented the codes
+	b-cell
+		glioma ## this is missing after comented the codes
+		digestive ## this is missing after comented the codes
+	liver
+		astrocytoma ## this is missing after comented the codes
+		soft tissue/muscle tissue tumor ## this is missing after comented the codes
+	liposarcoma
+	sage
+	leukemia
+		abnormal ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	brain
+	mixed tissue
+	macrophage
+		histology ## this is missing after comented the codes
+	neoplasia
+	bulk
+	cervix
+		female genital ## this is missing after comented the codes
+		central nervous system ## this is missing after comented the codes
+	non-normalized
+	pooled tissue
+	mammary gland
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		brain/cns tumor ## this is missing after comented the codes
+	mixed tumors
+		nervous tissue tumor ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	nervous
+	testis
+	unknown developmental stage
+9631	cDNA Library from rIL-2 activated lymphocytes
+	subtracted
+	normal
+	lymphocyte
+	uncharacterized histology
+		health state ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+	immune system activation
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+	male
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cytokine
+	est
+	unknown developmental stage
+	treated
+929	Activated T-cells XX
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	agent
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+	adult
+27933	EOSINOT01
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+	uncharacterized preparation
+	eosinophil
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		granulocyte ## this is missing after comented the codes
+	blood
+	est
+		myeloid ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+837	Supt cells
+	non-normalized
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+48361	Human Natural Killer cell cDNA
+	uncharacterized treatment
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	est
+	natural killer cell
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+563	CLONTECH cDNA library CCRF-CEM, cat# HL1063g
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+39137	Human peripheral blood lymphocytes, large insert, pCMV expression library
+	uncharacterized treatment
+	normal
+	lymphocyte
+		health state ## this is missing after comented the codes
+	uncharacterized preparation
+	oligo-dt primed
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	blood
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+28305	TLYMNOT08
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+	muromonab-cd3
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+		stress ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		other therapeutic agent ## this is missing after comented the codes
+	blood
+	cell line
+	est
+	treated
+6294	Daudi lymphoma
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	b-cell
+	burkitt's lymphoma
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+40085	ACTVT1
+		stress ## this is missing after comented the codes
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+	immune system activation
+		blood cell ## this is missing after comented the codes
+28310	TMLR2DT01
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+	mixed pool by gender
+	unknown developmental stage
+	treated
+10700	LTI_FL012_TC1
+	leukemia
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	phagemid
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+6526	KRIBB Human TN intrathymic T-cell cDNA library
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+	thymus
+	unknown developmental stage
+967	CCRF-CEM cells, cyclohexamide treated I
+	non-normalized
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+	female
+		lymphocytic leukemia ## this is missing after comented the codes
+39180	MOLT-4
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+7591	Homo sapiens u937
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		pleura ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	lymphocyte
+		respiratory ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	pleural effusion
+	non-hodgkin's lymphoma
+	male
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	cell line
+	est
+26523	NIH_MGC_128
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		digestive ## this is missing after comented the codes
+	liver
+	salivary gland
+		urinary system ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		head ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	brain
+	mixed tissue
+		large intestine ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	colon
+	est
+	plasmid vector
+	mgc
+	natural killer cell
+		central nervous system ## this is missing after comented the codes
+		female genital ## this is missing after comented the codes
+	ovary
+	non-normalized
+		respiratory ## this is missing after comented the codes
+	kidney
+	pooled tissue
+	mammary gland
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	pharynx
+		blood cell ## this is missing after comented the codes
+		upper respiratory tract ## this is missing after comented the codes
+	skin
+	prostate
+		white blood cell ## this is missing after comented the codes
+	lung
+	size fractionated
+	blood
+	nervous
+	cell line
+	eye
+	gastrointestinal tract
+		intestine ## this is missing after comented the codes
+	unknown developmental stage
+	bladder
+28301	TLYJINT01
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+	mixed agents
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+40210	LYMPB1
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	short term culture
+	cell line
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+875	Jurkat T-cells V
+	non-normalized
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+28707	RIKEN full-length enriched, pooled tissues, spleen and thymus lymphocytes
+	full-length enriched
+	uncharacterized treatment
+	normal
+	lymphoreticular
+	lymphocyte
+		health state ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	thymus
+		cell type ## this is missing after comented the codes
+	flow-sorted
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	spleen
+13626	brain I, Batten's subtracted
+	subtracted
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	brain
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	nervous
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		central nervous system ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+42255	SCID Mouse Thymus Regulatory Genes
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		other mouse strains ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	adult
+	lymphoreticular
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	scid
+	est
+	plasmid vector
+		strain ## this is missing after comented the codes
+	thymus
+17883	Homo sapiens HTLV-1 transformed T cell line C91-PL
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	cell line
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+883	Jurkat T-cells VI
+	non-normalized
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+870	T-cell lymphoma
+	lymphoma
+	non-normalized
+		health state ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+928	Activated T-cells XI
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+23170	NIH_MGC_106
+	directionally cloned
+	non-normalized
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	oligo-dt primed
+	rubin non-normalized
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	blood
+	est
+	natural killer cell
+	mgc
+	plasmid vector
+	unknown developmental stage
+23185	Human HIV associated B-cell centroblastic lymphoma
+	lymphoma
+	subtracted
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+		cell type ## this is missing after comented the codes
+	tonsil
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	adult
+	lymphoreticular
+		abnormal ## this is missing after comented the codes
+	male
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	est
+	plasmid vector
+26658	Homo sapiens ATL-derived JuanaW
+		leukemia ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	cell line
+	est
+	lymphocytic leukemia
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+678	Stratagene mouse Tcell 937311
+	directionally cloned
+	uncharacterized treatment
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	oligo-dt primed
+		t-cell ## this is missing after comented the codes
+	cd4+ t cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	phagemid
+		white blood cell ## this is missing after comented the codes
+	bulk
+	size fractionated
+	blood
+	est
+	unknown developmental stage
+32159	THP-1 OligodT Library
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+	acute monocytic leukemia
+	oligo-dt primed
+	monocyte
+		cell type ## this is missing after comented the codes
+		acute myelogenous leukemia ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		toxic agent ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	infant
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	lipopolysaccharide (lps)
+	cell line
+	blood
+		myeloid ## this is missing after comented the codes
+	est
+	plasmid vector
+		endotoxin ## this is missing after comented the codes
+		myelogenous leukemia ## this is missing after comented the codes
+23235	Mus musculus C3H/HeJ resting Th2 cells
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	c3h/he
+	t-cell
+	est
+		strain ## this is missing after comented the codes
+		c3h mouse ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+6470	UPC15
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+	monocyte
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+	male
+	infant
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	blood
+	est
+		myeloid ## this is missing after comented the codes
+22032	LTI_NFL010_BC2
+		lymphoma ## this is missing after comented the codes
+	uncharacterized treatment
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	b-cell
+	burkitt's lymphoma
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		b-cell lymphoma ## this is missing after comented the codes
+		non-hodgkin's lymphoma ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	est
+	unknown developmental stage
+26522	NIH_MGC_127
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+		digestive ## this is missing after comented the codes
+	liver
+	salivary gland
+		urinary system ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+		head ## this is missing after comented the codes
+		reproductive system ## this is missing after comented the codes
+	brain
+	mixed tissue
+		large intestine ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	colon
+	est
+	plasmid vector
+	mgc
+	natural killer cell
+		central nervous system ## this is missing after comented the codes
+		female genital ## this is missing after comented the codes
+	ovary
+	non-normalized
+		respiratory ## this is missing after comented the codes
+	kidney
+	pooled tissue
+	mammary gland
+		male genital ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	pharynx
+		blood cell ## this is missing after comented the codes
+		upper respiratory tract ## this is missing after comented the codes
+	skin
+	prostate
+		white blood cell ## this is missing after comented the codes
+	lung
+	size fractionated
+	blood
+	nervous
+	cell line
+	eye
+	gastrointestinal tract
+		intestine ## this is missing after comented the codes
+	unknown developmental stage
+	bladder
+11594	Soares_NMGBC_B-cell
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+	b-cell
+	cgap
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+	phagemid
+		white blood cell ## this is missing after comented the codes
+	normalized
+	est
+	unknown developmental stage
+	soares normalized
+	spleen
+40110	ACTVT2
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+28307	TLYMTXT03
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+		t-cell ## this is missing after comented the codes
+	cd4+ t cell
+	muromonab-cd3
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		other therapeutic agent ## this is missing after comented the codes
+	cell line
+	blood
+	est
+	unknown developmental stage
+	treated
+2858	Mus musculus CTLL
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	c57bl/6
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	blood
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+28303	TLYMNOT03
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+		blood ## this is missing after comented the codes
+		t-cell ## this is missing after comented the codes
+	cd4+ t cell
+	cell line
+	est
+	cord blood
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+10714	NIH_MGC_51
+	directionally cloned
+	non-normalized
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	soares non-normalized
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage
+927	Activated T-cells VI
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+37933	Oleic acid SSH Library
+	subtracted
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	juvenile
+	acute lymphocytic leukemia
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		leukemia ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+		lymphocytic leukemia ## this is missing after comented the codes
+18992	NCI_CGAP_Sp2
+	directionally cloned
+	non-normalized
+	normal
+		lymphocyte ## this is missing after comented the codes
+		health state ## this is missing after comented the codes
+	oligo-dt primed
+	lti non-normalized
+	cgap
+		cell type ## this is missing after comented the codes
+	flow-sorted
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	natural killer cell
+	plasmid vector
+	unknown developmental stage
+	spleen
+28792	human lymphocyte Matchmaker cDNA library
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	oligo-dt primed
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	blood
+	cell line
+	est
+	plasmid vector
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+799	Human LAK cell (Y.Abe)
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+	immune system activation
+		blood cell ## this is missing after comented the codes
+		gender ## this is missing after comented the codes
+		stress ## this is missing after comented the codes
+	male
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cytokine
+	cell line
+	blood
+	est
+	natural killer cell
+	unknown developmental stage
+	treated
+7787	NIH_MGC_37
+	directionally cloned
+	non-normalized
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	soares non-normalized
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	size fractionated
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage
+925	Activated T-cells IV
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+	uncharacterized tissue
+	adult
+17898	human B lymphocyte cDNA library
+	uncharacterized treatment
+	uncharacterized histology
+		lymphocyte ## this is missing after comented the codes
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	b-cell
+	bone marrow
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+		blood cell ## this is missing after comented the codes
+14907	Subtracted cDNA libraries from human Jurkat cells
+	subtracted
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	t-cell
+		cell type ## this is missing after comented the codes
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	leukemia
+		abnormal ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+	neoplasia
+		white blood cell ## this is missing after comented the codes
+	blood
+	cell line
+	est
+	plasmid vector
+	unknown developmental stage
+23994	Homo sapiens T-cell library (Sugita Y)
+	uncharacterized treatment
+	normal
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	t-cell
+	est
+	flow-sorted
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+874	Jurkat T-cells I
+	leukemia
+	non-normalized
+		health state ## this is missing after comented the codes
+		abnormal ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	neoplasia
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	cell line
+	t-cell
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+23179	Human lymphocytes
+	uncharacterized treatment
+	lymphocyte
+	uncharacterized histology
+	uncharacterized preparation
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+		cell type ## this is missing after comented the codes
+	unknown developmental stage
+	uncharacterized tissue
+		blood cell ## this is missing after comented the codes
+10715	NIH_MGC_52
+	directionally cloned
+	non-normalized
+	normal
+	lymph node
+		health state ## this is missing after comented the codes
+		lymphocyte ## this is missing after comented the codes
+	b-cell
+	flow-sorted
+		cell type ## this is missing after comented the codes
+		blood cell ## this is missing after comented the codes
+		vector ## this is missing after comented the codes
+	soares non-normalized
+	lymphoreticular
+		histology ## this is missing after comented the codes
+		white blood cell ## this is missing after comented the codes
+	est
+	mgc
+	plasmid vector
+	unknown developmental stage

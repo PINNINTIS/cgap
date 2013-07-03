@@ -1,0 +1,27 @@
+white blood cell	Mus musculus unstimulated Th2
+white blood cell	RIKEN full-length enriched, B cells CRL-1702 WEHI 231 cDNA
+white blood cell	RIKEN full-length enriched, thymus lymphocyte
+white blood cell	NIA Mouse Germinal Center B Cell cDNA Library
+white blood cell	RDA-C/EBPE
+white blood cell	Stratagene mouse Tcell 937311
+white blood cell	RIKEN full-length enriched mouse cDNA library, BALB/c CRL-1669 BCL1 Clone 13.20-3B3 B cells
+white blood cell	SCID Mouse Thymus Regulatory Genes
+white blood cell	RIKEN full-length enriched mouse cDNA library, C57BL/6J spleen Th2 CD4+Tcell
+white blood cell	RIKEN full-length enriched mouse cDNA library, pooled tissue 12
+white blood cell	RIKEN full-length enriched, pooled tissues, spleen and thymus lymphocytes
+white blood cell	Soares_NMGBC_B-cell
+white blood cell	NCI_CGAP_BC3
+white blood cell	RIKEN full-length enriched mouse cDNA library, CRL-1702 WEHI 231 B cells
+white blood cell	RIKEN full-length enriched, B cells CRL-1669 BCL1 Clone 13.20-3B3 cDNA
+white blood cell	Soares_mouse_NMGB_bcell
+white blood cell	Mouse B cells treated with LPS and IL-4
+white blood cell	C57BL/6 mice Prostate T lymphocyte Leader
+white blood cell	RIKEN full-length enriched, spleen lymphocyte
+white blood cell	NCI_CGAP_Sp2
+white blood cell	RIKEN full-length enriched mouse cDNA library, BALB/C CRL-1669 BCL1 Clone 13.20-3B3 B cells
+white blood cell	caffeine-1-8 cDNA RDA third difference product
+white blood cell	Mus musculus C3H/HeJ resting Th2 cells
+white blood cell	RIKEN full-length enriched, pooled tissues, bladder, etc.
+white blood cell	Mus musculus L-G myeloid precursor
+white blood cell	Mus musculus CTLL
+white blood cell	Subtracted Mouse Intestinal Intraepithelial Lymphocyte Library

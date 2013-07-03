@@ -1,0 +1,9 @@
+##
+## This cron file covers, as needed, CGAP, CMAP, MGC, XGC, and ZGC
+##
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /share/content/CGAP/run/cgap_cron.csh
+0 * * * * /share/content/CGAP/run/cache_cron.csh
+0,5,10,15,20,25,30,35,40,45,50,55 * * * * /share/content/CGAP/run/ProcessGeneBatchFile.pl
+#0,5,10,15,20,25,30,35,40,45,50,55 * * * * /share/content/CMAP/run/PW/pid_cron.csh
+#0 * * * * /share/content/CMAP/run/PW/cache_cron.csh
+* * * * * /share/content/CGAP/run/ComputeSDGED.pl > /dev/null 2>&1

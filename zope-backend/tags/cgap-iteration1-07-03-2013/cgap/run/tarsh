@@ -1,0 +1,29 @@
+133,135d132
+<   my $e_value = 0.1;
+<   my $score = 20;
+< 
+144,146c141
+<       "and s.cluster_number = $cid " .
+<       "and to_number(m.e_value) < $e_value " .
+<       "and m.score > $score "; 
+---
+>       "and s.cluster_number = $cid " ;
+377c372
+<     if ($$acc2pval{$a} > $p_value) {
+---
+>     if ($$acc2pval{$a} > $p_value and $$acc2pval{$a} < 1) {
+393,398c388,390
+<   ## $e_value or $e_value = 1;
+<   $e_value or $e_value = 0.1;
+<   ## $score or $score     = 0;
+<   $score or $score     = 20;
+<   ## $p_value or $p_value = 0;
+<   $p_value or $p_value = 0.00001;
+---
+>   $e_value or $e_value = 1;
+>   $score or $score     = 0;
+>   $p_value or $p_value = 0;
+4536c4528
+<         "$CGAP_SCHEMA.$ug_sequence s, " .
+---
+>         "$CGAP_SCHEMA.$ug_sequence s " .

@@ -1,0 +1,1337 @@
+#!/usr/local/bin/perl
+
+######################################################################
+# GXS.pm
+#
+######################################################################
+
+use strict;
+use FileHandle;
+use CGAPConfig;
+use Paging;
+use ServerSupport;
+use DBI;
+## use Bayesian;
+use Cache;
+use Sys::Hostname;
+
+# constant determining whether to use Oracle or flat file
+# as data source
+use constant MANY_SAGE_LIBRARIES => 0;
+## use constant MANY_SAGE_LIBRARIES => 20;
+
+my $cache;
+use constant GXS_ROWS_PER_PAGE => 300;
+use constant ORACLE_LIST_LIMIT => 500;
+## use constant ORACLE_LIST_LIMIT => 350;
+
+my %org_method_2_protocol;
+$org_method_2_protocol{"Hs"} = {
+  "SS10"  =>  "A",
+  "LS10"  =>  "B",
+  "LS17"  =>  "C"
+};
+$org_method_2_protocol{"Mm"} = {
+  "SS10"  =>  "K",
+  "LS10"  =>  "L",
+  "LS17"  =>  "M"
+};
+my %powers;
+
+InitializeDatabase();
+
+######################################################################
+sub InitializeDatabase {
+  $cache = new Cache(CACHE_ROOT, GXS_CACHE_PREFIX);
+}
+
+
+######################################################################
+## GXS variables
+
+my (%setA, %setB, %seqA, %seqB, %libA, %libB, %tallied_clus);
+
+######################################################################
+sub Init {
+  undef %setA;
+  undef %setB;
+  undef %seqA;
+  undef %seqB;
+  undef %libA;
+  undef %libB;
+  undef %tallied_clus;
+}
+
+######################################################################
+sub MayBeDifferent {
+  my ($factor, $a, $b, $A, $B) = @_;
+
+  my ($big, $small, $a_ratio, $b_ratio);
+  $a_ratio = $a/$A;
+  $b_ratio = $b/$B;
+
+  if ($a_ratio == $b_ratio) {
+    return 0;
+  } elsif ($factor == 1) {
+    return 1;
+  } else {
+    if ($a_ratio > $b_ratio) {
+      $big   = $a_ratio;
+      $small = $b_ratio;
+    } else {
+      $big   = $b_ratio;
+      $small = $a_ratio;
+    }
+    if ($big > $factor * $small) {
+      return 1;
+    } else {
+      return 0;
+    }
+  }
+}
+
+######################################################################
+sub OddsRatio {
+  my ($G_A, $G_B, $TotalA, $TotalB) = @_;
+  ## G_A: number of ESTs in Set A that hit gene G
+  ## TotalA: number of ESTs in Set A
+  ## BarG_A: number of ESTS in Set A that do not hit gene G
+
+  my $BarG_A = $TotalA - $G_A;
+  my $BarG_B = $TotalB - $G_B;
+
+  if ($G_A == 0) {
+    return 0;
+  } elsif ($G_B == 0) {
+    return "NaN";
+  } else {
+    return sprintf("%.2f", ($G_A * $BarG_B) / ($G_B * $BarG_A));
+  }
+  
+}
+
+######################################################################
+sub numerically { $a <=> $b };
+sub r_numerically { $b <=> $a };
+
+
+######################################################################
+# EST GXS specific
+######################################################################
+
+######################################################################
+sub ReadClusterData {
+  my ($org) = @_;
+  my ($total_seqsA, $total_seqsB, $total_libsA, $total_libsB);
+
+  my ($clu, $lid, $num_seqs);
+
+  if ($org eq "Hs") {
+    open (CLUF, HS_GXS_DATA)  or die "Cannot open " . HS_GXS_DATA;
+  } else {
+    open (CLUF, MM_GXS_DATA)  or die "Cannot open " . MM_GXS_DATA;
+  }
+
+  while (<CLUF>) {
+    chop;
+    ($clu, $lid, $num_seqs) = split "\t";
+    if (defined $setA{$lid}) {
+      $tallied_clus{$clu} = 1;
+      $seqA{$clu} += $num_seqs;
+      $libA{$clu}++;
+      $total_seqsA += $num_seqs;
+      $total_libsA++;
+    }
+    if (defined $setB{$lid}) {
+      $tallied_clus{$clu} = 1;
+      $seqB{$clu} += $num_seqs;
+      $libB{$clu}++;
+      $total_seqsB += $num_seqs;
+      $total_libsB++;
+    }
+  }
+
+  $total_seqsA = sprintf "%d", $total_seqsA + .05;
+  $total_seqsB = sprintf "%d", $total_seqsB + .05;
+
+  close CLUF;
+  return join "\001", $total_seqsA, $total_seqsB;
+}
+
+######################################################################
+sub ComputeDifferences {
+  my ($factor, $pvalue, $total_seqsA, $total_seqsB, $org, $result) = @_;
+ 
+  my %exists;
+  my ($clu, $sym);
+  my ($odds_ratio, $P);
+  my ($G_A, $G_B, $libsA, $libsB);
+  my (%order, %NaN);
+  my (@clus, %clu2accs);
+
+  if( $pvalue =~ /^e/ ) {
+      $pvalue = "1" . $pvalue;
+  } 
+
+  for $clu (keys %tallied_clus) {
+    $G_A = $seqA{$clu}; $G_A or $G_A = 0;
+    $G_B = $seqB{$clu}; $G_B or $G_B = 0;
+    $libsA = $libA{$clu}; $libsA or $libsA = 0;
+    $libsB = $libB{$clu}; $libsB or $libsB = 0;
+
+    if (not MayBeDifferent($factor,
+        $G_A, $G_B, $total_seqsA, $total_seqsB)) {
+      next;
+    }
+
+    if ($G_A or $G_B) {
+      $odds_ratio =
+          OddsRatio($G_A, $G_B, $total_seqsA, $total_seqsB);
+
+      if( defined $exists{"$G_A,$G_B"} ) {
+        $P = $exists{"$G_A,$G_B"};
+      }  
+      else {
+        print "8888 $G_A, $G_B, $total_seqsA, $total_seqsB \n";
+        $total_seqsA = $total_seqsA * 1.0; 
+        $total_seqsB = $total_seqsB * 1.0; 
+        if ($G_A/$total_seqsA > $G_B/$total_seqsB) {
+          $P = 1 - Bayesian($factor, $G_A, $G_B, $total_seqsA, $total_seqsB);
+          $exists{"$G_A,$G_B"} = $P;
+        } else {
+          $P = 1 - Bayesian($factor, $G_B, $G_A, $total_seqsB, $total_seqsA);
+          $exists{"$G_A,$G_B"} = $P;
+        }
+ 
+      }  
+
+      if ($P <= $pvalue) {
+        ## $P = sprintf "%.2f", $P;
+        $P = sprintf "%.3f", $P;
+        if ($odds_ratio eq "NaN") {
+          push @{ $NaN{$G_A} }, 
+            "$clu\t$libsA\t$libsB\t$G_A\t$G_B\t" .
+            "$odds_ratio\t$P";
+          push @clus, $clu;
+        } else {
+          push @{ $order{$odds_ratio} },
+            "$clu\t$libsA\t$libsB\t$G_A\t$G_B\t" .
+            "$odds_ratio\t$P";
+          push @clus, $clu;
+        }
+      }
+    }
+  }
+
+  my ($clu2accs, $clu2sym) = &GetAccessions ($org, \@clus);
+ 
+  if( !(defined $clu2accs) ) {
+    return undef;
+  }
+    
+  my ($k, $x, $cid, @temps);
+  for $k (sort r_numerically keys %NaN) {
+    for $x (@{ $NaN{$k} }) {
+      @temps = split "\t", $x;
+      $cid = $temps[0];
+      push @{ $result }, join("\t",
+            $$clu2sym{$cid},
+            $cid,
+            $$clu2accs{$cid},
+            @temps[1..6]
+          );
+    }
+  }
+  for $k (sort r_numerically keys %order) {
+    for $x (@{ $order{$k} }) {
+      @temps = split "\t", $x;
+      $cid = $temps[0];
+      push @{ $result }, join("\t",
+            $$clu2sym{$cid},
+            $cid,
+            $$clu2accs{$cid},
+            @temps[1..6]
+          );
+    }
+  }
+  undef %powers;
+}
+
+######################################################################
+sub GetAccessions {
+ 
+  my ($org, $clus_num) = @_;
+  my @clus = @{$clus_num};
+  my %clu2accs;
+  my %clu2sym;
+
+  my ($cluster_number, $sequence, $sym);
+  my ($i, $list);
+  my ($sql, $stm);
+
+  my $db = DBI->connect("DBI:Oracle:" . $$DB_INSTANCE,$DB_USER,$DB_PASS, {AutoCommit=>0});
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE . "\n";
+    print STDERR "$DBI::errstr\n";
+    die "Error: Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE;
+    return undef;
+  }
+
+  $sql = "delete from $CGAP_SCHEMA.gene_tmp_cluster";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+  }
+
+  $sql = "insert into $CGAP_SCHEMA.gene_tmp_cluster values (?)";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  for( my $i=0; $i<@clus; $i++ ) {
+    if(!$stm->execute($clus[$i])) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      die "Error: execute call $sql failed with message $DBI::errstr";
+    }
+  }
+
+  my $table_name = ($org eq "Hs" ?
+             "$CGAP_SCHEMA.hs_cluster" : "$CGAP_SCHEMA.mm_cluster");
+
+  $sql = "select a.CLUSTER_NUMBER, a.SEQUENCES, a.GENE from " .
+            "$table_name a, $CGAP_SCHEMA.gene_tmp_cluster b " . 
+            " where a.CLUSTER_NUMBER = b.CLUSTER_NUMBER ";
+
+  $stm = $db->prepare($sql);
+
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+    return undef;
+  }
+  else {
+    if(!$stm->execute()) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      die "Error: execute call $sql failed with message $DBI::errstr";
+      return undef;
+    }  
+    $stm->bind_columns(\$cluster_number, \$sequence, \$sym);
+    while($stm->fetch) {
+      $clu2accs{$cluster_number} = $sequence;
+      if ($sym) {
+        $clu2sym{$cluster_number} = $sym
+      } else {
+        $clu2sym{$cluster_number} = "-";
+      }
+    }  
+  }  
+
+  $db->disconnect();
+
+  return (\%clu2accs, \%clu2sym);
+
+}
+
+######################################################################
+sub ComputeGXS_1 {
+  my ($cache_id, $org, $page, $factor, $pvalue, $chr,
+      $total_seqsA, $total_seqsB, $total_libsA, $total_libsB,
+      $setA, $setB) = @_;
+  my (@order);
+  my ($filename, $gxs_cache_id);
+
+  $chr =~ s/x/X/;
+  $chr =~ s/y/Y/;
+  $chr =~ s/a/A/;
+  $chr =~ s/L/l/g;
+  $chr =~ s/\ +//g;
+
+  if ( $chr eq "" ) {
+    $chr = "All";
+  }
+
+  if( ( $chr > 22 or $chr < 1 ) and
+      ( ($chr ne "X") and ($chr ne "Y") and ($chr ne "All") ) ) {
+    return "Not correct chromosome $chr";
+  }
+
+
+  if ($cache_id == 0 || $cache->FindCacheFile($cache_id) eq $CACHE_FAIL) {
+    Init();
+    for (split(",", $setA)) {
+      $setA{$_} = 1 ;
+    }
+    for (split(",", $setB)) {
+      $setB{$_} = 1 ;
+    }
+
+    $total_libsA = scalar(keys %setA);
+    $total_libsB = scalar(keys %setB);
+
+    ($total_seqsA, $total_seqsB) =
+        split "\001", ReadClusterData($org);
+
+    if ($total_seqsA == 0) {
+      return "No sequences in A";
+    }
+    if ($total_seqsB == 0) {
+      return "No sequences in B";
+    }
+
+    ComputeDifferences($factor, $pvalue, $total_seqsA, $total_seqsB,
+        $org, \@order);
+
+    ($gxs_cache_id, $filename) = $cache->MakeCacheFile();
+
+    if ($gxs_cache_id != $CACHE_FAIL) {
+      if (open(GXSOUT, ">$filename")) {
+        for (@order) {
+          printf GXSOUT "$_\n";
+        }
+        close GXSOUT;
+        chmod 0666, $filename;
+      } else {
+        $gxs_cache_id = 0;
+      }
+    }
+
+  } else {
+    my $filename = $cache->FindCacheFile($cache_id);
+    open(GXSIN, "$filename") or die "Can't open $filename.";
+    while (<GXSIN>) {
+      chop;
+      push @order, $_;
+    } 
+    $gxs_cache_id = $cache_id;
+    close (GXSIN);
+  }
+
+  my @filtered;
+  if( $chr ne "All" ) {
+    my $db = DBI->connect("DBI:Oracle:" . $$DB_INSTANCE,$DB_USER,$DB_PASS);
+    if (not $db or $db->err()) {
+      print STDERR "Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE . "\n";
+      print STDERR "$DBI::errstr\n";
+      die "Error: Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE;
+      return undef;
+    }
+
+    @filtered = filterByChr( $db, $org, $chr, \@order );
+
+    $db->disconnect();
+  }
+  else {
+    @filtered = @order;
+  }
+
+
+
+  my ($lo, $hi);
+  if ($page > 0) {
+    $lo = 0 + ($page - 1) * GXS_ROWS_PER_PAGE;
+    $hi = $lo + GXS_ROWS_PER_PAGE - 1;
+    if ($hi > @filtered) {
+      $hi = @filtered - 1;
+    }
+  } else {
+    $lo = 0;
+    $hi = @filtered - 1 ;
+  }
+
+  my $n_genes = scalar(@filtered);
+
+  return (
+      "$gxs_cache_id|$n_genes|$total_seqsA|$total_seqsB|" .
+      "$total_libsA|$total_libsB|" .
+      join("\n", @filtered[$lo..$hi]) . "|" .
+      join("\n", @filtered)
+  );
+}
+
+######################################################################
+# SAGE
+######################################################################
+
+######################################################################
+sub GetSymsOfCIDs {
+  my ($db, $cids_hit, $cid2sym, $cid2title, $org) = @_;
+
+  my ($sql, $stm);
+  my ($cluster_number, $gene, $title);
+  my ($i, $list);
+  my @cids = keys %{ $cids_hit };
+
+  if (@cids == 0) {
+    return;
+  }
+
+  $sql = "delete from $CGAP_SCHEMA.gene_tmp_cluster";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+  }
+
+  $sql = "insert into $CGAP_SCHEMA.gene_tmp_cluster values (?)";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  for( my $i=0; $i<@cids; $i++ ) {
+    if(!$stm->execute($cids[$i])) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      die "Error: execute call $sql failed with message $DBI::errstr";
+    }
+  }
+
+  my $cluster_table =
+    ($org eq "Hs" ? "$CGAP_SCHEMA.hs_cluster" : "$CGAP_SCHEMA.mm_cluster");
+
+  $sql = "select a.cluster_number, a.gene, a.description " . 
+      "from $cluster_table a, $CGAP_SCHEMA.gene_tmp_cluster b " .
+      "where a.cluster_number = b.cluster_number";
+
+  $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+    return;
+  }
+  if (not $stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+    return;
+  }
+  while (($cluster_number, $gene, $title) = $stm->fetchrow_array()) {
+    if ($gene) {
+      $$cid2sym{$cluster_number} = $gene;
+    }
+    if ($title) {
+      $$cid2title{$cluster_number} = $title;
+    }
+  }
+}
+
+######################################################################
+sub GetAccMapsOfTags {
+  my ($db, $tags, $tag2acc, $org, $method) = @_;
+
+  my ($tag, $accession, $protocol);
+  my ($sql, $stm);
+  my ($i, $list);
+  my %query_protocol;
+
+  my $method_list = $method;
+  $method_list =~ s/,/','/g;
+
+  $sql = "select a.tag, a.accession " .
+      "from $CGAP_SCHEMA.sagebest_tag2acc a, " .
+      "$CGAP_SCHEMA.sageprotocol b, " .
+      "$CGAP_SCHEMA.sage_tmp_tag c " .
+      "where a.tag = c.tag " .
+      "and b.ORGANISM = '$org' " . 
+      "and b.PROTOCOL in ( '$method_list' ) " .
+      "and a.PROTOCOL  = b.CODE ";
+
+  $stm = $db->prepare($sql);
+  if (not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+    return;
+  }
+  if (not $stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+    return;
+  }
+  while (($tag, $accession) = $stm->fetchrow_array()) {
+    $$tag2acc{$tag} = $accession;
+  }
+}
+
+######################################################################
+sub GetBestMapsOfTags {
+  my ($db, $tags, $tag2cid, $tag2acc, $cid2sym, $org, $method) = @_;
+
+  my ($sql, $stm);
+  my ($i, $list, $tag, $cluster_number, $protocol, %tags_seen, @missing_cids, %cids_hit,
+      %cid2loc);
+
+  $sql = "delete from $CGAP_SCHEMA.sage_tmp_tag";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+  }
+
+  my %query_protocol;
+
+  my $method_list = $method;
+  $method_list =~ s/,/','/g;
+
+  ## my @tmp_list;
+  ## my @tmp = split ",", $method;
+  ## for( my $i=0; $i<@tmp; $i++ ) {
+  ##   ## push @tmp_list, "'$org_method_2_protocol{$org}{$tmp[$i]}'";
+  ##   $query_protocol{$org_method_2_protocol{$org}{$tmp[$i]}} = 1;
+  ## }
+
+  $sql = "insert into $CGAP_SCHEMA.sage_tmp_tag values (?)";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  for( my $i=0; $i<@{ $tags }; $i++ ) {
+    if(!$stm->execute(@{ $tags }[$i])) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      die "Error: execute call $sql failed with message $DBI::errstr";
+    }
+  }
+
+  my @tag_list;
+
+  $sql = "select a.tag, a.cluster_number " .
+    "from $CGAP_SCHEMA.sagebest_tag2clu a, " .
+    "$CGAP_SCHEMA.sageprotocol b, " .
+    "$CGAP_SCHEMA.sage_tmp_tag c " .
+    "where a.tag = c.tag " .
+    "and b.ORGANISM = '$org' " .
+    "and b.PROTOCOL in ( '$method_list' ) " .
+    "and a.PROTOCOL  = b.CODE ";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+  }
+
+  $stm->bind_columns(\$tag, \$cluster_number);
+  while($stm->fetch) {
+    ## print "$tag, $cluster_number \n";
+    $tags_seen{$tag} = 1;
+    $$tag2cid{$tag} = $cluster_number;
+    $cids_hit{$cluster_number} = 1;
+  }
+
+  GetSymsOfCIDs($db, \%cids_hit, $cid2sym, \%cid2loc, $org);
+
+  for $tag (@{ $tags }) {
+    if (not defined $tags_seen{$tag}) {
+      push @missing_cids, $tag;
+    }
+  }
+
+  if (@missing_cids > 0) {
+    GetAccMapsOfTags($db, \@missing_cids, $tag2acc, $org, $method);
+  }
+
+  ## $db->rollback();
+  ## $db->commit;
+
+}
+
+######################################################################
+sub SummarizeTagFreqs {
+  my ($db, $lid_list, $tagfreqs, $libcounts, $totalfreqs,
+      $tags_hit) = @_;
+
+  my ($sql, $stm);
+  my ($tag, $tagfreq, $libcount);
+
+  $sql = "select " .
+      "tag, sum(frequency), count(sage_library_id) ".
+      "from $CGAP_SCHEMA.sagefreq " .
+      "where sage_library_id in ($lid_list) " .
+      "group by tag";
+
+  $stm = $db->prepare($sql);
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+  }
+  if(!$stm->execute()) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    die "Error: execute call $sql failed with message $DBI::errstr";
+  }
+  while(($tag, $tagfreq, $libcount) = $stm->fetchrow_array()) {
+    $$tags_hit{$tag} = 1;
+    $$tagfreqs{$tag} = $tagfreq;
+    $$libcounts{$tag} = $libcount;
+    $$totalfreqs += $tagfreq;
+  }
+
+}
+
+######################################################################
+sub Readsagefreqdat {
+  my ($setA, $tagfreqsA, $libcountsA, $totalfreqsA,
+      $setB, $tagfreqsB, $libcountsB, $totalfreqsB,
+      $tags_hit, $org, $method) = @_;
+
+  my ($sql, $stm);
+  my ($tag, $tagfreq, $libcount);
+  my %exit_protocol;
+  my @tmp = split ",", $method;
+  for( my $i=0; $i<@tmp; $i++ ) {
+    $exit_protocol{$org_method_2_protocol{$org}{$tmp[$i]}} = 1;
+  }
+  
+  for my $lid (keys %{ $setA }) {
+    my $file_name = INIT_SAGE_DATA_HOME . "sagefreq/$lid";
+    open (SAGEFREQIN, $file_name)  or die "Cannot open $file_name \n";
+    while (<SAGEFREQIN>) {
+      chop;
+      my ($tag, $lid, $freq, $protocol) = split "\t", $_;
+      if( defined $exit_protocol{$protocol} ) {
+        $$tags_hit{$tag} = 1;
+        $$tagfreqsA{$tag} += $freq;
+        $$libcountsA{$tag}++;
+        $$totalfreqsA += $freq;
+      }
+    }
+    close(SAGEFREQIN);
+  }   
+
+  for my $lid (keys %{ $setB }) {
+    my $file_name = INIT_SAGE_DATA_HOME . "sagefreq/$lid";
+    open (SAGEFREQIN, $file_name)  or die "Cannot open $file_name \n";
+    while (<SAGEFREQIN>) {
+      chop;
+      my ($tag, $lid, $freq, $protocol) = split "\t", $_;
+      if( defined $exit_protocol{$protocol} ) {
+        $$tags_hit{$tag} = 1;
+        $$tagfreqsB{$tag} += $freq;
+        $$libcountsB{$tag}++;
+        $$totalfreqsB += $freq;
+      }
+    }
+    close(SAGEFREQIN);
+  }   
+
+}
+
+######################################################################
+sub SAGEComputeDifferences {
+  my ($db, $factor, $pvalue, $tags_hit,
+        $total_seqsA, $total_seqsB,
+        $freqsA,     $freqsB, 
+        $nlibsA,     $nlibsB,
+        $result, $org, $method) = @_;
+
+  my %exists;
+ 
+  if ($factor < 1) {
+    $factor = 1;
+  }
+
+##  if ($pvalue =~ /^e/) {
+##      $pvalue = "1" . $pvalue;
+##  } 
+
+  my ($tag);
+  my ($odds_ratio, $P);
+  my ($G_A, $G_B, $libsA, $libsB);
+  my (%order, %NaN);
+  my (@tags_hit, %tag2cid, %tag2acc, %cid2sym);
+  my ($cid, $sym);
+
+  for $tag (keys %{ $tags_hit }) {
+
+    $G_A = $$freqsA{$tag}; $G_A or $G_A = 0;
+    $G_B = $$freqsB{$tag}; $G_B or $G_B = 0;
+
+    if (not MayBeDifferent($factor,
+        $G_A, $G_B, $total_seqsA, $total_seqsB)) {
+      next;
+    }
+
+    $libsA = $$nlibsA{$tag}; $libsA or $libsA = 0;
+    $libsB = $$nlibsB{$tag}; $libsB or $libsB = 0;
+
+    if ($G_A or $G_B) {
+      $odds_ratio =
+          OddsRatio($G_A, $G_B, $total_seqsA, $total_seqsB);
+
+      if( defined $exists{"$G_A,$G_B"} ) {
+        $P = $exists{"$G_A,$G_B"};
+      }
+      else {
+ 
+        if ($G_A/$total_seqsA > $G_B/$total_seqsB) {
+          $P = 1 - Bayesian($factor, $G_A, $G_B, $total_seqsA, $total_seqsB);
+          $exists{"$G_A,$G_B"} = $P;
+        } else {
+          $P = 1 - Bayesian($factor, $G_B, $G_A, $total_seqsB, $total_seqsA);
+          $exists{"$G_A,$G_B"} = $P;
+        }
+ 
+      }  
+
+      if ($P <= $pvalue) {
+        push @tags_hit, $tag;
+        $P = sprintf "%.2f", $P;
+        if ($odds_ratio eq "NaN") {
+          push @{ $NaN{$G_A} }, 
+            "$tag\001$libsA\t$libsB\t$G_A\t$G_B\t" .
+            "$odds_ratio\t$P";
+        } else {
+          push @{ $order{$odds_ratio} },
+            "$tag\001$libsA\t$libsB\t$G_A\t$G_B\t" .
+            "$odds_ratio\t$P";
+        }
+      }
+    }
+  }
+
+  GetBestMapsOfTags($db, \@tags_hit, \%tag2cid, \%tag2acc, \%cid2sym, $org, $method);
+  my ($rest);
+
+  my ($k, $x);
+  for $k (sort r_numerically keys %NaN) {
+    for $x (@{ $NaN{$k} }) {
+
+      ($tag, $rest) = split(/\001/, $x);
+      if (defined $tag2cid{$tag}) {
+        $cid = $tag2cid{$tag};
+        if (defined $cid2sym{$cid}) {
+          $sym = $cid2sym{$cid};
+        } else {
+          $sym = "Hs.$cid";
+        }
+      } else {
+        $cid = "";
+        $sym = $tag2acc{$tag};
+      }
+
+      push @{ $result }, "$tag\t$cid\t$sym\t$rest";
+    }
+  }
+  for $k (sort r_numerically keys %order) {
+    for $x (@{ $order{$k} }) {
+
+      ($tag, $rest) = split(/\001/, $x);
+      if (defined $tag2cid{$tag}) {
+        $cid = $tag2cid{$tag};
+        if (defined $cid2sym{$cid}) {
+          $sym = $cid2sym{$cid};
+        } else {
+          $sym = "Hs.$cid";
+        }
+      } else {
+        $cid = "";
+        $sym = $tag2acc{$tag};
+      }
+
+      push @{ $result }, "$tag\t$cid\t$sym\t$rest";
+    }
+  }
+
+}
+
+######################################################################
+sub MoveUploadFileToLocal_1 { 
+
+  my ($sdged_cache_id) = @_; 
+  my ($cache_id, $host_name) = split "HOSTNAME", $sdged_cache_id; 
+  my $local_hostname = hostname();
+  if( $local_hostname eq $host_name ) {
+    return $cache_id;
+  }
+
+  my $path;
+  if( $host_name eq "cbiodev104.nci.nih.gov" ) {
+    $path = "/cgap/webcontent/CGAP/dev/data/cache";
+  }
+  elsif( $host_name eq "cbioapp101.nci.nih.gov" ) {
+    $path = "/cgap/webcontent/CGAP/staging/data/cache";
+  }
+  elsif( $host_name eq "cbioapp102.nci.nih.gov" ) {
+    $path = "/cgap/webcontent/CGAP/prod/data/cache";
+  }
+  elsif( $host_name eq "cbioapp104.nci.nih.gov" ) {
+    $path = "/cgap/webcontent/CGAP/prod/data/cache";
+  }
+
+  my $sdged_filename = $path . "/" . SDGED_CACHE_PREFIX . ".$cache_id";
+
+  my $cache_sdged = new Cache(CACHE_ROOT, SDGED_CACHE_PREFIX);
+  my ($sdged_cache_id, $filename) = $cache_sdged->MakeCacheFile();
+  if ($sdged_cache_id != $CACHE_FAIL) {
+    my $cmd = "cp $sdged_filename $filename";
+    system($cmd);
+    return $sdged_cache_id;
+  }
+  else {
+    return "";
+  }
+}
+
+######################################################################
+sub ComputeSDGED_1 {
+
+  my ($cache_id, $org, $page, $factor, $pvalue, $chr,
+      $total_seqsA, $total_seqsB, $total_libsA, $total_libsB,
+      $setA, $setB, $method, $sdged_cache_id) = @_;
+
+  my $start_time = time();
+  print STDERR "8888:  $start_time\n";
+  if (($setA eq "") && ($sdged_cache_id eq "")) {
+    return "No libraries in Pool A";
+  }
+  if (($setB eq "") && ($sdged_cache_id eq "")) {
+    return "No libraries in Pool B";
+  }
+
+  $chr =~ s/x/X/;
+  $chr =~ s/y/Y/;
+  $chr =~ s/a/A/;
+  $chr =~ s/L/l/g;
+  $chr =~ s/\ +//g;
+
+  if ( $chr eq "" ) {
+    $chr = "All";
+  }
+
+  if( ( $chr > 22 or $chr < 1 ) and 
+      ( ($chr ne "X") and ($chr ne "Y") and ($chr ne "All") ) ) {
+    return "Not correct chromosome $chr";
+  }
+
+  my ($cache, $filename, $gxs_cache_id);
+  my ($db);
+  my (%setA, %setB, %freqsA, %freqsB, %nlibsA, %nlibsB, %tags_hit);
+  my ($tag, $tagfreq);
+
+  my (@order);
+
+  $db = DBI->connect("DBI:Oracle:" . $$DB_INSTANCE,$DB_USER,$DB_PASS, {AutoCommit=>0});
+  if (not $db or $db->err()) {
+    print STDERR "Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE . "\n";
+    print STDERR "$DBI::errstr\n";
+    die "Error: Cannot connect to " .$DB_USER . "@" . $$DB_INSTANCE;
+    return undef;
+  }
+
+  $cache = new Cache(CACHE_ROOT, GXS_CACHE_PREFIX);
+  if ($cache_id == 0 || $cache->FindCacheFile($cache_id) eq $CACHE_FAIL) {
+
+    Init();
+
+    for (split(",", $setA)) {
+      $setA{$_} = 1 ;
+    }
+    $setA = join(",", keys %setA);
+    $total_libsA = scalar(keys %setA);
+
+    for (split(",", $setB)) {
+      $setB{$_} = 1 ;
+    }
+    $setB = join(",", keys %setB);
+    $total_libsB = scalar(keys %setB);
+
+    Readsagefreqdat(\%setA, \%freqsA, \%nlibsA, \$total_seqsA,
+        \%setB, \%freqsB, \%nlibsB, \$total_seqsB, \%tags_hit, 
+        $org, $method);
+
+    if ($sdged_cache_id) {
+      my $sdged_B = 1;
+      my $sdged_cache = new Cache(CACHE_ROOT, SDGED_CACHE_PREFIX);
+      my $sdged_filename = $sdged_cache->FindCacheFile($sdged_cache_id);
+      if ($sdged_filename) {
+      open(SIN, "$sdged_filename") or die "Can not open $sdged_filename "; 
+        while (<SIN>) {
+          $_ =~ s/[\n\r]+//g;
+          next if (/^$/);
+          if (/#################/) {
+            $sdged_B = 0;
+            next;
+          }
+          s/[\t\s]+/\t/;
+          ($tag, $tagfreq) = split "\t";
+          $tags_hit{$tag} = 1;
+          if ($sdged_B) {
+            $total_libsB = 1;
+            $freqsB{$tag} = $tagfreq;
+            $total_seqsB += $tagfreq;
+          } else {
+            $total_libsA = 1;
+            $freqsA{$tag} = $tagfreq;
+            $total_seqsA += $tagfreq;
+          }
+        }
+        close (SIN);
+      }
+    }
+
+    if ($total_seqsA == 0) {
+      return "No sequences in A";
+    }
+    if ($total_seqsB == 0) {
+      return "No sequences in B";
+    }
+
+    my $start_time_2 = time();
+    my $t_diff = $start_time_2 - $start_time;
+    print STDERR "8888:  $start_time_2 and $t_diff \n";
+    SAGEComputeDifferences($db, $factor, $pvalue, \%tags_hit,
+        $total_seqsA, $total_seqsB,
+        \%freqsA,     \%freqsB, 
+        \%nlibsA,     \%nlibsB,
+        \@order,      $org, $method);
+
+    my $start_time_3 = time();
+    my $t_diff = $start_time_3 - $start_time_2;
+    print STDERR "8888:  $start_time_3 and $t_diff \n";
+    
+    ($gxs_cache_id, $filename) = $cache->MakeCacheFile();
+    if ($gxs_cache_id != $CACHE_FAIL) {
+      if (open(GXSOUT, ">$filename")) {
+        for (@order) {
+          printf GXSOUT "$_\n";
+        }
+        close GXSOUT;
+        chmod 0666, $filename;
+      } else {
+        $gxs_cache_id = 0;
+      }
+    }
+
+  } else {
+    $filename = $cache->FindCacheFile($cache_id);
+    open(GXSIN, "$filename") or die "Can't open $filename.";
+    while (<GXSIN>) {
+      chop;
+      push @order, $_;
+    } 
+    $gxs_cache_id = $cache_id;
+    close (GXSIN);
+  }
+
+  my @filtered;
+  if( $chr ne "All" ) {
+    @filtered = SAGEfilterByChr( $db, $org, $chr, \@order );
+  }
+  else {
+    @filtered = @order;
+  }
+
+  my ($lo, $hi);
+  if ($page > 0) {
+    $lo = 0 + ($page - 1) * GXS_ROWS_PER_PAGE;
+    $hi = $lo + GXS_ROWS_PER_PAGE - 1;
+    if ($hi > @filtered) {
+      $hi = @filtered - 1;
+    }
+  } else {
+    $lo = 0;
+    $hi = @filtered - 1 ;
+  }
+
+  $db->disconnect();
+
+  my $n_genes = scalar(@filtered);
+
+  return (
+      "$gxs_cache_id|$n_genes|$total_seqsA|$total_seqsB|" .
+      "$total_libsA|$total_libsB|" .
+      join("\n", @filtered[$lo..$hi]) . "|" .
+      join("\n", @filtered)
+  );
+}
+
+######################################################################
+sub  filterByChr {
+  my ($db, $org, $chr, $order_ref) = @_;
+  my (@acc, %clu2index, @filtered);
+  my %orders;
+  my @order = @$order_ref;
+  for( my $i=0; $i<@order; $i++ ) {
+    my @tmp = split "\t", $order[$i];
+    $clu2index{$tmp[1]} = $i;
+  }
+  my $sql = "select CLUSTER_NUMBER from $CGAP_SCHEMA.UCSC_MRNA " .
+            "where CHROMOSOME = '$chr' and ORGANISM = '$org' ";
+
+  my $stm = $db->prepare($sql);
+
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+    return undef;
+  }
+  else {
+    if(!$stm->execute()) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      die "Error: execute call $sql failed with message $DBI::errstr";
+      return undef;
+    }
+    my ($accession, $cluster_number);
+    $stm->bind_columns(\$cluster_number);
+    while($stm->fetch) {
+      if( defined $clu2index{$cluster_number} ) {
+        $orders{$clu2index{$cluster_number}} = 1;
+      }
+    }
+  }
+
+  for my $k (sort numerically keys %orders) {
+    push @filtered, $order[$k];
+  }
+
+
+  return @filtered;
+
+}
+
+######################################################################
+sub  SAGEfilterByChr {
+  my ($db, $org, $chr, $order_ref) = @_; 
+  my (@acc, %clu_tag2index, @filtered);
+  my %orders;
+  my @order = @$order_ref;
+  for( my $i=0; $i<@order; $i++ ) {
+    my @tmp = split "\t", $order[$i];
+    $clu_tag2index{$tmp[1]}{$tmp[0]} = $i;
+  } 
+  my $sql = "select CLUSTER_NUMBER from $CGAP_SCHEMA.UCSC_MRNA " .
+            "where CHROMOSOME = '$chr' and ORGANISM = '$org' ";
+
+  my $stm = $db->prepare($sql);
+
+  if(not $stm) {
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    die "Error: prepare call $sql failed with message $DBI::errstr";
+    return undef;
+  }
+  else {
+    if(!$stm->execute()) {
+      print STDERR "$sql\n";
+      print STDERR "$DBI::errstr\n";
+      print STDERR "execute call failed\n";
+      die "Error: execute call $sql failed with message $DBI::errstr";
+      return undef;
+    }
+    my ($accession, $cluster_number);
+    $stm->bind_columns(\$cluster_number);
+    while($stm->fetch) {
+      if( defined $clu_tag2index{$cluster_number} ) {
+        for my $tag ( keys %{$clu_tag2index{$cluster_number}} ) {
+          $orders{$clu_tag2index{$cluster_number}{$tag}} = 1;
+        }
+      } 
+    }
+  }
+
+  for my $k (sort numerically keys %orders) {
+    push @filtered, $order[$k];
+  }
+
+
+  return @filtered;
+
+}
+######################################################################
+sub TimeStamp {
+  my ($sec, $min, $hr, $mday, $mon, $year, $wday, $yday, $isdst) =
+      localtime(time);
+  my $month = ('Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug',
+      'Sep', 'Oct', 'Nov', 'Dec')[$mon];
+  return sprintf "%s%2.2d_%2.2d_%2.2d_%2.2d",
+      $month, $mday, $hr, $min, $sec;
+}
+
+######################################################################
+## There is no ** operator, so create power function
+sub power {
+  my ($base, $n) = @_;
+  my ($i, $j, @Odd);
+  my $p;
+  if( $n == 0 ) {
+    return 1;
+  }
+  elsif ( $n == 1 ) {
+    return $base;
+  }
+ 
+  for( $i=0; $i<=2000; $i++ ) {
+    $Odd[$i] = 0;
+  }
+ 
+  $i = 0;
+  while ( $n != 0 ) {
+    if( $n%2 == 0 ) {
+      $i++;
+      $n = $n/2;
+      if ( $n == 1 ) {
+        $n = 0;  ## stop
+      }
+    }
+    else {
+      $Odd[$i] = 1;
+      $n = $n - 1;
+    }
+  }
+  $p = $base;
+  for($j=$i; $j>0; $j--) {
+    $p = $p * $p;
+    if( $Odd[$j-1] == 1 ) {
+      $p = $p * $base;
+    }
+  }
+  return $p;
+}
+ 
+sub f {
+  my ($x, $a, $b, $A, $B) = @_;
+  my $function;
+  if( $A != $B ) {
+    $function = ((power($x, (3+$a)))*(power((1-$x), (3+$b))))/(power(1+($A/$B-1)*$x,($a+$b)));
+  }
+  else {
+    $function = (power($x, (3+$a)))*(power((1-$x), (3+$b)));
+  }
+ 
+  return($function);
+}
+ 
+sub Bayesian {
+  my ($factor, $a, $b, $A, $B) = @_;
+## /*int n=300; */                 /* Maximum number of steps (even) n */
+## /*int n=150; */                 /* Maximum number of steps (even) n */
+  my $n = 100;               ##  /* Maximum number of steps (even) n */
+  my $n1;                    ##  /* Maximum number of steps (even) n */
+  my $n2;                    ##  /* Maximum number of steps (even) n */
+  my ($c, $k);              ##  /* Counters in the algorithm */
+  $k=1;                      ##  /* Counters in the algorithm */
+  my ($c1, $j);              ##  /* Counters in the algorithm */
+  $j=1;                      ##  /* Counters in the algorithm */
+  my $x;
+  my $l;                     ##  /* Lower limit x=l */
+  my $l1;                    ##  /* Lower limit x=l */
+  my $u=1.0;                 ##  /* Upper limit x=u */
+  my ($h, $SUM);
+  my $SUM1;
+ 
+  $SUM = 0.0;
+  $SUM1 = 0.0;
+  $l = 0.0;
+  $l1 = $factor/($factor + 1.0);
+  $n1 = $l1 * $n;
+  if ( $n1 % 2 == 1 ) {
+    $n1 = $n1 + 1;
+  }
+  $n2 = $n + 2 - $n1;
+  $c = 2;
+  $c1 = 2;
+  $h = ($l1-$l)/$n1;
+  $k = 1;
+  while ($k <= $n1-1)
+  {
+    $c=6-$c;
+    $SUM = $SUM + $c*f($l+$k*$h, $a, $b, $A, $B);
+    $k++;
+  }
+  $SUM = ($SUM + f($l1, $a, $b, $A, $B))*$h/3;
+  $c=2;
+  $h=($u-$l1)/($n2);
+  $k = 1;
+  $SUM1=f($l1, $a, $b, $A, $B);
+  while ($k <= $n2-1)
+  {
+    $c=6-$c;
+    $SUM1 = $SUM1 + $c*f($l1+$k*$h, $a, $b, $A, $B);
+    $k++;
+  }
+ 
+  $SUM1 = $SUM1*$h/3;
+  return $SUM1/($SUM + $SUM1);
+}
+
+
+
+######################################################################
+1;
+######################################################################

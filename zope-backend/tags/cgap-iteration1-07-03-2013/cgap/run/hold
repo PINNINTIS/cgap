@@ -1,0 +1,58 @@
+  my $s;  ## ($s, $acc_link);
+  if ($what eq 'HTML') {
+#   if ($acc ne '-') {
+#     $acc_link = $acc;
+#     $acc_link = 
+#        "<a href=\"" . $BASE .
+#        "/RNAi/RNAiViewer?ORG=$org&ACC=$acc\">$acc</a>" ;
+#   } else {
+#     $acc_link = $acc;
+#   }
+
+######################################################################
+sub RNAiViewer_1 {
+
+  my ($base, $org, $acc) = @_;
+  my (@cids, $cid);
+    
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  if (not $db or $db->err()) {
+      print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
+      SetStatus(S_RESPONSE_FAIL);
+      return "";
+  }
+   
+return "RNAiViewer Organism $org Accession $acc";
+  my $sql =
+     "select cluster_number " .
+     "from $CGAP_SCHEMA.rnai2ug " .
+     "where organism = '$org' " ;
+ 
+  my $stm = $db->prepare($sql);
+ 
+  if (not $stm) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "prepare call failed\n";
+    return "";
+  }
+
+  if (!$stm->execute()) {
+    SetStatus(S_RESPONSE_FAIL);
+    print STDERR "$sql\n";
+    print STDERR "$DBI::errstr\n";
+    print STDERR "execute call failed\n";
+    return "";
+  }
+ 
+  $stm->bind_columns(\$cid);
+
+  while($stm->fetch) {
+    push @cids, $cid;
+  }
+
+  return(FormatGenes($page, $org, '', '',
+             OrderGenesBySymbol($page, $org, \@cids)));
+}
+

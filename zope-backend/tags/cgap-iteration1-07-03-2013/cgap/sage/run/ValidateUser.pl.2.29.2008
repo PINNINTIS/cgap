@@ -1,0 +1,270 @@
+#!/usr/local/bin/perl
+
+######################################################################
+#  ValidateUser.pl
+#
+
+
+use strict;
+
+BEGIN {
+  my @path_elems = split("/", $0);
+  pop @path_elems;
+  push @INC, join("/", @path_elems);
+}
+
+use DBI;
+
+use SAGEConfig;
+use lib $LIB;
+use SQL;
+use LWP::UserAgent;
+use LWP::Simple;
+use CGI;
+use ShutDown;
+
+my $query = new CGI;
+
+print "Content-type: text/plain\n\n";
+
+my $user_id = $query->param("REMOTE_ADDR");
+my $user_type = $query->param("USER_TYPE");
+my $user_name = $query->param("USER_NAME");
+my $password = $query->param("PASSWORD");
+
+my $check_result = validate_input($user_name, $password);
+
+my $shut_down_check = SHUTDOWN_CHECK($user_name);
+
+if( $shut_down_check != 0 ) {
+  print "<BR><B>Sorry, we are maintaining the server of this site. Please try later</B>"; 
+  return; 
+}
+
+my $url;
+
+if( $user_type == 1 ) {
+  $url = "$ROOT_URL/Manager_Entrance";
+}
+else {
+  $url = "$ROOT_URL/Contributor_Entrance";
+} 
+
+if( $check_result == MANDATORY_FIELD_EMPTY ) {
+  print "<BR><B>Please fill all cells and try again.</B>" . 
+        get($url);
+}
+elsif(  $check_result == FIELD_BEYOND_16 ) {
+  print "<BR><B>Please enter no more than 16 characters for USER NAME 
+          and PASSWORD and try again.</B>" . 
+        get($url);
+}
+else{
+
+  my $value = processUser($user_id, $user_type, $user_name, $password);
+
+  if( $value == NO_PRIVILEGE ) { 
+    print "<BR><B>Please enter correct User Name and Password 
+            and try again.</B>" . get($url);
+  }
+  if( $value == INSERT_PREPARE_FAIL or
+      $value == INSERT_EXECUTE_FAIL    ) {
+    print "<BR><B>Insert failed and please contact manager.</B>" . 
+      get($url);
+  }  
+  if( $value == UPDATE_PREPARE_FAIL or
+      $value == UPDATE_EXECUTE_FAIL    ) {
+    print "<BR><B>Update failed and please contact manager.</B>" . 
+      get($url);
+  }  
+  elsif ( $value == 0 ) {
+    my $url;
+    if( $user_type eq MANAGER ) {
+      $url = "$ROOT_URL/Manager_Main_Menu";
+    }
+    else {
+      $url = "$ROOT_URL/Contributor_Main_Menu";
+    }
+
+    print get($url); 
+  }
+}
+
+######################################################################
+sub processUser {
+
+    my ($user_id, $user_type, $user_name, $password) = @_;
+ 
+    my ( $USER_NAME, $USER_PASSWD, $USER_TYPE );
+    my @user_info;
+
+    my $self = new SQL( DB_INSTANCE, DB_MANAGER_USER, DB_MANAGER_PASS );
+    if ($self == CREATE_DB_FAIL) {
+      die "Cannot create SQL module \n";
+    }
+
+    if( $user_type == MANAGER ) {
+      my @table_name;
+      my @select_name;
+      my @where_left;
+      my @where_right;
+      my @group_by_name;
+      my @order_by_name;
+      push @table_name, "SAGE_MANAGER_INFO";
+      push @select_name, "MANAGER_NAME";
+      push @where_left, "MANAGER_NAME";
+      push @where_left, "MANAGER_PASSWD";
+##      push @where_left, "MANAGER_ID";      ## will be active after test
+      push @where_right, " = '$user_name'";
+      push @where_right, " = '$password'";
+##      push @where_right, " = '$user_id'";  ## will be active after test
+
+
+      my @manager_info = $self->select(\@table_name, \@select_name, 
+           \@where_left, \@where_right, \@group_by_name, \@order_by_name);
+
+      my $tempLength = @manager_info;
+      if( $tempLength == 0 ) {
+        $self->DESTROY();
+        return NO_PRIVILEGE;
+      } 
+      else {
+        my @table_name;
+        my @select_name;
+        my @where_left;
+        my @where_right;
+        my @group_by_name;
+        my @order_by_name;
+        push @table_name, "SAGE_CURRENT_USER_INFO";
+        push @select_name, "USER_ID";
+        push @where_left, "USER_ID";
+        push @where_right, " = '$user_id'";
+ 
+        my @user_info = $self->select(\@table_name, \@select_name,
+           \@where_left, \@where_right, \@group_by_name, \@order_by_name);
+ 
+        my $returns;
+
+        if( @user_info > 0 ) {
+          $returns = updateInfo ($self, $user_name, $user_id, $user_type);
+        }
+        else {
+          $returns = insertInfo ($self, $user_name, $user_id, $user_type);
+        }
+        $self->DESTROY();
+        return $returns;
+      }  
+    }  
+    elsif ( $user_type == CONTRIBUTOR ) {
+      my @table_name;
+      my @select_name;
+      my @where_left;
+      my @where_right;
+      my @group_by_name;
+      my @order_by_name;
+      push @table_name, "SAGE_LIB_USER_INFO";
+      push @select_name, "USER_NAME";
+      push @where_left, "USER_NAME";
+      push @where_left, "USER_PASSWD";
+      push @where_right, " = '$user_name'";
+      push @where_right, " = '$password'";
+ 
+      my @manager_info = $self->select(\@table_name, \@select_name,
+           \@where_left, \@where_right, \@group_by_name, \@order_by_name);
+ 
+      my $tempLength = @manager_info;
+      if( $tempLength == 0 ) {
+        $self->DESTROY;
+        return NO_PRIVILEGE;
+      }  
+      else {
+        my @table_name;
+        my @select_name;
+        my @where_left;
+        my @where_right;
+        my @group_by_name;
+        my @order_by_name;
+        push @table_name, "SAGE_CURRENT_USER_INFO";
+        push @select_name, "USER_ID";
+        push @where_left, "USER_ID";
+        push @where_right, " = '$user_id'";
+ 
+        my @user_info = $self->select(\@table_name, \@select_name,
+           \@where_left, \@where_right, \@group_by_name, \@order_by_name);
+ 
+        my $returns;
+ 
+        if( @user_info > 0 ) {
+          $returns = updateInfo ($self, $user_name, $user_id, $user_type);
+        }
+        else {
+          $returns = insertInfo ($self, $user_name, $user_id, $user_type);
+        }
+        $self->DESTROY();
+        return $returns;
+      }  
+    }
+ 
+    return 0;
+}
+
+######################################################################
+sub insertInfo {
+  my ($self, $user_name, $user_id, $user_type) = @_;
+  my $table_name;
+  my @names;
+  my @values;
+  $table_name = "SAGE_CURRENT_USER_INFO";
+  push @names, "USER_ID";
+  push @names, "USER_NAME";
+  push @names, "USER_TYPE";
+  push @names, "INITIAL_ACCESS_TIME";
+  push @values, "'$user_id'";
+  push @values, "'$user_name'";
+  push @values, "'$user_type'";
+  push @values, "sysdate";
+  return $self->insert($table_name, \@names, \@values);
+}
+
+######################################################################
+sub updateInfo {
+  my ($self, $user_name, $user_id, $user_type) = @_;
+  my $table_name;
+  my @names;
+  my @values;
+  my @where_left;
+  my @where_right;
+  $table_name = "SAGE_CURRENT_USER_INFO";
+  push @names, "USER_ID";
+  push @names, "USER_NAME";
+  push @names, "USER_TYPE";
+  push @names, "INITIAL_ACCESS_TIME";
+  push @values, "'$user_id'";
+  push @values, "'$user_name'";
+  push @values, "'$user_type'";
+  push @values, "sysdate";
+  push @where_left, "USER_ID";
+  push @where_right, " = '$user_id'";
+  return $self->update($table_name,\@names,\@values,\@where_left,\@where_right);
+}
+
+######################################################################
+sub validate_input {
+  my ($user_name, $password) = @_;
+  if ( $user_name eq "" or
+       $password eq "" ) {
+    return MANDATORY_FIELD_EMPTY;
+  }
+  elsif( (length($user_name) > 16) or
+         (length($password)  > 16) ) {
+    return FIELD_BEYOND_16;
+  }
+
+  return VALIDATION_SUCCESSFULL;
+}
+
+######################################################################
+sub numerically { $a <=> $b; }
+
+######################################################################
+

@@ -1,0 +1,177 @@
+#!/usr/local/bin/perl
+
+#####################################################################
+# CreateGenomicsCacheFile.pl
+
+use strict;
+use DBI;
+use CGAPConfig;
+use Cache;
+
+use constant ORACLE_LIST_LIMIT => 1000;
+
+my $BASE;
+
+my %MAGIC_RANK;
+my $cache = new Cache(CACHE_ROOT, GENOMICS_CACHE_PREFIX);
+
+my $file_dir = INIT_SAGE_DATA_HOME . "sage_upload";
+my $tmp_file_dir = INIT_SAGE_DATA_HOME . "tmp_upload";
+
+GetBatchGenomics();
+
+######################################################################
+sub GetBatchGenomics {
+
+  my (%tag2allinfo, %chr_position2allinfo);
+  my (@all_lines, @good_lines, @no_result_lines);
+ 
+  my ($list);
+  my ($sql, $stm);
+  my %goodInput;
+  my @garbage;
+  my $count;
+ 
+  opendir (DATADIR, $file_dir) or die "Can not open $file_dir \n";
+  while( my $filename = readdir(DATADIR) ) {
+    if( !($filename =~ /^\./) ) {
+      if( $filename =~ /\.txt$/ ) {
+        my $full_filename = $file_dir . "/" . $filename;
+        my $tmp_filename = $tmp_file_dir . "/" . $filename;
+        print "8888: $full_filename 8888\n";
+        print "8888: $tmp_filename 8888\n";
+        my $cmd = "mv $full_filename $tmp_filename";
+        print "8888: $cmd 8888\n";
+        system($cmd);
+        process_file($tmp_filename);      
+      }
+    }
+  }
+}
+
+######################################################################
+sub WriteGenomicsToCache {
+  my ($data) = @_;
+ 
+  my ($genomics_cache_id, $filename) = $cache->MakeCacheFile();
+  if ($genomics_cache_id != $CACHE_FAIL) {
+    if (open(SOUT, ">$filename")) {
+      print SOUT $data;
+      close SOUT;
+      chmod 0666, $filename;
+    } else {
+      $genomics_cache_id = 0;
+    }
+  }
+  return $genomics_cache_id;
+}
+
+######################################################################
+sub process_file {
+  my ($file) = @_;
+  print "8888: $file\n";
+  my ($sql, $stm, $list);
+  my (%tag2allinfo, %chr_position2allinfo); 
+  my (@all_lines, @good_lines, @no_result_lines);
+  my $FILE_ID;
+  my %tags;
+  my $lines;
+  my $no_results_lines;
+  my $count = 0;
+  my ($org, $order, $email);
+  my (%dup_tags);
+
+  open(IN, $file) or die "Can not open file $file\n";
+  while( <IN> ) {
+    chop;
+    if( $count > 2 ) {
+      $tags{$_} = 1; 
+    }
+    if( $count == 0 ) {
+      $org = $_;
+    }
+    elsif( $count == 1 ) {
+      $order = $_;
+    }
+    elsif( $count == 2 ) {
+      $email = $_;
+    }
+    $count++;
+  }
+
+  close IN;
+
+  print "8888: $org, $order, $email \n";
+
+  my $genomic_file = INIT_SAGE_DATA_HOME . "SAGEGENOMICSHS.dat";
+  open(GIN, $genomic_file) or die "Can not open file $genomic_file\n";
+  while( <GIN> ) {
+    chop;
+    my ($TAG, $CHROMOSOME, $START_POSITION, $STRAND ) = split "\t", $_;
+    if( defined $tags{$TAG} ) {
+      if( not defined $dup_tags{$TAG} ) {
+        $tag2allinfo{$TAG} = join "\t", $TAG, $CHROMOSOME, $START_POSITION, $STRAND;
+        $dup_tags{$TAG} = 1;
+      }
+      else {
+        $dup_tags{$TAG} = $dup_tags{$TAG} + 1;
+        delete $tag2allinfo{$TAG};
+      }
+    }
+  }
+  close GIN;
+
+  print "8888: finish file process\n";
+
+  my ($genomics_cache_id, $filename) = $cache->MakeCacheFile();
+  if ($genomics_cache_id != $CACHE_FAIL) {
+    open(OUT, ">$filename") or die "Can not open $filename\n";
+    print OUT "Tags with unique match\n";
+    print OUT "Tag\tChromosome\tStat\tStrand\n";
+    for my $tag (sort keys %tag2allinfo) {
+      print OUT $tag2allinfo{$tag} . "\n";
+    }
+    print OUT "\nTags with more than one match\n";
+    print OUT "Tag\tDuplication frequence\n";
+    for my $tag (sort keys %dup_tags) {
+      if( $dup_tags{$tag} > 1 ) {
+        print OUT $tag . "\t" . $dup_tags{$tag} . "\n";
+      }
+    }
+      
+    print OUT "\nTags without matchs\n";
+    print OUT "Tag\n";
+    open(INF, $file) or die "Can not open file $file\n";
+    my $count = 1;
+    while( <INF> ) {
+      chop;
+      if( $count > 3 ) {
+        if( (not defined $tag2allinfo{$_}) and (not defined $dup_tags{$_}) ) {
+          print OUT $_ . "\n";
+        }
+      }
+      $count++;
+    }
+    close INF;
+  }
+  else {
+    print "There is an error for MakeCacheFile: $genomics_cache_id \n";
+    return "";
+  }
+
+  close OUT;
+  chmod 0666, $filename;
+
+  open(MAIL, "|/usr/lib/sendmail -t");
+  print MAIL "To: $email\n";
+  print MAIL "From: wuko\@mail.nih.gov\n";
+  print MAIL "Subject: Batch Genomics\n";
+  print MAIL "This is the url http://cgap-dev.nci.nih.gov/SAGE/GetGenomicsFile?CACHE=$genomics_cache_id to get your file by click this highperlink.\n";
+  close (MAIL);
+ 
+}
+######################################################################
+sub numerically { $a <=> $b };
+sub r_numerically { $b <=> $a };
+
+######################################################################
