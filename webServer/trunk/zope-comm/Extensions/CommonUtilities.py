@@ -41,10 +41,18 @@ def GetRequestParam (request, s):
   import string
   if request.has_key(s):
     p = request[s]
-    if type(p) == type(''):
-      q = p
+    matcher = re.compile("^[a-zA-Z0-9-\_\.\+\,]*$")
+    matcher2 = re.compile("^[a-zA-Z0-9-\_\.\+\,\,]*$")
+    if matcher.match(p):
+      if type(p) == type(''):
+        q = p
+      else:
+        q = string.join(p, ",")
+        if matcher2.match(q):
+        else:
+          q = ''
     else:
-      q = string.join(p, ",")
+      q = ''
   else:
     q = ''
   return re.sub("'", "\\'", q, 0)
