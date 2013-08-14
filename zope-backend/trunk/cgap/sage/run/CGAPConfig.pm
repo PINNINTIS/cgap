@@ -91,7 +91,7 @@ $CGAP_SCHEMA2 = "";
 $CMAP_SCHEMA = "cmap";
 $RFLP_SCHEMA = "rflp";
 
-$cfg = new Config::Simple('data.ini');
+$cfg = new Config::Simple('/cgap/sage/run/data.ini');
 $DB_USER = $cfg->param('username');
 $DB_PASS = $cfg->param('password');
 $DB_INSTANCE = $cfg->param('sid');
@@ -162,10 +162,8 @@ use constant SAGE_GROUP_VIEW    => INIT_DATA_HOME . "sage_group.view";
 use constant SAGEFREQ           => INIT_SAGE_DATA_HOME . "sagefreq.dat";
 
 # Perl equivalents of Zope dtml-var's BASE and IMG_DIR
-use constant BASE     => "";
-use constant IMG_DIR  => "/cgap/images";
-##use constant BASE     => "/CGAP";
-##use constant IMG_DIR  => "/CGAP/images";
+use constant BASE     => "/CGAP";
+use constant IMG_DIR  => "/CGAP/images";
 
 use constant KEGG_DIR => "http://cgap-prot.nci.nih.gov/KEGG";
 

@@ -25,10 +25,15 @@ use Scan;
 
 my $query  = new CGI;
 my $base   = $query->param("BASE");
+$base   = cleanString($base);
 my $tag    = $query->param("TAG");
+$tag    = cleanString($tag);
 my $scope  = $query->param("CELL");
+$scope  = cleanString($scope);
 my $org    = $query->param("ORG");
+$org    = cleanString($org);
 my $method = $query->param("METHOD");
+$method = cleanString($method);
 
 print "Content-type: text/plain\n\n";
 

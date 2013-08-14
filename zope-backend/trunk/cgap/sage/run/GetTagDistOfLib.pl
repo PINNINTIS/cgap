@@ -22,8 +22,11 @@ use Scan;
 
 my $query      = new CGI;
 my $sage_library_id = $query->param("LID");
+$sage_library_id = cleanString($sage_library_id ); 
 my $org             = $query->param("ORG");
+$org             = cleanString($org); 
 my $method          = $query->param("METHOD");
+$method          = cleanString($method); 
 
 print "Content-type: text/plain\n\n";
 

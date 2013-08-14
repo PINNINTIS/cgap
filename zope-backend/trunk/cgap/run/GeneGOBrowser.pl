@@ -14,21 +14,20 @@ BEGIN {
 use GOBrowser;
 use Scan;
 
-if (-d "/app/oracle/product/dbhome/current") {
-  $ENV{'ORACLE_HOME'} = "/app/oracle/product/dbhome/current";
-} elsif (-d "/app/oracle/product/8.1.7") {
-  $ENV{'ORACLE_HOME'} = "/app/oracle/product/8.1.7";
-} elsif (-d "/app/oracle/product/8.1.6") {
-  $ENV{'ORACLE_HOME'} = "/app/oracle/product/8.1.6";
-}
-
 my $query      = new CGI;
 my $base       = $query->param("BASE");
+$base       = cleanString($base);
 my $cmd        = $query->param("CMD");
+$cmd        = cleanString($cmd);
 my $url        = $query->param("URL");
+$url        = cleanString($url);
 my $target        = $query->param("TARGET");
+$target        = cleanString($target);        
 my $focal_node = $query->param("NODE");
-my $context_node_list = join(",", $query->param("GOIDS"));
+$focal_node = cleanString($focal_node); 
+my $goids = $query->param("GOIDS");
+$goids = cleanString($goids);
+my $context_node_list = join(",", $goids);
 
 my $gene_or_prot = "GENE";
 

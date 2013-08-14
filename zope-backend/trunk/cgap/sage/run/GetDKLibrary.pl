@@ -17,6 +17,7 @@ use Scan;
  
 my $query            = new CGI;
 my $base             = $query->param("BASE");
+$base             = cleanString($base);
  
 print "Content-type: text/plain\n\n";
 

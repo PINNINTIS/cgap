@@ -327,9 +327,9 @@ ARC: foreach $from_arc (@{$arc_id{$from_node}}) {
           &&  $node_type{$arc_src{$dest_arc}} != COENZYME) {
             if ($arc_src{$dest_arc} == $to_node) {
               push @possible_path, $dest_path
-                 if (not defined @possible_path);
+                 if (!(@possible_path));
               push @possible_path, $dest_node;
-              if (defined @possible_path) {
+              if (@possible_path) {
                 $found = 0;
                 foreach $found_path (@possible_paths) {
                   if (join(", ", @{$found_path})
@@ -349,7 +349,7 @@ ARC: foreach $from_arc (@{$arc_id{$from_node}}) {
               push @Queried, $dest_arc;
               push @Avoid, $from_node;
               push @possible_path, $dest_path
-                 if (not defined @possible_path);
+                 if (!(@possible_path));
               push @possible_path, $dest_node;
               Query_Paths($arc_src{$dest_arc},$to_node,\@Avoid);
             }

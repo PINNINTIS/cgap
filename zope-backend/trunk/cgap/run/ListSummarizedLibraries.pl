@@ -23,16 +23,27 @@ my $query = new CGI;
 
 my $query    = new CGI;
 my $base     = $query->param("BASE");
+$base     = cleanString($base); 
 my $page     = $query->param("PAGE");
+$page     = cleanString($page); 
 my $row      = $query->param("ROW");
+$row      = cleanString($row); 
 my $org      = $query->param("ORG");
+$org      = cleanString($org); 
 my $scope    = $query->param("SCOPE");
+$scope    = cleanString($scope); 
 my $title    = $query->param("TITLE");
+$title    = cleanString($title); 
 my $type     = $query->param("TYPE");
+$type     = cleanString($type); 
 my $tissue   = $query->param("TISSUE");
+$tissue   = cleanString($tissue); 
 my $hist     = $query->param("HIST");
+$hist     = cleanString($hist); 
 my $prot     = $query->param("PROT");
+$prot     = cleanString($prot); 
 my $sort     = $query->param("SORT");
+$sort     = cleanString($sort); 
 
 print "Content-type: text/plain\n\n";
 

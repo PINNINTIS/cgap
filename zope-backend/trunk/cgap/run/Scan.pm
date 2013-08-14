@@ -1,7 +1,6 @@
 ######################################################################
 # Scan.pm
 ######################################################################
-
 use Exporter ();
 @ISA = qw(Exporter);
 @EXPORT = qw (
@@ -141,6 +140,31 @@ sub exam {
 
 
 }
+
+######################################################################
+sub cleanString
+{
+  my ($str) = @_;
+  if (defined $str) 
+  {
+     if ( $str =~ /^[a-zA-Z0-9\/\-\_]*$/ ) #allow alphanumeric and fwd slash
+     {
+ print STDERR " passed ".$str."\n";
+         return  $str;
+     } 
+     else
+     {
+ print STDERR " failed ".$str."\n";
+         return "";
+     }
+  }
+  else
+  {
+     return "";
+  }
+}
+
+
 
 ######################################################################
 

@@ -18,6 +18,10 @@ use Scan;
 
 my ($base, $org, $cid, $lib_set) = @ARGV;
 
+$base = cleanString($base);
+$org = cleanString($org);
+$cid = cleanString($cid);
+$lib_set = cleanString($lib_set);
 Scan($base, $org, $cid, $lib_set);
 print GXSLibsOfCluster_1($base, $org, $cid, $lib_set);
 

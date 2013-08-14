@@ -22,8 +22,8 @@ use CGI;
  
 my $query     = new CGI;
  
-my $base      = $query->param("base");
-my $fn        = $query->param("FILE");
+my $base      = cleanString($query->param("base"));
+my $fn        = cleanString($query->param("FILE"));
  
 print "Content-type: text/plain\n\n";
 

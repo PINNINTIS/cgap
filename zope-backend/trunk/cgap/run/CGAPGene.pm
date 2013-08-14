@@ -2681,7 +2681,7 @@ where
     }
   }
 
-  if( defined %data ) {
+  if( %data ) {
     return join("\n",
       @{ FormatHomoloGeneData($org, $ll_id, \%data) }) . "\n";
   }
@@ -4729,7 +4729,7 @@ sub GetChromPosList_1 {
         }
       }
  
-      if( defined %query_accs ) {
+      if( %query_accs ) {
         for my $acc (keys %query_accs) {
           push @sub_syms, "'$acc'";
         }
@@ -5143,7 +5143,7 @@ sub GetGeneByNumber_1 {
           }
         }
 
-        if( defined %query_accs ) {
+        if( %query_accs ) {
           for my $acc (keys %query_accs) {
             push @sub_accs, "'$acc'";
           }
@@ -5305,7 +5305,7 @@ sub GetGeneByNumber_1 {
       }
     }
  
-    if( defined %genes_got_info ) {
+    if( %genes_got_info ) {
       for my $gene (keys %genes_got_info) {
         for( my $i=0; $i<@syms; $i++ ) {
           if( $syms[$i] eq "'$gene'" ) {
@@ -5763,7 +5763,7 @@ sub GetBatchGenes_1 {
         }
       }
  
-      if( defined %query_accs ) {
+      if( %query_accs ) {
         for my $acc (keys %query_accs) {
           push @sub_accs, "'$acc'";
         }
@@ -5957,7 +5957,7 @@ sub GetBatchGenes_1 {
       }
     } 
 
-    if( defined %genes_got_info ) {
+    if( %genes_got_info ) {
       for( my $i=0; $i<@syms; $i++ ) {
         for my $gene (keys %genes_got_info) {
           if( $syms[$i] eq $gene ) {
@@ -7771,7 +7771,7 @@ sub Protein_section {
     }
   }
   
-  if (! defined %prot2mrna) {
+  if (!%prot2mrna) {
     return "";
   }
 
@@ -7821,7 +7821,7 @@ sub Protein_section {
   ## get EC
  
   my $sp_list;
-  if ( defined %prot2sp ) {
+  if ( %prot2sp ) {
     my %all_list;
     for $prot (sort keys %prot2sp) { 
       for my $sp (sort keys %{ $prot2sp{$prot} }) { 
@@ -7954,7 +7954,7 @@ sub Protein_section {
     push @temp, $sps;
     push @temp, "</td>";
     if( $prot =~ /^NP_/ and $np2sp_flag == 1 ) {
-      if( defined %sp2ec ) {
+      if( %sp2ec ) {
         push @temp, "<td NOWRAP>";
         push @temp, $ec;
         push @temp, "</td>";
@@ -7966,7 +7966,7 @@ sub Protein_section {
       push @temp, "</td>";
     }
     if( !($prot =~ /^NP_/) and $non_np2sp_flag == 1 ) {
-      if( defined %sp2ec ) {
+      if( %sp2ec ) {
         push @temp, "<td NOWRAP>";
         push @temp, $ec;
         push @temp, "</td>";
@@ -7985,7 +7985,7 @@ sub Protein_section {
     push @lines, "<blockquote>";
     push @lines, "<table border=1 width=80%>";
     if( $np2sp_flag == 1 ) {
-      if ( defined %sp2ec ) {
+      if ( %sp2ec ) {
         push @lines, "<tr>" .
           "<td width=16%><font color=\"#38639d\"><b>mRNA</b></font></td>" .
           "<td width=16%><font color=\"#38639d\"><b>Protein</b></font></td>" .
@@ -8024,7 +8024,7 @@ sub Protein_section {
     push @lines, "<td width=60%>";
     push @lines, "<table border=1 width=100% >";
     if( $non_np2sp_flag == 1 ) {
-      if ( defined %sp2ec ) {
+      if ( %sp2ec ) {
         push @lines, "<tr>" .
           "<td width=25%><font color=\"#38639d\"><b>mRNA</b></font></td>" .
           "<td width=25%><font color=\"#38639d\"><b>GenPept</b></font></td>" .

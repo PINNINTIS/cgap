@@ -19,6 +19,7 @@ use Scan;
 my $query     = new CGI;
 
 my $chromosome  = $query->param("CHR");
+$chromosome  = cleanString($chromosome);
 
 print "Content-type: text/plain\n\n";
 

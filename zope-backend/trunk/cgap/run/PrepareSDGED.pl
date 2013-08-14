@@ -22,7 +22,9 @@ use CGI;
 my $query     = new CGI;
  
 my $base      = $query->param("base");
+$base      = cleanString($base);
 my $fn        = $query->param("FILE");
+$fn        = cleanString($fn);
  
 print "Content-type: text/plain\n\n";
 

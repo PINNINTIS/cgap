@@ -23,8 +23,11 @@ use Scan;
 
 my $query       = new CGI;
 my $rank     = $query->param("RANK");
+$rank     = cleanString($rank);
 my $org      = $query->param("ORG");
+$org      = cleanString($org);
 my $method   = $query->param("METHOD");
+$method   = cleanString($method);
 
 print "Content-type: text/plain\n\n";
 

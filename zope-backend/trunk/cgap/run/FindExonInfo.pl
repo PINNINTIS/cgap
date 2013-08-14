@@ -19,9 +19,13 @@ use Scan;
 ##my ($base, $org, $cid) = @ARGV;
 my $query     = new CGI;
 my $base      = $query->param("BASE");
+$base         = cleanString($base);
 my $org       = $query->param("ORG");
+$org       = cleanString($org);
 my $acc       = $query->param("ACC");
+$acc       = cleanString($acc);
 my $chr_to    = $query->param("CHR_TO");
+$chr_to    = cleanString($cgr_to);
 
 print "Content-type: text/plain\n\n";
 

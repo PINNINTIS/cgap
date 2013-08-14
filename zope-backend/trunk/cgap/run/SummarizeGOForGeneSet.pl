@@ -21,8 +21,11 @@ use Scan;
 
 my $query   = new CGI;
 my $base    = $query->param("BASE");
+$base    = cleanString($base);
 my $org     = $query->param("ORG");
+$org     = cleanString($org);
 my @cids    = $query->param("CIDS");
+@cids    = cleanString(@cids);
 
 use constant ORACLE_LIST_LIMIT  => 500;
 use constant MAX_ROWS_PER_FETCH => 1000;

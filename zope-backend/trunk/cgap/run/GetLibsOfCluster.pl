@@ -22,9 +22,13 @@ my $query = new CGI;
 
 my $query    = new CGI;
 my $base     = $query->param("BASE");
+$base     = cleanString($base);
 my $page     = $query->param("PAGE");
+$page     = cleanString($page);
 my $org      = $query->param("ORG");
+$org      = cleanString($org);
 my $cid      = $query->param("CID");
+$cid      = cleanString($cid);
 
 print "Content-type: text/plain\n\n";
 

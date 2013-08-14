@@ -20,9 +20,13 @@ use Scan;
 
 my $query     = new CGI;
 my $base      = $query->param("BASE");
+$base      = cleanString($base);
 my $page      = $query->param("PAGE");
+$page      = cleanString($page);
 my $org       = $query->param("ORG");
+$org       = cleanString($org);
 my $term      = $query->param("TERM");
+$term      = cleanString($term);
 
 print "Content-type: text/plain\n\n";
 

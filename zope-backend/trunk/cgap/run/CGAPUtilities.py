@@ -1,5 +1,6 @@
 #! /usr/bin/python
 
+
 from CommonUtilities import *
 import cgi
 import commands
@@ -472,11 +473,18 @@ def GetHiddensForGXSParam (request, s):
   lines = []
   if request.has_key(s):
     p = request[s]
+    matcher = re.compile("^[a-zA-Z0-9-\_\.\+\,]*$")
     if type(p) == type(''):
-      lines.append("<input type=hidden name=\"" + s + "\" value=\"" + p + "\">")
+      if matcher.match(p):
+         lines.append("<input type=hidden name=\"" + s + "\" value=\"" + p + "\">")
+      else:
+         lines.append("<input type=hidden name=\"" + s + "\" value=''>")
     else:
       for i in p:
-        lines.append("<input type=hidden name=\"" + s + "\" value=\"" + i + "\">")
+        if matcher.match(i):
+           lines.append("<input type=hidden name=\"" + s + "\" value=\"" + i + "\">")
+        else:
+           lines.append("<input type=hidden name=\"" + s + "\" value=''>")
   else:  
     lines.append("<input type=hidden name=\"" + s + "\" value=''>")
   return string.join(lines, "\n") 

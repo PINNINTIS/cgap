@@ -18,6 +18,7 @@ use Scan;
 
 my $query     = new CGI;
 my $pattern   = $query->param("PATTERN");
+$pattern   = cleanString($pattern);
 
 print "Content-type: text/plain\n\n";
 

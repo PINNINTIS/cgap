@@ -25,10 +25,10 @@ my %ORG = (
 );
 
 my $query       = new CGI;
-my $base        = $query->param("BASE");
-my $fn          = $query->param("TMP_FILE");
-my $fn_user_a   = $query->param("USER_FILE_A");
-my $fn_user_b   = $query->param("USER_FILE_B");
+my $base        = cleanString($query->param("BASE"));
+my $fn          = cleanString($query->param("TMP_FILE"));
+my $fn_user_a   = cleanString($query->param("USER_FILE_A"));
+my $fn_user_b   = cleanString($query->param("USER_FILE_B"));
 
 
 Scan($fn, $fn_user_b, $fn_user_a);

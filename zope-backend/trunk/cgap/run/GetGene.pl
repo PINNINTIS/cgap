@@ -20,14 +20,23 @@ use Scan;
 
 my $query     = new CGI;
 my $base      = $query->param("BASE");
+$base      = cleanString($base);            
 my $page      = $query->param("PAGE");
+$page      = cleanString($page);      
 my $org1      = $query->param("ORG");
+$org1      = cleanString($org1);
 my $sym1      = $query->param("SYM");
+$sym1      = cleanString($sym1);
 my $title1    = $query->param("TITLE");
+$title1    = cleanString($title1);
 my $go1       = $query->param("CUR");
+$go1       = cleanString($go1);
 my $pathway1  = $query->param("PATH");
+$pathway1  = cleanString($pathway1);
 my $cyt1      = $query->param("CYT");
+$cyt1      = cleanString($cyt1);
 my $tissue1   = $query->param("TISSUE");
+$tissue1   = cleanString($tissue1);
 
 print "Content-type: text/plain\n\n";
 

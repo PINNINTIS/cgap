@@ -20,12 +20,19 @@ use Scan;
 
 my $query     = new CGI;
 my $base      = $query->param("BASE");
+$base      = cleanString($base);
 my $page      = $query->param("PAGE");
+$page      = cleanString($page);
 my $accession = $query->param("ACCESSION");
+$accession = cleanString($accession);
 my $e_value   = $query->param("E_VALUE");
+$e_value   = cleanString($e_value);
 my $score     = $query->param("SCORE");
+$score     = cleanString($score);
 my $p_value   = $query->param("P_VALUE");
+$p_value   = cleanString($p_value);
 my $org       = $query->param("ORG");
+$org       = cleanString($org);
 
 print "Content-type: text/plain\n\n";
 
