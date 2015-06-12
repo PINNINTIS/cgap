@@ -167,6 +167,27 @@ sub cleanString
 
 
 ######################################################################
+sub cleanNumString
+{
+  my ($str) = @_;
+  if (defined $str) 
+  {
+     if ( $str =~ /^[0-9\/\-\_\:\.]*$/ ) #allow alphanumeric and fwd slash
+     {
+ print STDERR " passed ".$str."\n";
+         return  $str;
+     } 
+     else
+     {
+ print STDERR " failed ".$str."\n";
+         return "";
+     }
+  }
+  else
+  {
+     return "";
+  }
+}
 
 1;
 
