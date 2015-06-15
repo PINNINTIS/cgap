@@ -2687,7 +2687,7 @@ sub CytSearch_1 {
     $totalcases
   );
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3291,7 +3291,7 @@ sub RefFormatRows {
 sub GetMitelmanTotal_1 {
   my ($what) = @_;
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3345,7 +3345,7 @@ sub GetMitelmanTotal_1 {
 ######################################################################
 sub GetCharacterlist_1 {
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3389,7 +3389,7 @@ sub GetSelectMenu_1 {
   my ($table_name) = @_;
   ## print "8888: $table_name<br>";
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" .$DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3428,7 +3428,7 @@ sub GetSelectMenu_2 { ## for select
   my ($table_name, $select) = @_;
   ## print "8888: $table_name, $select<br>";
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3506,7 +3506,7 @@ sub GetSelectMenu_3 {  ## for check box
   my ($table_name, $select) = @_;
   ## print "8888: $table_name, $select<br>";
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3564,7 +3564,7 @@ sub GetSelectMenu_3 {  ## for check box
 sub GetSelectMenu_4 { ## for select
   my ($table_name, $select, $start_char) = @_;
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3620,7 +3620,7 @@ sub CytRefInfo_1 {
     "from $CGAP_SCHEMA.Reference r ".
     "where r.RefNo = $refno";
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
@@ -3873,7 +3873,7 @@ sub CytCaseInfo_1 {
       "where c.RefNo = r.RefNo and c.RefNo = $refno and c.CaseNo = '$caseno'".
       "  and c.CaseNo = y.CaseNo and c.RefNo = y.RefNo";
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database\n";
@@ -4277,7 +4277,7 @@ sub MCSearch_1 {
 
   &debug_print( "sql in MCSearch : $sql " );
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
@@ -4409,7 +4409,7 @@ sub MCSearch_for_Gene_info_1 {
 
   &debug_print( "sql in MCSearch : $sql " );
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
@@ -4517,7 +4517,7 @@ sub MCFormatRows {
       "<table width=600 border=0>\n";  
     unshift @{ $aref }, ['-','-','-','-','-','-','-'];
 
-    $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+    $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
     if (not $db or $db->err()) {
       ##print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
       print "Cannot connect to database\n";
@@ -4687,7 +4687,7 @@ sub CountByRefNo {
   my $sql3 = "select count(invno) from $CGAP_SCHEMA.MolBiolClinAssoc ".
     "where refno = $refno and molclin='C'";
   
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database\n";
@@ -4849,7 +4849,7 @@ sub RefSearch_1 {
   
   my $sql = BuildRefQuery($page,$author,$journal,$op,$refno,$year, $check_flag);
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
@@ -4990,7 +4990,7 @@ sub HelpLists_1 {
 
   my $sql = "select distinct $field from $CGAP_SCHEMA.$table order by $field ";
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
@@ -5156,7 +5156,7 @@ sub GetAllFromCCAP_BAC
   my ($map_coordinate, $sts_id_value, $bac_id, $insert_sequence, 
       $end_sequence, $position);
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
@@ -5779,7 +5779,7 @@ sub GetInfoFrRecurrentDataTable
   my $num_joined_2;
 
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
