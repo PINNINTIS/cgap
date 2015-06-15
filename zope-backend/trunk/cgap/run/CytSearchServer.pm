@@ -147,7 +147,7 @@ sub InitializeDatabase {
   my $sql = "select distinct KodTyp, Kod, Benamning from $CGAP_SCHEMA.Koder " .
     "where KodTyp in ('MORPH', 'TOP','GEO','TISSUE','HER','TREAT')";
 
-  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" .$DB_INSTANCE,$DB_USER,$DB_PASS);
   if (not $db or $db->err()) {
     die "Cannot connect to database\n";
   }
