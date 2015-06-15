@@ -137,6 +137,11 @@ sub exam {
   ##  ## print "<br><b><center>Error in input: $input</b>!</center>";
     exit;
   }
+  if( $input =~ /*\/n/ ) {
+    print "<br><b><center>Error in input</b>!</center>";
+  ##  ## print "<br><b><center>Error in input: $input</b>!</center>";
+    exit;
+  }
 
 
 }
