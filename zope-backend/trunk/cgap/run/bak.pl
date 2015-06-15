@@ -2630,7 +2630,7 @@ sub BuildMCQuery {
     $abnormality =~ tr/*/%/;
                                         # inside (), separator should be ;
    while ($abnormality =~ /(\([^,]+,[^\)]+\))/gc) {
-     $abnormality =~ s/,/;/;
+     $abnormality =~ s/,/;/*/;
    }
     my @parts = split(",", $abnormality);
     Add(
