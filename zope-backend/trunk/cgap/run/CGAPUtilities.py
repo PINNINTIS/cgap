@@ -1191,7 +1191,7 @@ def Scan (input):
   for i in re.split(",", input):
     if(re.search("javascript|<script>|</script>|vbscript|background\:", input, re.I) != None):
       return 'Error 1'
-    if(re.search("<a.+</a>|*|\=|\|\||\s+\|\s+|\-\-|\+\+|\&\&|\*\*.+\*\*|<IMG\s+SRC=|';", input, re.I) != None):
+    if(re.search("<a.+</a>|\=|\|\||\s+\|\s+|\-\-|\+\+|\&\&|\*\*.+\*\*|<IMG\s+SRC=|';", input, re.I) != None):
       return 'Error 2'
   return ""
 
