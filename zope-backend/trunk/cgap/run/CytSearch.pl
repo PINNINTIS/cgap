@@ -23,8 +23,8 @@ print "Content-type: text/html\n\n";
 
 my  $abnorm_op      = $query->param("abnorm_op");
 $abnorm_op=cleanString($abnorm_op);
-my $abnormality    = $query->param("abnormality");
-$abnormality=cleanString($abnormality);
+#my $abnormality    = $query->param("abnormality");
+#$abnormality=cleanString($abnormality);
 my $soleabnorm     = $query->param("soleabnorm");
 $soleabnorm=cleanString($soleabnorm);
 my $age            = $query->param("age");
