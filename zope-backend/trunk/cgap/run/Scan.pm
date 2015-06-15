@@ -153,7 +153,7 @@ sub cleanString
   if (defined $str) 
   {
      
-	 if ( $str =~ /^[a-zA-Z0-9\/\-\_\*\/n]*$/ ) #allow alphanumeric and fwd slash
+	 if ( $str =~ /^[a-zA-Z0-9\/\-\_\]*$/ ) #allow alphanumeric and fwd slash
      {
  print STDERR " passed ".$str."\n";
          return  $str;
