@@ -147,7 +147,7 @@ sub InitializeDatabase {
   my $sql = "select distinct KodTyp, Kod, Benamning from $CGAP_SCHEMA.Koder " .
     "where KodTyp in ('MORPH', 'TOP','GEO','TISSUE','HER','TREAT')";
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
     die "Cannot connect to database\n";
   }
@@ -2687,9 +2687,9 @@ sub CytSearch_1 {
     $totalcases
   );
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3291,9 +3291,9 @@ sub RefFormatRows {
 sub GetMitelmanTotal_1 {
   my ($what) = @_;
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3313,17 +3313,15 @@ sub GetMitelmanTotal_1 {
  
   if( $what eq "UPDATE_DATE,TOTAL" ) {
     while ( my ($update_date, $total, $year, $total_fusions) = $stm->fetchrow_array()) {
-      my $int_with_comma_total = AddCommatoInteger($total);
-      my $int_with_comma_fusion = AddCommatoInteger($total_fusions);
+      my $int_with_comma = AddCommatoInteger($total);
       if( !$db->ping ) {
         $db->disconnect();
       }
       return "$update_date<BR> Total number of cases = " .
-             "<font color=\"#FF0000\"><b>$int_with_comma_total</b></font><BR>" .
+             "<font color=\"#FF0000\"><b>$int_with_comma</b></font><BR>" .
              ## "<font color=\"#ab0534\"><b>$int_with_comma</b></font><BR>" .
              " Total number of gene fusions = " . 
-             "<font color=\"#FF0000\"><b>$int_with_comma_fusion</b></font><BR>  ";
-             ##"<font color=\"#FF0000\"><b>$total_fusions</b></font><BR>  ";
+             "<font color=\"#FF0000\"><b>$total_fusions</b></font><BR>  ";
              ## "<font color=\"#ab0534\"><b>706</b></font><BR>  ";
     }
   }
@@ -3347,9 +3345,9 @@ sub GetMitelmanTotal_1 {
 ######################################################################
 sub GetCharacterlist_1 {
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3391,9 +3389,9 @@ sub GetSelectMenu_1 {
   my ($table_name) = @_;
   ## print "8888: $table_name<br>";
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3430,9 +3428,9 @@ sub GetSelectMenu_2 { ## for select
   my ($table_name, $select) = @_;
   ## print "8888: $table_name, $select<br>";
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3508,9 +3506,9 @@ sub GetSelectMenu_3 {  ## for check box
   my ($table_name, $select) = @_;
   ## print "8888: $table_name, $select<br>";
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3566,9 +3564,9 @@ sub GetSelectMenu_3 {  ## for check box
 sub GetSelectMenu_4 { ## for select
   my ($table_name, $select, $start_char) = @_;
   my $output = "";
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3622,9 +3620,9 @@ sub CytRefInfo_1 {
     "from $CGAP_SCHEMA.Reference r ".
     "where r.RefNo = $refno";
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database. \n";
     return "";
   }
@@ -3875,9 +3873,9 @@ sub CytCaseInfo_1 {
       "where c.RefNo = r.RefNo and c.RefNo = $refno and c.CaseNo = '$caseno'".
       "  and c.CaseNo = y.CaseNo and c.RefNo = y.RefNo";
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database\n";
     return "";
   }
@@ -4279,9 +4277,9 @@ sub MCSearch_1 {
 
   &debug_print( "sql in MCSearch : $sql " );
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
     return "";
   }
@@ -4411,9 +4409,9 @@ sub MCSearch_for_Gene_info_1 {
 
   &debug_print( "sql in MCSearch : $sql " );
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
     return "";
   }
@@ -4519,9 +4517,9 @@ sub MCFormatRows {
       "<table width=600 border=0>\n";  
     unshift @{ $aref }, ['-','-','-','-','-','-','-'];
 
-    $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+    $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
     if (not $db or $db->err()) {
-      ##print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+      ##print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
       print "Cannot connect to database\n";
       return;
     }
@@ -4689,9 +4687,9 @@ sub CountByRefNo {
   my $sql3 = "select count(invno) from $CGAP_SCHEMA.MolBiolClinAssoc ".
     "where refno = $refno and molclin='C'";
   
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database\n";
     return ;
   }
@@ -4851,9 +4849,9 @@ sub RefSearch_1 {
   
   my $sql = BuildRefQuery($page,$author,$journal,$op,$refno,$year, $check_flag);
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
     return "";
   }
@@ -4992,9 +4990,9 @@ sub HelpLists_1 {
 
   my $sql = "select distinct $field from $CGAP_SCHEMA.$table order by $field ";
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
     return "";
   }
@@ -5158,9 +5156,9 @@ sub GetAllFromCCAP_BAC
   my ($map_coordinate, $sts_id_value, $bac_id, $insert_sequence, 
       $end_sequence, $position);
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
     return "";
   }
@@ -5781,9 +5779,9 @@ sub GetInfoFrRecurrentDataTable
   my $num_joined_2;
 
 
-  my $db = DBI->connect("DBI:Oracle:" . $DB_INSTANCE,$DB_USER,$DB_PASS);
+  my $db = DBI->connect("DBI:Oracle:" . DB_INSTANCE, DB_USER, DB_PASS);
   if (not $db or $db->err()) {
-    ## print STDERR "Cannot connect to " .$DB_USER . "@" . $DB_INSTANCE . "\n";
+    ## print STDERR "Cannot connect to " . DB_USER . "@" . DB_INSTANCE . "\n";
     print "Cannot connect to database \n";
     return "";
   }
