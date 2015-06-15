@@ -811,7 +811,7 @@ sub BuildSearchQuery {
   
   if ($abnormality) {
     $abnormality =~ tr/A-Z/a-z/;
-    $abnormality =~ tr/*/%/;
+    #$abnormality =~ tr/*/%/;
     my @parts;
     if( $totalcases eq "Y" ) {
       my $plusone = "+" . $abnormality;
