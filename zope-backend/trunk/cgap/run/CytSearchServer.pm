@@ -909,7 +909,7 @@ sub BuildSearchQuery {
   
   if ($abnormality) {
     $abnormality =~ tr/A-Z/a-z/;
-    $abnormality =~ s/*/ /;
+    $abnormality =~ s/*/"test"/;
     $abnormality =~ s/^\\'//;
     $abnormality =~ s/\\'$//;
     my @parts;
