@@ -147,7 +147,8 @@ sub cleanString
   my ($str) = @_;
   if (defined $str) 
   {
-     if ( $str =~ /^[a-zA-Z0-9\/\-\_]*$/ ) #allow alphanumeric and fwd slash
+     $str =~ s/regex/replacement/g;
+	 if ( $str =~ /^[a-zA-Z0-9\/\-\_]*$/ ) #allow alphanumeric and fwd slash
      {
  print STDERR " passed ".$str."\n";
          return  $str;
