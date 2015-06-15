@@ -811,7 +811,7 @@ sub BuildSearchQuery {
   
   if ($abnormality) {
     $abnormality =~ tr/A-Z/a-z/;
-    #$abnormality =~ tr/*/%/;
+    $abnormality =~ tr/*/%/;
     my @parts;
     if( $totalcases eq "Y" ) {
       my $plusone = "+" . $abnormality;
@@ -2629,9 +2629,9 @@ sub BuildMCQuery {
     $abnormality =~ tr/A-Z/a-z/;
     $abnormality =~ tr/*/%/;
                                         # inside (), separator should be ;
-#   while ($abnormality =~ /(\([^,]+,[^\)]+\))/gc) {
-#     $abnormality =~ s/,/;/;
-#   }
+   while ($abnormality =~ /(\([^,]+,[^\)]+\))/gc) {
+     $abnormality =~ s/,/;/;
+   }
     my @parts = split(",", $abnormality);
     Add(
         "( " .
