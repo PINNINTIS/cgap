@@ -145,7 +145,6 @@ sub exam {
 sub cleanString
 {
   my ($str) = @_;
-  $str =~ s/*/test/g;
   if (defined $str) 
   {
      
